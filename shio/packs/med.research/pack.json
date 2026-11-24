@@ -1,0 +1,404 @@
+{
+ "format": "shio-pack/1",
+ "id": "med.research",
+ "name": "Research use, human subjects and trial data",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null,
+  "clinical_lead": null
+ },
+ "description": "Research use, human subjects and trial data. From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "research",
+   "title": "HIPAA 164.512(i), 45 CFR 46, 21 CFR 50, 56, Part 11, ICH E6(R3)"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "RES-01",
+   "title": "Each research request carries a study ID that resolves to a registered study",
+   "requirement": "Each research request carries a study ID that resolves to a registered study.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "45 CFR 46",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "45 CFR 46"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "RES-01"
+    }
+   ]
+  },
+  {
+   "id": "RES-02",
+   "title": "IRB approval is current at the time of the call",
+   "requirement": "IRB approval is current at the time of the call.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "45 CFR 46.109, 21 CFR 56.109",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "45 CFR 46.109, 21 CFR 56.109"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "RES-02"
+    }
+   ]
+  },
+  {
+   "id": "RES-03",
+   "title": "Only fields in the approved protocol's data list are sent",
+   "requirement": "Only fields in the approved protocol's data list are sent.",
+   "stage": "P",
+   "on_fail": "redact",
+   "source": "45 CFR 46",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "45 CFR 46"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "RES-03"
+    }
+   ]
+  },
+  {
+   "id": "RES-04",
+   "title": "Informed consent in the current approved version is on file and not withdrawn",
+   "requirement": "Informed consent in the current approved version is on file and not withdrawn.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "45 CFR 46.116, 21 CFR 50",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "45 CFR 46.116, 21 CFR 50"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "RES-04"
+    }
+   ]
+  },
+  {
+   "id": "RES-05",
+   "title": "Waived-consent studies carry the waiver determination",
+   "requirement": "Waived-consent studies carry the waiver determination.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "45 CFR 46.116(f)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "45 CFR 46.116(f)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "RES-06",
+   "title": "Broad consent for secondary research is respected",
+   "requirement": "Broad consent for secondary research is respected.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "45 CFR 46.116(d)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "45 CFR 46.116(d)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "RES-07",
+   "title": "Data from a withdrawn participant is excluded going forward",
+   "requirement": "Data from a withdrawn participant is excluded going forward.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "45 CFR 46",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "45 CFR 46"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "RES-07"
+    }
+   ]
+  },
+  {
+   "id": "RES-08",
+   "title": "Vulnerable populations trigger the protections recorded in the approval",
+   "requirement": "Vulnerable populations trigger the protections recorded in the approval.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "45 CFR 46 subparts B-D",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "45 CFR 46 subparts B-D"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "RES-09",
+   "title": "Research disclosures under a waiver are logged for accounting",
+   "requirement": "Research disclosures under a waiver are logged for accounting.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "164.528",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "164.528"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "RES-10",
+   "title": "The model call is a listed processing step in the protocol or plan",
+   "requirement": "The model call is a listed processing step in the protocol or plan.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "data management plan",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "data management plan"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "RES-11",
+   "title": "Computerised systems for trial data meet Part 11: validation",
+   "requirement": "Computerised systems for trial data meet Part 11: validation, audit trails, access limits, linked signatures.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "21 CFR Part 11",
+   "spec_proof": "check, sign-off",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "21 CFR Part 11"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "RES-12",
+   "title": "Model-derived values are marked as such and never overwrite source data",
+   "requirement": "Model-derived values are marked as such and never overwrite source data.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "ALCOA+",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "ALCOA+"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "RES-13",
+   "title": "Sponsor",
+   "requirement": "Sponsor, investigator and vendor responsibilities for the agent are recorded.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "ICH E6(R3)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "ICH E6(R3)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.research.res-13",
+     "owner": "irb_liaison",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "RES-14",
+   "title": "Unblinding is a human",
+   "requirement": "Unblinding is a human, role-restricted action; the agent can't reach treatment allocation.",
+   "stage": "A",
+   "on_fail": "deny",
+   "source": "ICH E6(R3)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "ICH E6(R3)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "RES-15",
+   "title": "Adverse events the agent finds reach the safety role within the protocol's timeline",
+   "requirement": "Adverse events the agent finds reach the safety role within the protocol's timeline.",
+   "stage": "O",
+   "on_fail": "hold",
+   "source": "21 CFR 312.32",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "21 CFR 312.32"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "RES-16",
+   "title": "Protocol deviations the agent causes are logged",
+   "requirement": "Protocol deviations the agent causes are logged.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "ICH E6(R3)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "ICH E6(R3)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "RES-17",
+   "title": "Eligibility output is signed off by the investigator before anyone is contacted",
+   "requirement": "Eligibility output is signed off by the investigator before anyone is contacted.",
+   "stage": "A",
+   "on_fail": "hold",
+   "source": "21 CFR 312.60",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "21 CFR 312.60"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "lint",
+     "proof": "signoff-required"
+    }
+   ]
+  },
+  {
+   "id": "RES-18",
+   "title": "Recruitment messages use IRB-approved text only",
+   "requirement": "Recruitment messages use IRB-approved text only.",
+   "stage": "A",
+   "on_fail": "deny",
+   "source": "45 CFR 46.111",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "45 CFR 46.111"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "RES-19",
+   "title": "Data sharing and publication follow the study's plan and any certificate of confidentialit",
+   "requirement": "Data sharing and publication follow the study's plan and any certificate of confidentiality.",
+   "stage": "A",
+   "on_fail": "hold",
+   "source": "data-sharing plan",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "data-sharing plan"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "RES-20",
+   "title": "Registration and results-reporting dates are attested",
+   "requirement": "Registration and results-reporting dates are attested.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "42 CFR Part 11 (ClinicalTrials.gov)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "42 CFR Part 11 (ClinicalTrials.gov)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.research.res-20",
+     "owner": "irb_liaison",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "RES-21",
+   "title": "Study records are kept for the longest applicable period",
+   "requirement": "Study records are kept for the longest applicable period.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "21 CFR 312.62",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "research",
+     "ref": "21 CFR 312.62"
+    }
+   ],
+   "planned": true
+  }
+ ]
+}

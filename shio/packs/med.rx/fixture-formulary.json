@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "name": "Shio fixture formulary",
+    "version": "0.1.0",
+    "fixture": true,
+    "note": "FIXTURE ONLY. Made-up codes (FX-...) and simplified dosing rules for testing the checks. Not reference data, not clinical guidance. Real drug, dosing, interaction and allergy data must be licensed and confirmed before it is loaded (see README)."
+  },
+  "classes": {
+    "penicillins": "beta-lactams", "cephalosporins": "beta-lactams", "beta-lactams": "antibacterials",
+    "nsaids": "analgesics", "anticoagulants": null, "biguanides": "antidiabetics", "statins": "lipid-regulating",
+    "macrolides": "antibacterials", "ace-inhibitors": "antihypertensives", "investigational": null
+  },
+  "class_names": {"penicillin": "penicillins", "nsaid": "nsaids", "beta lactam": "beta-lactams", "cephalosporin": "cephalosporins"},
+  "drugs": [
+    {"code": "FX-0001", "name": "Amoxicillin", "synonyms": ["amoxycillin"], "class": "penicillins",
+     "dosing": {"mg_per_kg": 25, "max_mg": 1000, "frequency": "every 8 hours", "round_mg": 50},
+     "renal": [{"crcl_below": 30, "factor": 0.5}, {"crcl_below": 10, "contraindicated": true}]},
+    {"code": "FX-0002", "name": "Cefalexin", "synonyms": ["cephalexin"], "class": "cephalosporins",
+     "dosing": {"dose_mg": 500, "frequency": "every 6 hours"}, "renal": [{"crcl_below": 15, "factor": 0.5}]},
+    {"code": "FX-0003", "name": "Ibuprofen", "class": "nsaids",
+     "dosing": {"dose_mg": 400, "max_mg": 800, "frequency": "every 8 hours", "min_age": 12},
+     "renal": [{"crcl_below": 30, "contraindicated": true}]},
+    {"code": "FX-0004", "name": "Warfarin", "class": "anticoagulants", "dosing": {"dose_mg": 5, "frequency": "once daily"}},
+    {"code": "FX-0005", "name": "Metformin", "class": "biguanides",
+     "dosing": {"dose_mg": 500, "frequency": "twice daily"},
+     "renal": [{"crcl_below": 45, "factor": 0.5}, {"crcl_below": 30, "contraindicated": true}]},
+    {"code": "FX-0006", "name": "Simvastatin", "class": "statins", "dosing": {"dose_mg": 20, "frequency": "at night"}},
+    {"code": "FX-0007", "name": "Clarithromycin", "class": "macrolides",
+     "dosing": {"dose_mg": 500, "frequency": "twice daily"}, "renal": [{"crcl_below": 30, "factor": 0.5}]},
+    {"code": "FX-0008", "name": "Ramipril", "class": "ace-inhibitors", "dosing": {"dose_mg": 5, "frequency": "once daily"}},
+    {"code": "FX-INV-101", "name": "Zelvaprant", "synonyms": ["ZV-101"], "class": "investigational",
+     "dosing": {"mg_per_kg": 2, "max_mg": 150, "frequency": "once daily", "min_age": 18, "round_mg": 5},
+     "renal": [{"crcl_below": 50, "factor": 0.5}, {"crcl_below": 30, "contraindicated": true}]}
+  ],
+  "interactions": [
+    {"a": "FX-0004", "b": "FX-0003", "severity": "major", "note": "bleeding risk"},
+    {"a": "FX-0004", "b": "FX-0007", "severity": "major", "note": "raised INR"},
+    {"a": "FX-0006", "b": "FX-0007", "severity": "contraindicated", "note": "myopathy"},
+    {"a": "FX-INV-101", "b": "FX-0007", "severity": "major", "note": "fixture: raised exposure of the study drug"},
+    {"a": "FX-INV-101", "b": "FX-0004", "severity": "moderate", "note": "fixture: monitor INR"},
+    {"a": "FX-0008", "b": "FX-0003", "severity": "moderate", "note": "reduced antihypertensive effect"}
+  ]
+}

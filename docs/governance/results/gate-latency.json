@@ -1,0 +1,29 @@
+{
+ "format": "shio-gate-latency/1",
+ "n": 300,
+ "python": "3.12.16",
+ "machine": "x86_64",
+ "note": "decision time including the signed record write; no model call",
+ "outcomes": {
+  "allow": {
+   "p50_ms": 0.742,
+   "p95_ms": 1.121,
+   "p99_ms": 1.324
+  },
+  "route": {
+   "p50_ms": 0.808,
+   "p95_ms": 1.072,
+   "p99_ms": 1.304
+  },
+  "deny": {
+   "p50_ms": 0.73,
+   "p95_ms": 0.89,
+   "p99_ms": 1.037
+  },
+  "redact": {
+   "p50_ms": 1.119,
+   "p95_ms": 1.401,
+   "p99_ms": 1.994
+  }
+ }
+}

@@ -1,0 +1,14 @@
+{
+  "format": "shio-pack/1",
+  "id": "in.cdsco",
+  "name": "India: CDSCO medical device rules as they apply to software (research)",
+  "version": "0.0.1",
+  "effective": "2026-11-22",
+  "licence": "MIT OR Apache-2.0",
+  "status": "research",
+  "review": {"counsel": null, "clinical_lead": null},
+  "description": "Placeholder while the Medical Devices Rules, 2017 and CDSCO's position on software are researched. No controls until counsel has reviewed the research notes (docs/governance/research/cdsco.md).",
+  "limits": "No controls yet: this pack proves nothing, and Shio never decides a device classification.",
+  "frameworks": [{"id": "mdr-2017", "title": "Medical Devices Rules, 2017 (India)", "source": "https://cdsco.gov.in/"}],
+  "controls": []
+}

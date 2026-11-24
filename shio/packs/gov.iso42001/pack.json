@@ -1,0 +1,193 @@
+{
+ "format": "shio-pack/1",
+ "id": "gov.iso42001",
+ "name": "ISO/IEC 42001 AI management system: evidence by Annex A domain",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null
+ },
+ "description": "ISO/IEC 42001 AI management system: evidence by Annex A domain. From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "iso42001",
+   "title": "ISO/IEC 42001:2023 (guidance; certification needs an accredited auditor)"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "A-2",
+   "title": "Policies related to AI",
+   "requirement": "Policies related to AI, with owner and review date.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "Annex A.2",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "iso42001",
+     "ref": "Annex A.2"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "gov.iso42001.a-2",
+     "owner": "governance_reviewer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "A-3",
+   "title": "Internal organisation",
+   "requirement": "Internal organisation: roles and reporting lines from the compliance context.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "Annex A.3",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "iso42001",
+     "ref": "Annex A.3"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "gov.iso42001.a-3",
+     "owner": "governance_reviewer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "A-4",
+   "title": "Resources",
+   "requirement": "Resources: inventory of models, data, tools and people from the agent card.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "Annex A.4",
+   "spec_proof": "lint",
+   "refs": [
+    {
+     "framework": "iso42001",
+     "ref": "Annex A.4"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "lint",
+     "proof": "pack-wired"
+    }
+   ]
+  },
+  {
+   "id": "A-5",
+   "title": "Impact assessment and its refresh dates",
+   "requirement": "Impact assessment and its refresh dates.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "Annex A.5",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "iso42001",
+     "ref": "Annex A.5"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "gov.iso42001.a-5",
+     "owner": "governance_reviewer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "A-6",
+   "title": "Life cycle",
+   "requirement": "Life cycle: change records, replay results, pinned versions, release approvals.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "Annex A.6",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "iso42001",
+     "ref": "Annex A.6"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "A-7",
+   "title": "Data provenance",
+   "requirement": "Data provenance, quality checks, PHI and consent labels.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "Annex A.7",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "iso42001",
+     "ref": "Annex A.7"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "A-8",
+   "title": "Information for interested parties",
+   "requirement": "Information for interested parties: model cards, disclosures, incident channel.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "Annex A.8",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "iso42001",
+     "ref": "Annex A.8"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "A-9",
+   "title": "Use of AI",
+   "requirement": "Use of AI: oversight records, hold and sign-off logs, intended-use checks.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "Annex A.9",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "iso42001",
+     "ref": "Annex A.9"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "A-10",
+   "title": "Third parties",
+   "requirement": "Third parties: provider agreements, subprocessor lists, supplier reviews.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "Annex A.10",
+   "spec_proof": "check, sign-off",
+   "refs": [
+    {
+     "framework": "iso42001",
+     "ref": "Annex A.10"
+    }
+   ],
+   "planned": true
+  }
+ ]
+}

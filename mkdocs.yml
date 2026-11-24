@@ -26,4 +26,23 @@ nav:
   - Models: models.md
   - Traces in production: traces.md
   - Regulated decisions: REGULATED.md
+  - Harness (experimental): harness.md
+  - Durable execution (experimental): durable.md
+  - Shio Guard governance:
+      - Overview and deliverables: governance/README.md
+      - "D1: Decision record": governance/D1-decisions.md
+      - "D2: Pack format": governance/D2-pack-format.md
+      - "D3: Adapter interface": governance/D3-adapter-interface.md
+      - "D4: Licence policy": governance/D4-licence-policy.md
+      - "D16: Free-text options": governance/D16-free-text-options.md
+      - The live monitor: governance/monitor.md
+      - "Pre-model gate and policy packs": governance/preflight.md
+      - Coverage matrix: governance/coverage.md
+      - "Product requirements: traceability": governance/requirements.md
+      - API stability: STABILITY.md
+      - "Microsoft Agent Governance Toolkit": governance/microsoft-agt.md
+      - Contributing a pack: governance/CONTRIBUTING-packs.md
+      - Release checklist: governance/RELEASE-1.0-CHECKLIST.md
+      - "Research: DPDP Act": governance/research/dpdp.md
+      - "Research: CDSCO": governance/research/cdsco.md
   - Public API: API.md

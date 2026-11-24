@@ -1,0 +1,7 @@
+{"check": "expert_determination", "cases": [
+  {"id": "current", "kind": "pass", "args": [{"expert": "Dr A. Statistician", "date": "2026-01-10", "method": "k-anonymity k=11", "expires": "2027-01-10"}], "kwargs": {"today": "2026-11-22"}},
+  {"id": "none-on-file", "kind": "fail", "args": [null]},
+  {"id": "expired", "kind": "fail", "args": [{"expert": "x", "date": "2024-01-01", "method": "m", "expires": "2025-01-01"}], "kwargs": {"today": "2026-11-22"}},
+  {"id": "missing-expert", "kind": "fail", "args": [{"date": "2026-01-01", "method": "m", "expires": "2027-01-01"}]},
+  {"id": "expiry-not-a-date", "kind": "adversarial", "expect": false, "args": [{"expert": "x", "date": "2026-01-01", "method": "m", "expires": "never"}]}
+]}

@@ -1,0 +1,299 @@
+{
+ "format": "shio-pack/1",
+ "id": "med.sensitive",
+ "name": "Sensitive health data: Part 2, psychotherapy notes, reproductive, genetic, minors and state law",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null,
+  "clinical_lead": null
+ },
+ "description": "Sensitive health data: Part 2, psychotherapy notes, reproductive, genetic, minors and state law. From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "sensitive",
+   "title": "42 CFR Part 2, 45 CFR 164.501 and 164.508(a)(2), state health privacy law"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "SEN-01",
+   "title": "Part 2 records are labelled at ingestion and the label travels with everything derived fro",
+   "requirement": "Part 2 records are labelled at ingestion and the label travels with everything derived from them.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "42 CFR Part 2",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "42 CFR Part 2"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "SEN-02",
+   "title": "Use of Part 2 records needs written consent on file for this purpose",
+   "requirement": "Use of Part 2 records needs written consent on file for this purpose, not revoked.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "42 CFR 2.31",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "42 CFR 2.31"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "SEN-02"
+    }
+   ]
+  },
+  {
+   "id": "SEN-03",
+   "title": "Records received under a Part 2 consent carry the redisclosure notice",
+   "requirement": "Records received under a Part 2 consent carry the redisclosure notice.",
+   "stage": "O",
+   "on_fail": "hold",
+   "source": "42 CFR 2.32",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "42 CFR 2.32"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "SEN-04",
+   "title": "Part 2 records are never used in proceedings against the patient without a qualifying cour",
+   "requirement": "Part 2 records are never used in proceedings against the patient without a qualifying court order.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "42 CFR 2.12",
+   "spec_proof": "lint",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "42 CFR 2.12"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "SEN-04"
+    }
+   ]
+  },
+  {
+   "id": "SEN-05",
+   "title": "The provider is a qualified service organisation or has a Part 2 flow-down agreement",
+   "requirement": "The provider is a qualified service organisation or has a Part 2 flow-down agreement.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "42 CFR 2.11",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "42 CFR 2.11"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "SEN-05"
+    }
+   ]
+  },
+  {
+   "id": "SEN-06",
+   "title": "Breach of Part 2 records follows the HIPAA breach pack",
+   "requirement": "Breach of Part 2 records follows the HIPAA breach pack.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "42 CFR 2.16",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "42 CFR 2.16"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "SEN-07",
+   "title": "Psychotherapy notes are blocked from every model call by default",
+   "requirement": "Psychotherapy notes are blocked from every model call by default.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.501, 164.508(a)(2)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "164.501, 164.508(a)(2)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "SEN-07"
+    }
+   ]
+  },
+  {
+   "id": "SEN-08",
+   "title": "The classifier distinguishes psychotherapy notes from ordinary mental health records",
+   "requirement": "The classifier distinguishes psychotherapy notes from ordinary mental health records; mislabels are logged.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "164.501",
+   "spec_proof": "eval",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "164.501"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "SEN-09",
+   "title": "Reproductive health data follows state shield or restriction laws from the state table (th",
+   "requirement": "Reproductive health data follows state shield or restriction laws from the state table (the 2024 federal rule was vacated in June 2025).",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "state law",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "state law"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "SEN-10",
+   "title": "Genetic data is never used for underwriting or employment",
+   "requirement": "Genetic data is never used for underwriting or employment.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "state genetic privacy law",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "state genetic privacy law"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "SEN-10"
+    }
+   ]
+  },
+  {
+   "id": "SEN-11",
+   "title": "For minors",
+   "requirement": "For minors, consent follows the state's rule for the type of care.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "state law",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "state law"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "SEN-11"
+    }
+   ]
+  },
+  {
+   "id": "SEN-12",
+   "title": "A versioned state table with cited",
+   "requirement": "A versioned state table with cited, reviewed rows; rows older than twelve months are stale and unreviewed states hold.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "state law",
+   "spec_proof": "lint, sign-off",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "state law"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "SEN-12"
+    }
+   ]
+  },
+  {
+   "id": "SEN-13",
+   "title": "Data from several states in one request",
+   "requirement": "Data from several states in one request: the strictest rule wins.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "state law",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "state law"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "SEN-14",
+   "title": "Other protected categories are custom classes that default to Deny until a pack authorises",
+   "requirement": "Other protected categories are custom classes that default to Deny until a pack authorises them.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "state law",
+   "spec_proof": "lint",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "state law"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "SEN-15",
+   "title": "Free text is scanned for sensitive classes the structured fields don't carry",
+   "requirement": "Free text is scanned for sensitive classes the structured fields don't carry.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "state law",
+   "spec_proof": "eval",
+   "refs": [
+    {
+     "framework": "sensitive",
+     "ref": "state law"
+    }
+   ],
+   "planned": true
+  }
+ ]
+}

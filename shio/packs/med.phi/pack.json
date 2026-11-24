@@ -1,0 +1,60 @@
+{
+  "format": "shio-pack/1",
+  "id": "med.phi",
+  "name": "Protected health information: Safe Harbor removal, approved models, minimum necessary",
+  "version": "0.1.0",
+  "effective": "2026-11-22",
+  "licence": "MIT OR Apache-2.0",
+  "status": "draft",
+  "review": {"clinical_lead": null, "counsel": null},
+  "description": "Keeps protected health information out of model calls that are not approved for it, out of outputs, and out of decision records except the erasable vault.",
+  "limits": "Detects the Safe Harbor identifiers that have a textual pattern, plus names passed in from structured data. Names, relatives and employers in free text are not reliably found by patterns: pair PHI-1 with the PHI reader adapter (D13), whose findings are judged by checks. Photographs and biometric identifiers are out of scope. Not reviewed by counsel or the clinical safety lead.",
+  "checks": "checks.py",
+  "frameworks": [
+    {"id": "hipaa-privacy", "title": "HIPAA Privacy Rule (45 CFR Part 164, Subpart E)", "source": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C/part-164"}
+  ],
+  "hazards": [
+    {"id": "HAZ-PHI-1", "title": "Identifiable health information disclosed to an unapproved processor or in an output", "severity": 4, "likelihood": 3}
+  ],
+  "controls": [
+    {
+      "id": "PHI-1",
+      "title": "Safe Harbor identifiers removed from outputs",
+      "requirement": "Text leaving the agent (outputs, summaries, anything written in clear in a record) contains none of the identifiers the Safe Harbor method lists that this pack detects.",
+      "refs": [{"framework": "hipaa-privacy", "ref": "164.514(b)(2)"}],
+      "hazards": ["HAZ-PHI-1"],
+      "proof": [{"kind": "runtime", "check": "no_identifiers"}]
+    },
+    {
+      "id": "PHI-2",
+      "title": "Only models approved for PHI receive it",
+      "requirement": "A model receives protected health information only if it is on the organisation's approved-for-PHI list at the exact version listed.",
+      "refs": [{"framework": "hipaa-privacy", "ref": "164.502(e)"}],
+      "hazards": ["HAZ-PHI-1"],
+      "proof": [{"kind": "runtime", "check": "approved_model"}, {"kind": "lint", "proof": "models-pinned"}]
+    },
+    {
+      "id": "PHI-3",
+      "title": "Minimum necessary fields",
+      "requirement": "Only the fields the stated purpose needs are sent to a model or kept in an output.",
+      "refs": [{"framework": "hipaa-privacy", "ref": "164.502(b)"}],
+      "hazards": ["HAZ-PHI-1"],
+      "proof": [{"kind": "runtime", "check": "minimum_necessary"}]
+    },
+    {
+      "id": "PHI-4",
+      "title": "Expert determination on file when used",
+      "requirement": "Data de-identified by the expert-determination method instead of Safe Harbor has a current determination on file naming the expert, the method and its expiry.",
+      "refs": [{"framework": "hipaa-privacy", "ref": "164.514(b)(1)"}],
+      "proof": [{"kind": "runtime", "check": "expert_determination"}, {"kind": "signoff", "role": "privacy_officer", "subject": "determination"}]
+    },
+    {
+      "id": "PHI-5",
+      "title": "PHI stays out of records except the vault",
+      "requirement": "The agent runs in regulated mode, so prompts, sources, model answers and inputs go to the erasable vault and the record keeps only their hashes.",
+      "refs": [{"framework": "hipaa-privacy", "ref": "164.530(c)"}],
+      "hazards": ["HAZ-PHI-1"],
+      "proof": [{"kind": "lint", "proof": "regulated-mode"}]
+    }
+  ]
+}

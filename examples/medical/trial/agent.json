@@ -1,0 +1,14 @@
+{
+  "format": "shio-agent/1",
+  "agent": "screen",
+  "program": "screener.shio",
+  "purpose": "Screen a participant's chart against the trial protocol for the site investigator: eligibility, consent version and the study drug's safety for this participant are decided in code; blinding is kept from the model; every outcome is signed off by an investigator.",
+  "owner": "Clinical trials operations",
+  "audience": "clinician",
+  "simulated": "SIMULATED: fixture protocol, fixture study drug and formulary, synthetic charts, mock model; not a clinical tool",
+  "models": {"llm": {"kind": "replay", "name": "screener-mock", "note": "SIMULATED mock model (screener_support.py)"}},
+  "packs": [{"id": "med.trial", "skip": ["no_deviations", "ae_reported_in_time"]}, {"id": "med.rx"}, {"id": "med.phi", "skip": ["no_identifiers", "minimum_necessary", "expert_determination"]}],
+  "requires_signoff": "*",
+  "review": {"roles": ["clinical_safety_lead", "governance_reviewer"]},
+  "deployments": [{"name": "design-partner-review", "environment": "sandbox", "risk_tier": "high", "regulated": true, "site": "demo"}]
+}

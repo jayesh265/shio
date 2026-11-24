@@ -1,0 +1,223 @@
+{
+ "format": "shio-eval-suite/1",
+ "suite": "regression",
+ "note": "SYNTHETIC: letters are fictional and labels were written by engineers, not clinicians. The rates show the measurement works; they are not evidence about a real model or real letters.",
+ "target": "referral_evals:agent_target",
+ "slices": [
+  "sex",
+  "age_band",
+  "site"
+ ],
+ "metrics": [
+  {
+   "name": "pass_rate"
+  },
+  {
+   "name": "max_slice_gap",
+   "min_n": 2
+  }
+ ],
+ "gates": {
+  "pass_rate": [
+   ">=",
+   0.95
+  ]
+ },
+ "cases": [
+  {
+   "id": "L001-careful",
+   "input": {
+    "letter": "L001",
+    "model": "careful"
+   },
+   "expect": {
+    "status": "SUMMARY_READY"
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "65+",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L002-careful",
+   "input": {
+    "letter": "L002",
+    "model": "careful"
+   },
+   "expect": {
+    "status": "SUMMARY_READY"
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "40-64",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L003-careful",
+   "input": {
+    "letter": "L003",
+    "model": "careful"
+   },
+   "expect": {
+    "status": "SUMMARY_READY"
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "18-39",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L004-careful",
+   "input": {
+    "letter": "L004",
+    "model": "careful"
+   },
+   "expect": {
+    "status": "SUMMARY_READY"
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "65+",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L005-careful",
+   "input": {
+    "letter": "L005",
+    "model": "careful"
+   },
+   "expect": {
+    "status": "SUMMARY_READY"
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "65+",
+    "site": "harbour"
+   }
+  },
+  {
+   "id": "L006-careful",
+   "input": {
+    "letter": "L006",
+    "model": "careful"
+   },
+   "expect": {
+    "status": "SUMMARY_READY"
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64",
+    "site": "harbour"
+   }
+  },
+  {
+   "id": "L007-careful",
+   "input": {
+    "letter": "L007",
+    "model": "careful"
+   },
+   "expect": {
+    "status": "SUMMARY_READY"
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "18-39",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L008-careful",
+   "input": {
+    "letter": "L008",
+    "model": "careful"
+   },
+   "expect": {
+    "status": "SUMMARY_READY"
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L001-sloppy",
+   "input": {
+    "letter": "L001",
+    "model": "sloppy"
+   },
+   "expect": {
+    "status": "REVIEW"
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "65+",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L005-sloppy",
+   "input": {
+    "letter": "L005",
+    "model": "sloppy"
+   },
+   "expect": {
+    "status": "REVIEW"
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "65+",
+    "site": "harbour"
+   }
+  },
+  {
+   "id": "L002-leaky",
+   "input": {
+    "letter": "L002",
+    "model": "leaky"
+   },
+   "expect": {
+    "status": "REVIEW"
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "40-64",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L006-leaky",
+   "input": {
+    "letter": "L006",
+    "model": "leaky"
+   },
+   "expect": {
+    "status": "REVIEW"
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64",
+    "site": "harbour"
+   }
+  },
+  {
+   "id": "L003-unapproved",
+   "input": {
+    "letter": "L003",
+    "model": "unapproved"
+   },
+   "expect": {
+    "status": "REVIEW"
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "18-39",
+    "site": "northgate"
+   }
+  }
+ ]
+}

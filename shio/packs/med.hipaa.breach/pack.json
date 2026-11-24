@@ -1,0 +1,136 @@
+{
+ "format": "shio-pack/1",
+ "id": "med.hipaa.breach",
+ "name": "HIPAA Breach Notification Rule: presumption, clocks and notices",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null,
+  "clinical_lead": null
+ },
+ "description": "HIPAA Breach Notification Rule: presumption, clocks and notices. From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "hipaa-breach",
+   "title": "HIPAA Breach Notification Rule (164.400 to 164.414)"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "BRE-01",
+   "title": "An impermissible use is presumed a breach unless a documented four-factor assessment shows",
+   "requirement": "An impermissible use is presumed a breach unless a documented four-factor assessment shows low probability of compromise.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "164.402",
+   "spec_proof": "check, sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-breach",
+     "ref": "164.402"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "BRE-02",
+   "title": "Each store and channel records whether HHS-recognised protection applies (unsecured PHI)",
+   "requirement": "Each store and channel records whether HHS-recognised protection applies (unsecured PHI).",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "164.402",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-breach",
+     "ref": "164.402"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "BRE-03",
+   "title": "An incident starts a notification clock at discovery: individuals within 60 calendar days",
+   "requirement": "An incident starts a notification clock at discovery: individuals within 60 calendar days.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "164.404",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-breach",
+     "ref": "164.404"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "BRE-04",
+   "title": "500 or more",
+   "requirement": "500 or more: HHS and media within 60 days; fewer: logged and reported within 60 days of year end.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "164.406, 164.408",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-breach",
+     "ref": "164.406, 164.408"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "BRE-05",
+   "title": "A business associate notifies the covered entity within 60 days",
+   "requirement": "A business associate notifies the covered entity within 60 days, or the agreement's shorter period.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "164.410",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-breach",
+     "ref": "164.410"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "BRE-06",
+   "title": "Shorter state breach deadlines from the state table replace the federal one",
+   "requirement": "Shorter state breach deadlines from the state table replace the federal one.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "state law",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-breach",
+     "ref": "state law"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "BRE-07",
+   "title": "Every notification",
+   "requirement": "Every notification, risk assessment and delay is signed and retained six years.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "164.414",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-breach",
+     "ref": "164.414"
+    }
+   ],
+   "planned": true
+  }
+ ]
+}

@@ -1,0 +1,56 @@
+{
+  "version": "0.1.0",
+  "status": "PROPOSED: awaiting regulatory counsel's approval",
+  "approved_by": null,
+  "note": "D4 of the Shio Guard build plan. Counsel approves this file by recording who approved it and when in approved_by; until then every check prints that the policy is unapproved. Each new dependency still needs counsel's confirmation.",
+  "core": {
+    "allow": [
+      "MIT",
+      "Apache-2.0"
+    ],
+    "why": "The build plan: MIT and Apache-2.0 only in the core, which itself ships as MIT OR Apache-2.0."
+  },
+  "extras": {
+    "allow": [
+      "BSD-2-Clause",
+      "BSD-3-Clause",
+      "ISC",
+      "MIT-0",
+      "0BSD",
+      "PSF-2.0"
+    ],
+    "why": "Optional extras (shio-lang[...]) may also use these permissive licences. Anything else needs counsel."
+  },
+  "deny": [
+    "AGPL-1.0",
+    "AGPL-3.0",
+    "AGPL-3.0-only",
+    "AGPL-3.0-or-later",
+    "SSPL-1.0",
+    "BUSL-1.1",
+    "Elastic-2.0",
+    "Commons-Clause",
+    "LicenseRef-Source-Available",
+    "GPL-2.0-only",
+    "GPL-2.0-or-later",
+    "GPL-3.0-only",
+    "GPL-3.0-or-later",
+    "CC-BY-NC-4.0"
+  ],
+  "exceptions": [
+    {
+      "package": "typing-extensions",
+      "licence": "PSF-2.0",
+      "scope": "core",
+      "reason": "required by pydantic, the core's only direct dependency; PSF-2.0 is permissive",
+      "status": "pending counsel"
+    },
+    {
+      "package": "certifi",
+      "licence": "MPL-2.0",
+      "scope": "extra",
+      "reason": "pulled in by httpx for the [agt] extra (Microsoft Agent Governance Toolkit); a CA certificate bundle used unmodified. MPL-2.0 is file-level copyleft: it only obliges sharing changes to certifi's own files",
+      "status": "pending counsel"
+    }
+  ]
+}

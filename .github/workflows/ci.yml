@@ -12,6 +12,8 @@ jobs:
         include:                       # a plain `pip install shio-lang`: the extra-only tests skip, the rest must pass
           - python: "3.12"
             install: "."
+          - python: "3.12"               # with the Microsoft Agent Governance Toolkit backend
+            install: ".[regulated,pdf,agt]"
     name: python ${{ matrix.python }} (${{ matrix.install }})
     steps:
       - uses: actions/checkout@v4
@@ -22,6 +24,30 @@ jobs:
       - run: pytest -q
       - name: every example compiles (except the one written to fail)
         run: for f in examples/*.shio examples/*/*.shio; do case "$f" in *_unsafe.shio) ;; *) shio check "$f";; esac; done
+      - name: Shio Guard - every pack validates, fixtures run
+        if: matrix.install != '.'
+        run: shio pack validate
+      - name: Shio Guard - pre-model gate fixtures, mutation tests and no-bypass lint
+        if: matrix.install != '.'
+        run: shio preflight fixtures && shio preflight lint shio examples --allow shio/models.py && shio attack run --k 3 --budget 150
+      - name: Shio Guard - licence and dependency policy
+        if: matrix.install != '.'
+        run: |
+          shio licences check --extra regulated --extra pdf
+          case "${{ matrix.install }}" in *agt*) shio licences check --extra agt;; esac
+      - name: Shio Guard - red-team suite from every pack's adversarial fixtures
+        if: matrix.install != '.'
+        run: shio pack redteam -o /tmp/redteam.json && shio eval /tmp/redteam.json
+      - name: Shio Guard - reference agents build, prove their controls and meet their eval gates
+        if: matrix.install != '.'
+        env:
+          SHIO_SIGNING_KEY: hmac:ci-only
+        run: |
+          for d in examples/medical/referral examples/medical/trial; do
+            (cd $d && shio check *.shio && shio registry scan agent.json -o /tmp/card.json && shio assess --manifest agent.json)
+          done
+          (cd examples/medical/referral && for s in regression redteam grounding; do shio eval evals/$s.json; done)
+          (cd examples/medical/trial && shio eval evals/eligibility.json)
       - name: the inbox example compiles only in its safe form
         run: |
           cd examples/injection

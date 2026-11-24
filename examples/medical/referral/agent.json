@@ -1,0 +1,22 @@
+{
+  "format": "shio-agent/1",
+  "agent": "summarise",
+  "program": "referral.shio",
+  "purpose": "Summarise an inbound referral letter for the receiving clinician. Every claim is quoted from the letter, every figure checked against it, identifiers removed, and every summary signed off by a clinician before use.",
+  "owner": "Referrals product team",
+  "audience": "clinician",
+  "simulated": "SIMULATED: synthetic letters and mock models; not a clinical tool",
+  "models": {
+    "llm": {"kind": "replay", "name": "referral-mock", "note": "SIMULATED mock model (referral_support.py)"},
+    "detector": {"kind": "reader-adapter", "name": "pattern-phi-detector", "pinned": "pattern-phi-detector==0.1.0"}
+  },
+  "packs": [{"id": "med.phi", "skip": ["expert_determination"]}, {"id": "med.grounding"}],
+  "adapters": [{"ref": "shio.governance.adapters_ext.phi_detector:PatternPhiDetector", "sha256": "2eb8ead092216e18c5e7a2abf2befb8d3c53690c3ad4b726af9b460b4e651176"}],
+  "requires_signoff": "*",
+  "review": {"roles": ["clinical_safety_lead", "governance_reviewer"]},
+  "decision_support": {"posture": "hcp-decision-support", "shows_basis": true, "time_critical": false, "inputs": ["text"], "clinical_roles": ["clinician"]},
+  "deployments": [
+    {"name": "public-demo", "environment": "sandbox", "risk_tier": "limited", "regulated": true, "site": "demo"},
+    {"name": "pilot-riverside", "environment": "pilot", "risk_tier": "high", "regulated": true, "site": "riverside"}
+  ]
+}

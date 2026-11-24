@@ -1,0 +1,9 @@
+{"check": "slices_recorded", "cases": [
+  {"id": "site-and-age", "kind": "pass", "args": [{"site": "riverside", "age_band": "65+"}]},
+  {"id": "site-only", "kind": "pass", "args": [{"site": "harbour"}]},
+  {"id": "unknown-site", "kind": "fail", "args": [{"site": "moon base"}]},
+  {"id": "none", "kind": "fail", "args": [{}]},
+  {"id": "missing-site", "kind": "fail", "args": [{"age_band": "18-39"}]},
+  {"id": "name-as-group", "kind": "adversarial", "expect": false, "note": "a patient name smuggled in as a group value never reaches the clear record", "args": [{"site": "riverside", "sex": "Jane Okafor"}]},
+  {"id": "extra-group", "kind": "adversarial", "expect": false, "note": "a group not on the list (an MRN, say) is refused", "args": [{"site": "riverside", "mrn": "4471"}]}
+]}

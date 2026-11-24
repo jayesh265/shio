@@ -1,0 +1,8 @@
+{"check": "release_pinned", "cases": [
+  {"id": "pinned", "kind": "pass", "args": [{"sha256": "r1", "program_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "models": {"llm": {"kind": "ollama", "digest": "d1"}}}]},
+  {"id": "mock", "kind": "pass", "args": [{"program_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "models": {"llm": {"kind": "replay", "name": "m"}}}]},
+  {"id": "no-program-hash", "kind": "fail", "args": [{"models": {"llm": {"digest": "d"}}}]},
+  {"id": "floating-model", "kind": "fail", "args": [{"program_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "models": {"llm": {"kind": "openai_compat", "model": "latest"}}}]},
+  {"id": "short-hash", "kind": "adversarial", "expect": false, "note": "a truncated hash doesn't pin anything", "args": [{"program_sha256": "aaaa", "models": {"llm": {"digest": "d"}}}]},
+  {"id": "no-models", "kind": "adversarial", "expect": false, "args": [{"program_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "models": {}}]}
+]}

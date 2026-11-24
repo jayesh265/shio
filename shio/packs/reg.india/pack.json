@@ -1,0 +1,301 @@
+{
+ "format": "shio-pack/1",
+ "id": "reg.india",
+ "name": "India: the DPDP Act and Rules, ICMR guidelines, ABDM, CDSCO and CERT-In (advisory mode)",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null
+ },
+ "description": "India: the DPDP Act and Rules, ICMR guidelines, ABDM, CDSCO and CERT-In (advisory mode). From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "india",
+   "title": "DPDP Act 2023 and Rules 2025, ICMR 2017 and 2023, NDCT Rules 2019, ABDM, CDSCO, CERT-In"
+  }
+ ],
+ "advisory": true,
+ "controls": [
+  {
+   "id": "IN-01",
+   "title": "Notice and specific",
+   "requirement": "Notice and specific, informed consent for each purpose, withdrawable as easily as given.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "DPDP Act s.6",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "DPDP Act s.6"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "IN-01"
+    }
+   ]
+  },
+  {
+   "id": "IN-02",
+   "title": "Processing is limited to the consented purpose",
+   "requirement": "Processing is limited to the consented purpose; fields are minimised.",
+   "stage": "P",
+   "on_fail": "redact",
+   "source": "DPDP Act s.4-6",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "DPDP Act s.4-6"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "IN-03",
+   "title": "A processor (including a model provider) acts under a valid contract",
+   "requirement": "A processor (including a model provider) acts under a valid contract.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "DPDP Act s.8(2)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "DPDP Act s.8(2)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "IN-04",
+   "title": "Reasonable safeguards",
+   "requirement": "Reasonable safeguards, and breach notice to the Board and each person.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "DPDP Act s.8(6)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "DPDP Act s.8(6)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "IN-05",
+   "title": "Erasure when the purpose ends or consent is withdrawn",
+   "requirement": "Erasure when the purpose ends or consent is withdrawn, unless law requires retention.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "DPDP Act s.8(7)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "DPDP Act s.8(7)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "IN-06",
+   "title": "Verifiable parental or guardian consent where required",
+   "requirement": "Verifiable parental or guardian consent where required; no tracking or targeting of children.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "DPDP Act s.9",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "DPDP Act s.9"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "IN-07",
+   "title": "Significant data fiduciary duties are tracked where designated",
+   "requirement": "Significant data fiduciary duties are tracked where designated.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "DPDP Act s.10",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "DPDP Act s.10"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "reg.india.in-07",
+     "owner": "data_protection_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "IN-08",
+   "title": "No transfer to a country on the government's restricted list",
+   "requirement": "No transfer to a country on the government's restricted list.",
+   "stage": "P",
+   "on_fail": "route or deny",
+   "source": "DPDP Act s.16",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "DPDP Act s.16"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "IN-08"
+    }
+   ]
+  },
+  {
+   "id": "IN-09",
+   "title": "Use of the research exemption is recorded with its conditions",
+   "requirement": "Use of the research exemption is recorded with its conditions.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "DPDP Act s.17",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "DPDP Act s.17"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "IN-10",
+   "title": "The ICMR AI principles are mapped to Shio controls and ethics review is attested",
+   "requirement": "The ICMR AI principles are mapped to Shio controls and ethics review is attested.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "ICMR 2023",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "ICMR 2023"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "reg.india.in-10",
+     "owner": "data_protection_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "IN-11",
+   "title": "Ethics committee approval",
+   "requirement": "Ethics committee approval, consent, compensation and safety reporting for trials.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "ICMR 2017, NDCT Rules 2019",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "ICMR 2017, NDCT Rules 2019"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "reg.india.in-11",
+     "owner": "data_protection_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "IN-12",
+   "title": "ABDM consent artefacts are verified before records are used",
+   "requirement": "ABDM consent artefacts are verified before records are used.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "ABDM",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "ABDM"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "IN-13",
+   "title": "Software-as-medical-device classification and licence status are recorded",
+   "requirement": "Software-as-medical-device classification and licence status are recorded.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "CDSCO",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "CDSCO"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "reg.india.in-13",
+     "owner": "data_protection_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "IN-14",
+   "title": "Cyber incidents are reported within CERT-In's period",
+   "requirement": "Cyber incidents are reported within CERT-In's period.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "CERT-In directions",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "CERT-In directions"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "IN-15",
+   "title": "The registered practitioner stays responsible",
+   "requirement": "The registered practitioner stays responsible; the agent never acts as one.",
+   "stage": "A",
+   "on_fail": "deny",
+   "source": "Telemedicine Practice Guidelines 2020",
+   "spec_proof": "lint",
+   "refs": [
+    {
+     "framework": "india",
+     "ref": "Telemedicine Practice Guidelines 2020"
+    }
+   ],
+   "planned": true
+  }
+ ]
+}

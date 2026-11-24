@@ -1,0 +1,8 @@
+{"check": "no_interactions", "cases": [
+  {"id": "none", "kind": "pass", "args": ["Amoxicillin", ["Metformin", "Ramipril"]]},
+  {"id": "moderate-only", "kind": "pass", "args": ["Ibuprofen", ["Ramipril"]]},
+  {"id": "major", "kind": "fail", "args": ["Ibuprofen", ["Warfarin"]]},
+  {"id": "contraindicated", "kind": "fail", "args": ["Clarithromycin", ["Simvastatin"]]},
+  {"id": "symmetric", "kind": "adversarial", "expect": false, "note": "the interaction graph is undirected: the order of the pair does not matter", "args": ["Warfarin", ["Ibuprofen"]]},
+  {"id": "unknown-current-med", "kind": "adversarial", "expect": false, "note": "an unknown medication can't be cleared", "args": ["Amoxicillin", ["Mysterol"]]}
+]}

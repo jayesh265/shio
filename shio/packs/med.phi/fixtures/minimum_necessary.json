@@ -1,0 +1,8 @@
+{"check": "minimum_necessary", "cases": [
+  {"id": "exact-fields", "kind": "pass", "args": [{"reason": "x", "medications": [{"name": "metformin"}], "allergies": []}, "referral_summary"]},
+  {"id": "nested-meds-allowed", "kind": "pass", "args": [{"medications": {"metformin": "500 mg"}}, "referral_summary"]},
+  {"id": "extra-name", "kind": "fail", "args": [{"reason": "x", "patient_name": "J"}, "referral_summary"]},
+  {"id": "unknown-purpose", "kind": "fail", "args": [{"reason": "x"}, "marketing"]},
+  {"id": "name-hidden-in-allowed-object", "kind": "adversarial", "expect": false, "note": "an identifier nested inside an allowed object without a wildcard is still caught", "args": [{"reason": {"text": "x", "patient_name": "J"}}, "referral_summary"]},
+  {"id": "case-and-space-aliasing", "kind": "adversarial", "expect": false, "args": [{" Patient_Name ": "J"}, "referral_summary"]}
+]}

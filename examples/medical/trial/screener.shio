@@ -1,0 +1,71 @@
+# Reference agent 2: a clinical-trial eligibility screener (Shio Guard, D26).
+#
+# Blinding is checked before anything reaches the model: a chart that names the participant's arm or kit is never
+# read (med.trial TRL-2). A model reads the chart's facts; code decides eligibility from the protocol (TRL-1), the
+# consent version (TRL-5), and, for an eligible participant, the study drug's dose recomputed from weight, age and
+# kidney function (med.rx RX-2), interactions (RX-3) and allergies (RX-4). Every outcome waits for an investigator.
+#
+# SIMULATED: fixture protocol, fixture study drug and formulary, synthetic charts, a mock model. Not a clinical tool.
+#
+#   export SHIO_SIGNING_KEY=hmac:demo && shio run screener.shio C01 --traces records
+
+regulated
+
+from screener_support import trial, rx, phi, PROTOCOL, STUDY_DRUG, chart, allocation, careful, gate, identity, patient
+
+type Facts:
+    age: int | None                     # in years
+    sex: str | None                     # M or F, as charted
+    diagnosis: str | None               # the primary diagnosis, as charted
+    egfr: float | None                  # latest eGFR
+    hba1c: float | None                 # latest HbA1c, percent
+    weight_kg: float | None
+    serum_creatinine_umol: float | None
+    pregnant: bool | None               # null if the chart does not say
+    on_dialysis_waitlist: bool | None
+    medications: list[str]              # current medications, names only
+    allergies: list[str]
+    consent_version: str | None         # the consent form version signed
+    planned_dose_mg: float | None       # the investigator's planned starting dose of the study drug
+
+codes:
+    UNBLINDING: "The chart contains allocation information, so it was not sent for reading."
+    UNAPPROVED_MODEL: "The model is not approved to receive health information."
+    CONSENT_OUT_OF_DATE: "The participant must re-consent to the current version first."
+    NOT_ELIGIBLE: "The participant does not meet the protocol's criteria."
+    DRUG_UNKNOWN: "The study drug is not in the reference data."
+    DOSE_MISMATCH: "The planned dose differs from the dose recomputed for this participant."
+    INTERACTION: "A current medication interacts with the study drug."
+    ALLERGY: "A recorded allergy conflicts with the study drug."
+
+agent screen(chart_text: Source, allocation_info: dict, llm):
+    check blinded as UNBLINDING: trial.blinded([chart_text.text], allocation_info)
+    if not blinded:
+        return {"status": "REVIEW", "why": ["UNBLINDING"]}
+
+    check approved as UNAPPROVED_MODEL: phi.approved_model(identity(llm))
+    read f: Facts from chart_text by gate(llm):
+        Read these facts from the screening chart. Leave a fact null if the chart does not state it.
+
+    check consent as CONSENT_OUT_OF_DATE: trial.consent_current(f.consent_version)
+    check eligible as NOT_ELIGIBLE: trial.eligible(f.model_dump())
+    check drug_known as DRUG_UNKNOWN: rx.drug_resolved(STUDY_DRUG)
+    check dose as DOSE_MISMATCH after eligible: rx.dose_matches(STUDY_DRUG, f.planned_dose_mg, patient(f))
+    check interactions as INTERACTION after eligible: rx.no_interactions(STUDY_DRUG, f.medications)
+    check allergies as ALLERGY after eligible: rx.no_allergy_conflict(STUDY_DRUG, f.allergies)
+
+    rule decide:
+        if f is None:
+            return {"status": "REVIEW", "why": ["the model gave no usable answer"]}
+        unknown = [c for c in checks.failures() if c["name"] == "eligible" and "eligibility unknown" in c["detail"]]
+        if checks.failed("eligible") and not unknown:
+            return {"status": "NOT_ELIGIBLE", "study": PROTOCOL["id"], "why": ["NOT_ELIGIBLE"]}
+        if checks.failures():
+            return {"status": "REVIEW", "study": PROTOCOL["id"], "why": [c["code"] for c in checks.failures()]}
+        return {"status": "ELIGIBLE", "study": PROTOCOL["id"], "dose_mg": f.planned_dose_mg}
+    signoff * by role "investigator"
+    return decide
+
+main:
+    cid = argv[0] if argv else "C01"
+    return screen(Source(cid, text=chart(cid)), allocation(cid), careful)

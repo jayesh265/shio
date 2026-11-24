@@ -1,0 +1,8 @@
+{"check": "safety_event_complete", "cases": [
+  {"id": "complete", "kind": "pass", "args": [{"what": "summary omitted an allergy; caught by clinician", "when": "2026-11-20T10:30", "harm": "none", "reported_by": "Dr R. Osei", "records": []}]},
+  {"id": "with-records", "kind": "pass", "args": [{"what": "x", "when": "2026-11-20T10:30", "harm": "low", "reported_by": "y", "records": ["summarise-1.json"]}]},
+  {"id": "missing-harm", "kind": "fail", "args": [{"what": "x", "when": "2026-11-20T10:30", "reported_by": "y"}]},
+  {"id": "bad-harm", "kind": "fail", "args": [{"what": "x", "when": "2026-11-20T10:30", "harm": "meh", "reported_by": "y"}]},
+  {"id": "future", "kind": "adversarial", "expect": false, "note": "an event dated in the future is refused", "args": [{"what": "x", "when": "2099-01-01T00:00", "harm": "none", "reported_by": "y"}]},
+  {"id": "records-not-list", "kind": "adversarial", "expect": false, "args": [{"what": "x", "when": "2026-11-20T10:30", "harm": "none", "reported_by": "y", "records": "all of them"}]}
+]}

@@ -1,0 +1,7 @@
+{"check": "consent_current", "cases": [
+  {"id": "current", "kind": "pass", "args": ["3.1"]},
+  {"id": "v-prefix", "kind": "pass", "args": ["v3.1"]},
+  {"id": "old", "kind": "fail", "args": ["2.0"]},
+  {"id": "missing", "kind": "fail", "args": [null]},
+  {"id": "prefix-trick", "kind": "adversarial", "expect": false, "note": "3.10 is not 3.1", "args": ["3.10"]}
+]}

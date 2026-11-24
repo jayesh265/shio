@@ -1,0 +1,31 @@
+{
+  "format": "shio-pack/1",
+  "id": "in.icmr",
+  "name": "ICMR ethical guidelines for AI in biomedical research and healthcare (draft)",
+  "version": "0.1.0",
+  "effective": "2026-11-22",
+  "licence": "MIT OR Apache-2.0",
+  "status": "draft",
+  "review": {"counsel": null, "clinical_lead": null},
+  "description": "The principles of the Indian Council of Medical Research's 2023 ethical guidelines for AI in biomedical research and healthcare that Shio can evidence from its artefacts.",
+  "limits": "The guidelines are ethical principles, not a checklist: this pack maps the ones Shio's artefacts can evidence and leaves the rest (ethics committee review, collaboration, accessibility) to people. Principle names follow the 2023 guidelines as published; counsel and the clinical safety lead must check the mapping.",
+  "frameworks": [
+    {"id": "icmr-ai-2023", "title": "ICMR Ethical Guidelines for Application of Artificial Intelligence in Biomedical Research and Healthcare (2023)", "source": "https://www.icmr.gov.in/"}
+  ],
+  "controls": [
+    {"id": "ICMR-1", "title": "Autonomy: a person stays in control", "requirement": "Clinical outcomes need a clinician's sign-off; the model only reads.",
+     "refs": [{"framework": "icmr-ai-2023", "ref": "Autonomy"}], "proof": [{"kind": "lint", "proof": "signoff-required"}, {"kind": "lint", "proof": "readings-through-rules"}]},
+    {"id": "ICMR-2", "title": "Safety and risk minimisation", "requirement": "Hazards and their controls are kept in a safety case approved by the clinical safety lead.",
+     "refs": [{"framework": "icmr-ai-2023", "ref": "Safety and risk minimization"}], "proof": [{"kind": "signoff", "role": "clinical_safety_lead", "subject": "safety-case"}]},
+    {"id": "ICMR-3", "title": "Trustworthiness: outputs tied to their source", "requirement": "Every claim in a clinical output carries its quote from the source.",
+     "refs": [{"framework": "icmr-ai-2023", "ref": "Trustworthiness"}], "proof": [{"kind": "runtime", "check": "claims_quoted", "pack": "med.grounding", "control": "GRD-1"}]},
+    {"id": "ICMR-4", "title": "Data privacy", "requirement": "Identifiers are removed from outputs and kept out of records except the erasable vault.",
+     "refs": [{"framework": "icmr-ai-2023", "ref": "Data privacy"}], "proof": [{"kind": "runtime", "check": "no_identifiers", "pack": "med.phi", "control": "PHI-1"}, {"kind": "lint", "proof": "regulated-mode"}]},
+    {"id": "ICMR-5", "title": "Accountability", "requirement": "Every decision is a signed record naming the program, models and people involved.",
+     "refs": [{"framework": "icmr-ai-2023", "ref": "Accountability and liability"}], "proof": [{"kind": "lint", "proof": "regulated-mode"}]},
+    {"id": "ICMR-6", "title": "Validity", "requirement": "Performance is measured in CI against labelled cases.",
+     "refs": [{"framework": "icmr-ai-2023", "ref": "Validity"}], "proof": [{"kind": "eval", "suite": "regression", "metric": "pass_rate", "op": ">=", "threshold": 0.95}]},
+    {"id": "ICMR-7", "title": "Non-discrimination and fairness", "requirement": "Performance is compared across subgroups and the gap bounded.",
+     "refs": [{"framework": "icmr-ai-2023", "ref": "Non-discrimination and fairness"}], "proof": [{"kind": "eval", "suite": "regression", "metric": "max_slice_gap", "op": "<=", "threshold": 0.10}]}
+  ]
+}

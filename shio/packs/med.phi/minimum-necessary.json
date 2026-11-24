@@ -1,0 +1,7 @@
+{
+  "status": "EXAMPLE: each purpose's field list is set by the privacy officer for the workflow it serves.",
+  "purposes": {
+    "referral_summary": ["reason", "history", "medications", "medications.*", "allergies", "findings", "claims", "claims.*", "letter"],
+    "trial_screening": ["age", "sex", "diagnosis", "egfr", "weight_kg", "medications", "medications.*", "allergies", "pregnant", "consent_version", "chart"]
+  }
+}

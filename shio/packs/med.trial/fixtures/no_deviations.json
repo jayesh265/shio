@@ -1,0 +1,8 @@
+{"check": "no_deviations", "cases": [
+  {"id": "on-time", "kind": "pass", "args": [{"baseline": "2026-03-01", "V1": "2026-03-15", "V2": "2026-03-29"}, {"V1": {"day": 14, "window": 3}, "V2": {"day": 28, "window": 3}}]},
+  {"id": "edge-of-window", "kind": "pass", "args": [{"baseline": "2026-03-01", "V1": "2026-03-18"}, {"V1": {"day": 14, "window": 3}}]},
+  {"id": "late", "kind": "fail", "args": [{"baseline": "2026-03-01", "V1": "2026-03-20"}, {"V1": {"day": 14, "window": 3}}]},
+  {"id": "missing", "kind": "fail", "args": [{"baseline": "2026-03-01"}, {"V1": {"day": 14, "window": 3}}]},
+  {"id": "no-baseline", "kind": "adversarial", "expect": false, "args": [{"V1": "2026-03-15"}, {"V1": {"day": 14, "window": 3}}]},
+  {"id": "early", "kind": "adversarial", "expect": false, "note": "early is a deviation too", "args": [{"baseline": "2026-03-01", "V1": "2026-03-05"}, {"V1": {"day": 14, "window": 3}}]}
+]}

@@ -465,8 +465,10 @@ def split(record, handling=None):
         for i, c in enumerate(run.get("checks", [])):
             p = f"{base}/checks/{i}"
             c["detail"] = _put(vault, f"{p}/detail", c.get("detail"))
-            c["args"] = [_put(vault, f"{p}/args/{j}", a) if "const" in a else a for j, a in enumerate(c.get("args", []))]
-            c["kwargs"] = {k: (_put(vault, f"{p}/kwargs/{k}", a) if "const" in a else a)
+            # a constant, and the repr of an argument that isn't JSON (a Source, say), can both hold free text
+            c["args"] = [_put(vault, f"{p}/args/{j}", a) if "const" in a or "opaque" in a else a
+                         for j, a in enumerate(c.get("args", []))]
+            c["kwargs"] = {k: (_put(vault, f"{p}/kwargs/{k}", a) if "const" in a or "opaque" in a else a)
                            for k, a in c.get("kwargs", {}).items()}
             if "key" in c:
                 c["key"] = _vault_copies(c["key"], kept, vault, f"{p}/key")

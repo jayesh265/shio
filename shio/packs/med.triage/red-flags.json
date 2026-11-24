@@ -1,0 +1,20 @@
+{
+  "status": "DRAFT: awaiting the clinical safety lead's approval. Approval is recorded in an approval log against this file's sha256; a regulated triage gate will not start without it.",
+  "version": "0.1.0",
+  "emergency_wording": "This could be serious. Call your local emergency number now, or go to the nearest emergency department. Do not wait for a reply here.",
+  "out_of_scope_wording": "I can't help with that here. I can answer questions about booking, preparing for appointments and general information. For anything about your diagnosis or treatment, please contact your care team.",
+  "scope": {
+    "topics": ["appointment", "booking", "book", "reschedule", "cancel", "prepare", "preparation", "fasting", "parking", "opening hours", "referral status", "what to bring", "results ready"],
+    "refuse": ["diagnose", "diagnosis", "prescribe", "prescription", "dose", "dosage", "should i stop taking", "increase my", "double my"]
+  },
+  "flags": [
+    {"id": "RF-CHEST", "category": "cardiac", "phrases": ["chest pain", "crushing chest", "chest tightness", "pain spreading to my arm", "pain down my left arm"]},
+    {"id": "RF-BREATH", "category": "respiratory", "phrases": ["can't breathe", "cannot breathe", "struggling to breathe", "short of breath at rest", "lips turning blue", "choking"]},
+    {"id": "RF-STROKE", "category": "neurological", "phrases": ["face drooping", "slurred speech", "arm weakness", "sudden weakness", "can't lift my arm", "sudden confusion", "worst headache of my life"]},
+    {"id": "RF-BLEED", "category": "bleeding", "phrases": ["vomiting blood", "coughing up blood", "heavy bleeding", "black tarry stool", "won't stop bleeding"]},
+    {"id": "RF-ANAPHYLAXIS", "category": "allergy", "phrases": ["throat swelling", "tongue swelling", "swollen throat", "anaphylaxis"]},
+    {"id": "RF-SELFHARM", "category": "mental health", "phrases": ["kill myself", "end my life", "suicidal", "hurt myself", "overdose"]},
+    {"id": "RF-SEPSIS", "category": "infection", "phrases": ["mottled skin", "not passing urine", "rash that doesn't fade", "rash that does not fade"]},
+    {"id": "RF-CONSCIOUS", "category": "neurological", "phrases": ["unconscious", "passed out", "fitting", "seizure", "unresponsive"]}
+  ]
+}

@@ -1,0 +1,8 @@
+{"check": "required_items", "cases": [
+  {"id": "all-present", "kind": "pass", "args": [{"reason": "poor glycaemic control", "medications": ["metformin"], "allergies": ["penicillin"]}, "letter"]},
+  {"id": "none-documented-in-source", "kind": "pass", "args": [{"reason": "review", "medications": ["metformin"], "allergies": "none"}, "Medication: metformin. NKDA."]},
+  {"id": "missing-reason", "kind": "fail", "args": [{"medications": ["metformin"], "allergies": ["penicillin"]}, "letter"]},
+  {"id": "empty-meds", "kind": "fail", "args": [{"reason": "x", "medications": [], "allergies": ["penicillin"]}, "Metformin 500 mg."]},
+  {"id": "none-but-source-lists-allergy", "kind": "adversarial", "expect": false, "note": "the summary says no allergies while the source lists one", "args": [{"reason": "x", "medications": ["metformin"], "allergies": "none known"}, "Allergic to penicillin (rash)."]},
+  {"id": "injected-no-allergies", "kind": "adversarial", "expect": true, "note": "the source really says no known allergies, so recording none is correct", "args": [{"reason": "x", "medications": ["metformin"], "allergies": "none"}, "No known drug allergies. Metformin."]}
+]}

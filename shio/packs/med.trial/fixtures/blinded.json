@@ -1,0 +1,8 @@
+{"check": "blinded", "cases": [
+  {"id": "clean-chart", "kind": "pass", "args": [["Chart: 62M, T2DM with CKD, eGFR 41."], {"arm": "active", "labels": ["active", "placebo"], "codes": ["KIT-4471"]}]},
+  {"id": "no-texts", "kind": "pass", "args": [[], {"arm": "placebo", "labels": ["active", "placebo"]}]},
+  {"id": "arm-named", "kind": "fail", "args": [["Randomised to placebo on 2026-03-01."], {"arm": "placebo", "labels": ["active", "placebo"]}]},
+  {"id": "kit-code", "kind": "fail", "args": [["Dispensed kit KIT-4471."], {"arm": "active", "labels": ["active", "placebo"], "codes": ["KIT-4471"]}]},
+  {"id": "spaced-code", "kind": "adversarial", "expect": false, "note": "spacing or case doesn't hide an allocation code", "args": [["dispensed kit k i t 4 4 7 1"], {"arm": "active", "labels": ["active", "placebo"], "codes": ["KIT-4471"]}]},
+  {"id": "other-arm-label", "kind": "adversarial", "expect": false, "note": "naming any arm can unblind", "args": [["Not on active treatment."], {"arm": "placebo", "labels": ["active", "placebo"]}]}
+]}

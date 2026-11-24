@@ -1,0 +1,203 @@
+{
+ "format": "shio-pack/1",
+ "id": "sec.agent",
+ "name": "Agent security: the OWASP Top 10 for Agentic Applications (2026); spec ids SEC-A01 to SEC-A10 are ASI-01 to ASI-10 here",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null
+ },
+ "description": "Agent security: the OWASP Top 10 for Agentic Applications (2026); spec ids SEC-A01 to SEC-A10 are ASI-01 to ASI-10 here. From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "owasp-agentic",
+   "title": "OWASP Top 10 for Agentic Applications 2026 (guidance)"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "ASI-01",
+   "title": "Goal hijack",
+   "requirement": "Goal hijack: model output is a reading and can't choose tools or targets; only code and sign-off decide.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "ASI01",
+   "spec_proof": "lint, eval",
+   "refs": [
+    {
+     "framework": "owasp-agentic",
+     "ref": "ASI01"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "lint",
+     "proof": "readings-through-rules"
+    }
+   ]
+  },
+  {
+   "id": "ASI-02",
+   "title": "Tool misuse",
+   "requirement": "Tool misuse: typed tools, allow-listed arguments, limits, and run, hold or refuse gates.",
+   "stage": "A",
+   "on_fail": "hold",
+   "source": "ASI02",
+   "spec_proof": "lint, check",
+   "refs": [
+    {
+     "framework": "owasp-agentic",
+     "ref": "ASI02"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "lint",
+     "proof": "tools-gated"
+    }
+   ]
+  },
+  {
+   "id": "ASI-03",
+   "title": "Each agent has its own least-privilege identity",
+   "requirement": "Each agent has its own least-privilege identity; no shared credentials.",
+   "stage": "A",
+   "on_fail": "deny",
+   "source": "ASI03",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "owasp-agentic",
+     "ref": "ASI03"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "ASI-04",
+   "title": "Supply chain",
+   "requirement": "Supply chain: pinned versions, signed manifests, SBOM, adapter trust classes, licence checks.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "ASI04",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "owasp-agentic",
+     "ref": "ASI04"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "lint",
+     "proof": "dependencies-pinned"
+    }
+   ]
+  },
+  {
+   "id": "ASI-05",
+   "title": "No model-written code runs",
+   "requirement": "No model-written code runs; imported code is declared trusted and listed.",
+   "stage": "A",
+   "on_fail": "deny",
+   "source": "ASI05",
+   "spec_proof": "lint",
+   "refs": [
+    {
+     "framework": "owasp-agentic",
+     "ref": "ASI05"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "lint",
+     "proof": "no-reflection"
+    }
+   ]
+  },
+  {
+   "id": "ASI-06",
+   "title": "Memory writes are typed",
+   "requirement": "Memory writes are typed, sourced and expiring; PHI in memory follows vault rules.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "ASI06",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "owasp-agentic",
+     "ref": "ASI06"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "ASI-07",
+   "title": "Messages between agents are signed",
+   "requirement": "Messages between agents are signed, schema-checked and gated.",
+   "stage": "A",
+   "on_fail": "deny",
+   "source": "ASI07",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "owasp-agentic",
+     "ref": "ASI07"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "ASI-08",
+   "title": "Circuit breakers",
+   "requirement": "Circuit breakers, per-run budgets, and a hold after two consecutive failed checks.",
+   "stage": "A",
+   "on_fail": "hold",
+   "source": "ASI08",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "owasp-agentic",
+     "ref": "ASI08"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "ASI-09",
+   "title": "Readings show their basis",
+   "requirement": "Readings show their basis; rubber-stamp approvals are flagged.",
+   "stage": "O",
+   "on_fail": "hold",
+   "source": "ASI09",
+   "spec_proof": "check, eval",
+   "refs": [
+    {
+     "framework": "owasp-agentic",
+     "ref": "ASI09"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "ASI-10",
+   "title": "Signed records",
+   "requirement": "Signed records, baselines, a kill switch and replay catch a rogue agent.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "ASI10",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "owasp-agentic",
+     "ref": "ASI10"
+    }
+   ],
+   "planned": true
+  }
+ ]
+}

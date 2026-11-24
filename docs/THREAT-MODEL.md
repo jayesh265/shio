@@ -275,3 +275,29 @@ fixed in 1.0.0rc2; the regression tests are in `tests/test_review_findings.py`:
 | G2 | Guard | Digits-only control values are never tainted or ungrounded | all | Fixed in 07d547d |
 | G3 | Guard | One approval covers every later identical call in the session | all | Fixed in 07d547d |
 | G4 | Guard | Four eyes is off unless `requester=` is passed (never, from `.shio`), and compares exact strings | all | Fixed in 07d547d |
+
+## 8. Shio Guard: adapters, packs and governance artefacts (added November 2026)
+
+Shio Guard (docs/governance/) adds code that enters agents (adapters, pack checks) and artefacts that leave them
+(cards, assessments, bundles, eval results, approvals). The adapter spec (D3) was reviewed against this model; these
+are the threats it adds and how each is met. The outside review should include this section.
+
+| Id | Threat | Mitigation | Test |
+|---|---|---|---|
+| A1 | A probabilistic tool registered as a check decides on its own | trust class declared and checked against the base class; readers only answer reads, so their output is a sealed Reading; checks must be reviewed and deterministic (fixtures run twice, inputs unchanged) | `test_each_adapter_passes_conformance_and_the_licence_check` |
+| A2 | An adapter's code or a dependency changes after review | implementation sha256 pinned per agent; exact version pins; regulated builds refuse unpinned adapters; a reader without a pin can't answer a regulated read | `test_a_deliberately_unpinned_adapter_is_refused_at_build_time`, `test_an_adapter_whose_code_changed_no_longer_matches_its_pin` |
+| A3 | A sink feeds data back into a decision | `emit()` must return nothing and leave the record unchanged; sinks are not passed to agents | conformance (sink tests) |
+| P1 | A pack's check is edited without a new version | packs are identified by a tree sha256 over every file; `load_pack(sha256=...)` refuses a different tree; records cite the hash | `test_any_file_change_changes_the_tree_hash_and_a_pin_refuses_it` |
+| P2 | A pack whose check is broken still decides | a pack is loaded only if it validates, which runs its own pass, fail and adversarial fixtures | `test_a_pack_whose_fixtures_fail_is_never_loaded` |
+| P3 | A pack claims compliance nobody reviewed | the validator refuses compliance language unless the pack is `reviewed` with counsel (and the clinical lead) named | `test_validator_refuses_a_compliance_claim_without_review` |
+| P4 | A pack check carries PHI into the clear record | verdicts name kinds of finding, not values; check explanations go to the vault; monitoring groups reach the clear record only after a check vets them against an allowed list | `test_records_cite_the_pack_name_version_and_control`, `test_metrics_are_sliced_by_group_and_site_and_safety_events_are_records` |
+| L3 | A non-JSON check argument (a `Source`) is recorded as a repr in clear | `ledger.split` now moves opaque check arguments to the vault (a pre-existing gap, found building the referral agent) | `test_check_arguments_that_are_not_json_go_to_the_vault` |
+| E1 | A governance artefact (card, assessment, eval result, bundle) is edited after signing | each is hashed over its content and signed with the ledger's key; `shio verify` checks the hash and, with a key, requires a good signature; bundles hash every file and refuse files added later | `test_verify_rejects_an_edited_card`, `test_a_tampered_bundle_fails_verification` |
+| E2 | An approval of one version is reused for another | approvals bind to the subject's sha256; any change needs a new approval; maker-checker refuses the subject's owner and repeat signers | `test_ci_fails_until_the_right_roles_sign_off_the_exact_hash`, `test_a_change_without_signoff_cannot_be_promoted` |
+| E3 | A static proof is read as covering imported Python | every assessment states its scope and lists the trusted modules with their hashes; negative tests show each proof fails when its control is broken | `tests/test_governance_assess.py` |
+| C1 | The console is used to change records or read a vault | GET and HEAD only (405 otherwise); files opened only from configured folders by names it listed; vaults never read; output escaped; CSP allows no scripts; binds to localhost by default | `test_the_console_is_read_only_and_never_opens_the_vault_or_other_files` |
+| R1 | A registry archive is tampered with or escapes its folder on install | archive sha256 and the signed index entry checked before extraction; absolute paths, `..`, links and special files refused; the pack is validated and its tree hash compared again | `test_install_refuses_tampered_archives_and_entries_and_unsafe_paths` |
+
+Limits: Cedar export to Rego drops entity hierarchy (`in` over parents), which must be supplied to OPA as data; the
+Credo AI sink's endpoints are unverified until a tenant is available; the PHI detector's recall is measured on a small
+synthetic set (names in free text: 0.63).

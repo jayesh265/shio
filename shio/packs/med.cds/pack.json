@@ -1,0 +1,23 @@
+{
+  "format": "shio-pack/1",
+  "id": "med.cds",
+  "name": "Decision-support posture: the build fails if the agent card contradicts it",
+  "version": "0.1.0",
+  "effective": "2026-11-22",
+  "licence": "MIT OR Apache-2.0",
+  "status": "draft",
+  "review": {"clinical_lead": null, "counsel": null},
+  "description": "Enforces, at build time, the constraints a team adopted when it declared an agent's decision-support posture, so the agent as built can't drift from what was declared.",
+  "limits": "Enforcement, not a ruling: this pack does not decide whether software is a medical device, and passing it says nothing about device status. Which posture applies, and whether its constraints are the right ones, is for regulatory counsel. Constraints are checked against the agent card and program, not against how the agent is used in practice.",
+  "frameworks": [
+    {"id": "shio-cds", "title": "Constraints adopted for the hcp-decision-support posture (see shio/governance/cds.py)", "source": "https://github.com/pratikkp24/shio"}
+  ],
+  "hazards": [
+    {"id": "HAZ-CDS-1", "title": "An agent built as professional decision support drifts into acting without a professional in the loop", "severity": 4, "likelihood": 2}
+  ],
+  "controls": [
+    {"id": "CDS-1", "title": "Card fits the declared posture", "requirement": "The agent card fits every constraint of its declared posture: a professional audience, no image or signal inputs, sign-off by a clinical role on every outcome, the basis shown with grounding in force, not time-critical, and no acting tools beyond those allowed.",
+     "refs": [{"framework": "shio-cds", "ref": "CDS-1 to CDS-6"}], "hazards": ["HAZ-CDS-1"],
+     "proof": [{"kind": "lint", "proof": "cds-posture"}, {"kind": "signoff", "role": "regulatory_counsel", "subject": "cds-constraints"}]}
+  ]
+}

@@ -1,0 +1,7 @@
+{"check": "approved_model", "cases": [
+  {"id": "listed-mock", "kind": "pass", "args": [{"kind": "replay", "name": "referral-mock"}]},
+  {"id": "listed-pinned", "kind": "pass", "args": [{"kind": "ollama", "model": "qwen3:8b", "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41"}]},
+  {"id": "unlisted", "kind": "fail", "args": [{"kind": "openai_compat", "model": "gpt-x", "pinned": "2026-01-01"}]},
+  {"id": "no-identity", "kind": "fail", "args": [{}]},
+  {"id": "same-name-other-weights", "kind": "adversarial", "expect": false, "note": "a model with an approved name but different weights is not approved", "args": [{"kind": "ollama", "model": "qwen3:8b", "digest": "deadbeef00000000000000000000000000000000000000000000000000000000"}]}
+]}

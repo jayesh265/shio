@@ -1,0 +1,28 @@
+{
+  "format": "shio-pack/1",
+  "id": "med.triage",
+  "name": "Triage: red flags in code before the model, fixed emergency wording, out-of-scope refusal",
+  "version": "0.1.0",
+  "effective": "2026-11-22",
+  "licence": "MIT OR Apache-2.0",
+  "status": "draft",
+  "review": {"clinical_lead": null, "counsel": null},
+  "description": "For patient-facing assistants: red flags are matched in code before any model replies, and get fixed emergency wording; requests outside scope get a fixed refusal.",
+  "limits": "The red-flag list is a draft written by engineers and must be replaced or approved by the clinical safety lead. Phrase matching misses red flags described in other words and in other languages; it is a floor, not triage. Negation handling looks back four words in the same clause.",
+  "checks": "checks.py",
+  "frameworks": [
+    {"id": "dcb0129", "title": "DCB0129 clinical risk management (manufacturers)", "source": "https://digital.nhs.uk/data-and-information/information-standards"}
+  ],
+  "hazards": [
+    {"id": "HAZ-TRI-1", "title": "A patient describing an emergency gets a model's reply instead of emergency advice", "severity": 5, "likelihood": 3},
+    {"id": "HAZ-TRI-2", "title": "A patient-facing assistant gives diagnostic or prescribing advice", "severity": 4, "likelihood": 3}
+  ],
+  "controls": [
+    {"id": "TRI-1", "title": "Red flags run in code before the model", "requirement": "Every message is screened against the approved red-flag list before any model is called; a red flag gets the fixed emergency wording and no model reply.",
+     "refs": [{"framework": "dcb0129", "ref": "hazard control"}], "hazards": ["HAZ-TRI-1"],
+     "proof": [{"kind": "runtime", "check": "no_red_flag"}, {"kind": "signoff", "role": "clinical_safety_lead", "subject": "red-flag-list"}]},
+    {"id": "TRI-2", "title": "Out-of-scope requests refused", "requirement": "Requests for diagnosis, prescribing or dosing, or about topics the agent does not cover, get the fixed refusal.",
+     "refs": [{"framework": "dcb0129", "ref": "hazard control"}], "hazards": ["HAZ-TRI-2"],
+     "proof": [{"kind": "runtime", "check": "in_scope"}]}
+  ]
+}

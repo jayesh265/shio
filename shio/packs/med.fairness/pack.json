@@ -1,0 +1,143 @@
+{
+ "format": "shio-pack/1",
+ "id": "med.fairness",
+ "name": "Fairness: Section 1557 decision support tools and subgroup performance",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null,
+  "clinical_lead": null
+ },
+ "description": "Fairness: Section 1557 decision support tools and subgroup performance. From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "fairness",
+   "title": "ACA Section 1557, 45 CFR 92.210"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "FAI-01",
+   "title": "An inventory of decision support uses of race",
+   "requirement": "An inventory of decision support uses of race, colour, national origin, sex, age or disability, from the agent card.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "45 CFR 92.210(b)",
+   "spec_proof": "lint, check",
+   "refs": [
+    {
+     "framework": "fairness",
+     "ref": "45 CFR 92.210(b)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "FAI-02",
+   "title": "Reasonable efforts to mitigate discrimination risk are recorded",
+   "requirement": "Reasonable efforts to mitigate discrimination risk are recorded.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "45 CFR 92.210(c)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "fairness",
+     "ref": "45 CFR 92.210(c)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.fairness.fai-02",
+     "owner": "clinical_safety_lead",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "FAI-03",
+   "title": "Protected-attribute inputs are declared per agent",
+   "requirement": "Protected-attribute inputs are declared per agent; undeclared use fails compile.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "45 CFR 92.210",
+   "spec_proof": "lint",
+   "refs": [
+    {
+     "framework": "fairness",
+     "ref": "45 CFR 92.210"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "FAI-04",
+   "title": "Subgroup sensitivity",
+   "requirement": "Subgroup sensitivity, specificity and error rate meet the stated tolerance before deployment.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "45 CFR 92.210",
+   "spec_proof": "eval",
+   "refs": [
+    {
+     "framework": "fairness",
+     "ref": "45 CFR 92.210"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "FAI-05",
+   "title": "Patient-facing output is tested in the languages and formats served",
+   "requirement": "Patient-facing output is tested in the languages and formats served.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "45 CFR 92.201-205",
+   "spec_proof": "eval",
+   "refs": [
+    {
+     "framework": "fairness",
+     "ref": "45 CFR 92.201-205"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "FAI-06",
+   "title": "Proxy variables standing in for a protected class are flagged",
+   "requirement": "Proxy variables standing in for a protected class are flagged.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "45 CFR 92.210",
+   "spec_proof": "eval",
+   "refs": [
+    {
+     "framework": "fairness",
+     "ref": "45 CFR 92.210"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "FAI-07",
+   "title": "Fairness results are re-run after each change",
+   "requirement": "Fairness results are re-run after each change.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "45 CFR 92.210",
+   "spec_proof": "eval",
+   "refs": [
+    {
+     "framework": "fairness",
+     "ref": "45 CFR 92.210"
+    }
+   ],
+   "planned": true
+  }
+ ]
+}

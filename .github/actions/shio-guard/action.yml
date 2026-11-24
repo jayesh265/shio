@@ -1,0 +1,37 @@
+name: Shio Guard checks
+description: >
+  INT-3. Runs pack validation and the pre-model gate's control fixtures, checks the registry against the code, and
+  fails a pull request that removes or weakens a control (coverage matrix diff against the base branch).
+inputs:
+  registry:
+    description: path to registry.json (optional)
+    required: false
+    default: ""
+  python-version:
+    required: false
+    default: "3.12"
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+    - shell: bash
+      run: pip install -e ".[regulated]"
+    - name: packs validate, gate fixtures and mutation tests, no bypass
+      shell: bash
+      run: shio pack validate && shio preflight fixtures && shio preflight lint . --allow shio/models.py
+    - name: registry against the code
+      if: inputs.registry != ''
+      shell: bash
+      run: shio inventory check "${{ inputs.registry }}"
+    - name: coverage must not drop
+      if: github.event_name == 'pull_request'
+      shell: bash
+      run: |
+        shio preflight coverage --json -o /tmp/coverage-head.json
+        git fetch --depth=1 origin "${{ github.base_ref }}"
+        git worktree add /tmp/base "origin/${{ github.base_ref }}"
+        (cd /tmp/base && pip install -q -e . && shio preflight coverage --json -o /tmp/coverage-base.json) || exit 0
+        pip install -q -e .
+        shio preflight coverage-diff /tmp/coverage-base.json /tmp/coverage-head.json

@@ -1,0 +1,10 @@
+{"check": "dose_matches", "cases": [
+  {"id": "weight-based", "kind": "pass", "args": ["Amoxicillin", 500, {"age": 40, "sex": "F", "weight_kg": 20, "serum_creatinine_umol": 60}]},
+  {"id": "capped", "kind": "pass", "args": ["Amoxicillin", 1000, {"age": 40, "sex": "M", "weight_kg": 80, "serum_creatinine_umol": 80}]},
+  {"id": "renal-halved", "kind": "pass", "args": ["Amoxicillin", 500, {"age": 85, "sex": "F", "weight_kg": 50, "serum_creatinine_umol": 200}]},
+  {"id": "over-dose", "kind": "fail", "args": ["Amoxicillin", 2000, {"age": 40, "sex": "M", "weight_kg": 80, "serum_creatinine_umol": 80}]},
+  {"id": "renal-contraindicated", "kind": "fail", "args": ["Ibuprofen", 400, {"age": 80, "sex": "F", "weight_kg": 50, "serum_creatinine_umol": 250}]},
+  {"id": "under-age", "kind": "fail", "args": ["Ibuprofen", 400, {"age": 8, "sex": "M", "weight_kg": 25, "serum_creatinine_umol": 40}]},
+  {"id": "tenfold-error", "kind": "adversarial", "expect": false, "note": "a dropped decimal point: 50 mg written for 5 mg", "args": ["Warfarin", 50, {"age": 60, "sex": "M", "weight_kg": 70, "serum_creatinine_umol": 90}]},
+  {"id": "missing-creatinine", "kind": "adversarial", "expect": false, "note": "a renally adjusted drug with no kidney function: can't recompute, so it fails", "args": ["Metformin", 500, {"age": 60, "sex": "M", "weight_kg": 70}]}
+]}

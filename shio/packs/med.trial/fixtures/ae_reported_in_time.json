@@ -1,0 +1,9 @@
+{"check": "ae_reported_in_time", "cases": [
+  {"id": "sae-in-time", "kind": "pass", "args": [{"serious": true, "aware": "2026-04-01T09:00", "reported": "2026-04-01T20:00"}]},
+  {"id": "non-serious", "kind": "pass", "args": [{"serious": false, "aware": "2026-04-01T09:00"}]},
+  {"id": "susar-other-within-15d", "kind": "pass", "args": [{"serious": true, "unexpected": true, "related": true, "aware": "2026-04-01T09:00", "reported": "2026-04-14T09:00"}]},
+  {"id": "sae-late", "kind": "fail", "args": [{"serious": true, "aware": "2026-04-01T09:00", "reported": "2026-04-02T10:00"}]},
+  {"id": "fatal-susar-late", "kind": "fail", "args": [{"serious": true, "unexpected": true, "related": true, "fatal_or_life_threatening": true, "aware": "2026-04-01T09:00", "reported": "2026-04-09T09:00"}]},
+  {"id": "unreported-overdue", "kind": "adversarial", "expect": false, "note": "nothing reported and the clock has run out", "args": [{"serious": true, "aware": "2026-04-01T09:00"}], "kwargs": {"now": "2026-04-03T09:00"}},
+  {"id": "no-awareness-time", "kind": "adversarial", "expect": false, "args": [{"serious": true}]}
+]}

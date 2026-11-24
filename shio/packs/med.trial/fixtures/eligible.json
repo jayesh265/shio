@@ -1,0 +1,9 @@
+{"check": "eligible", "cases": [
+  {"id": "eligible", "kind": "pass", "args": [{"age": 62, "diagnosis": "type 2 diabetes with chronic kidney disease", "egfr": 41, "pregnant": false, "hba1c": 7.9}]},
+  {"id": "any-branch", "kind": "pass", "args": [{"age": 70, "diagnosis": "diabetic kidney disease", "egfr": 27, "on_dialysis_waitlist": false, "pregnant": false, "hba1c": 8.0}]},
+  {"id": "too-old", "kind": "fail", "args": [{"age": 84, "diagnosis": "diabetic kidney disease", "egfr": 41, "pregnant": false, "hba1c": 7.0}]},
+  {"id": "excluded-pregnant", "kind": "fail", "args": [{"age": 33, "diagnosis": "diabetic kidney disease", "egfr": 60, "pregnant": true, "hba1c": 7.0}]},
+  {"id": "excluded-egfr", "kind": "fail", "args": [{"age": 50, "diagnosis": "diabetic kidney disease", "egfr": 20, "on_dialysis_waitlist": false, "pregnant": false, "hba1c": 7.0}]},
+  {"id": "unknown-pregnancy", "kind": "adversarial", "expect": false, "note": "the model couldn't read pregnancy status: unknown is never eligible", "args": [{"age": 33, "diagnosis": "diabetic kidney disease", "egfr": 60, "hba1c": 7.0}]},
+  {"id": "string-for-number", "kind": "adversarial", "expect": false, "note": "a value of the wrong type is unknown, not a pass", "args": [{"age": "sixty", "diagnosis": "diabetic kidney disease", "egfr": 60, "pregnant": false, "hba1c": 7.0}]}
+]}

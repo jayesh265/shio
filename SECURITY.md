@@ -41,6 +41,25 @@ Shio limits what a model's output can do. It does not stop a model from being fo
 each guarantee, and lists the known limits, including issues found while preparing the outside review that are not
 fixed in 1.0.0rc1. [docs/REVIEW-BRIEF.md](docs/REVIEW-BRIEF.md) is the brief for reviewers.
 
+### Experimental: the harness, durable execution and Shio Guard governance (not yet in the outside review's scope)
+
+- **Durable runs** (`shio.durable`) replay correctly only if workflow code is deterministic apart from `ctx` calls. A
+  read interrupted mid-call is asked again. An act whose outcome a crash left unknown is held for a person, never
+  retried. The SQLite journal serves one host.
+- **The sandbox** (`shio.sandbox`) confines files and network through the OS (sandbox-exec, bubblewrap, Docker), not
+  every system call. sandbox-exec is deprecated by Apple. A network allowlist exists only on macOS and names hosts,
+  so a compromised allowed host is reachable. With no backend, commands are refused.
+- **Memory provenance** is decided by matching text windows against untrusted outputs the task read, so a paraphrase
+  of injected text can be stored as trusted.
+- **The Claude Code hook** checks tool inputs against policy and session rules. It doesn't see provenance, it runs
+  with the user's rights, and its session state file isn't locked between concurrent hook processes.
+- **Gateways** take identity from signed channel requests or HMAC tokens. Someone who holds a token's secret or the
+  Slack signing secret can approve.
+- **Credential handles** keep secrets out of what Shio stores. A tool that writes its secret somewhere else is outside
+  Shio's reach.
+- **The pre-model gate's identifier detection** is patterns plus a de-obfuscation pass. Names in free text are its weak
+  spot, and transformations outside the adaptive attacker's library may pass.
+
 ## Supported versions
 
 Fixes land on `main` and ship in the next release. The latest release is 1.0.0rc1 (`pip install --pre shio-lang`).

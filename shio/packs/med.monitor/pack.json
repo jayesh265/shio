@@ -1,0 +1,25 @@
+{
+  "format": "shio-pack/1",
+  "id": "med.monitor",
+  "name": "Clinical monitoring: subgroup and per-site metrics, safety events as records",
+  "version": "0.1.0",
+  "effective": "2026-11-22",
+  "licence": "MIT OR Apache-2.0",
+  "status": "draft",
+  "review": {"clinical_lead": null, "counsel": null},
+  "description": "Each decision names its coarse monitoring groups (site, age band, sex), vetted against an allowed list, so metrics can be sliced by group and site; each safety event is a signed record in the decision ledger.",
+  "limits": "Slices are only as good as the groups each deployment chooses; small groups give noisy rates (metrics below min_n are not compared). A safety event record is not a regulatory report: national incident reporting still applies.",
+  "checks": "checks.py",
+  "frameworks": [
+    {"id": "dcb0160", "title": "DCB0160 clinical risk management (deployment and use)", "source": "https://digital.nhs.uk/data-and-information/information-standards"},
+    {"id": "nist-ai-rmf", "title": "NIST AI Risk Management Framework 1.0", "source": "https://doi.org/10.6028/NIST.AI.100-1"}
+  ],
+  "controls": [
+    {"id": "MON-1", "title": "Metrics sliced by group and site", "requirement": "Each decision names its site and subgroups from the allowed list, so failure, override and outcome rates can be compared across them.",
+     "refs": [{"framework": "nist-ai-rmf", "ref": "MEASURE 2.11"}, {"framework": "dcb0160", "ref": "monitoring"}],
+     "proof": [{"kind": "runtime", "check": "slices_recorded"}, {"kind": "signoff", "role": "clinical_safety_lead", "subject": "monitoring"}]},
+    {"id": "MON-2", "title": "Safety events are records", "requirement": "Each safety event is recorded with what happened, when, the harm, who reported it and the decisions concerned, as a signed record in the ledger.",
+     "refs": [{"framework": "dcb0160", "ref": "incident management"}, {"framework": "nist-ai-rmf", "ref": "MANAGE 4.3"}],
+     "proof": [{"kind": "runtime", "check": "safety_event_complete"}]}
+  ]
+}

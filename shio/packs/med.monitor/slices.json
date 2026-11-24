@@ -1,0 +1,2 @@
+{"status": "EXAMPLE: the groups and values each deployment monitors are set by its clinical safety lead; keep them coarse.",
+ "groups": {"site": ["riverside", "northgate", "harbour", "demo"], "age_band": ["18-39", "40-64", "65+"], "sex": ["F", "M", "X"]}}

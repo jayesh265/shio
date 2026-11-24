@@ -60,8 +60,8 @@ def _decode(x, model):
     if isinstance(x, dict):
         if "$source" in x:
             return Source(**x["$source"])
-        if "$model" in x:
-            return model
+        if "$model" in x:            # model may pick per recorded identity (change-impact swaps one model, not all)
+            return model(x["$model"]) if callable(model) and not hasattr(model, "propose") else model
         if "$tuple" in x:
             return tuple(_decode(v, model) for v in x["$tuple"])
         if "$dict" in x:
@@ -100,46 +100,72 @@ def replay(record_path, program=None, allow_changed=False, policies=None, at=Non
     `policies` (a policy.Store) is given: then the tables in force on `at` (default: the decision's date) are used,
     for the record's jurisdiction (or `jurisdiction`, to see what another regulator's limits would have decided),
     which shows what a proposed or new limit would have decided."""
+    d = replay_detail(record_path, program, allow_changed, policies, at, jurisdiction)
+    return d["reproduced"], d["lines"]
+
+
+def _failed(lines, record=None):
+    return {"reproduced": False, "replayed": False, "lines": lines, "recorded": record, "now": None, "diffs": []}
+
+
+def replay_detail(record_path, program=None, allow_changed=False, policies=None, at=None, jurisdiction=None,
+                  model=None, models=None, swap=None):
+    """replay(), as data: {reproduced, replayed, lines, recorded, now, diffs}. replayed is False when the decision
+    could not be re-run at all (an erased vault, a missing program...).
+
+    model: answer every read with this model instead of the recorded answers (an agent's model parameters become it),
+    which is change-impact analysis for a new model. models: {name: model} replaces models the program declares at
+    the top level (`model clerk = ...`). swap: {recorded model name: new model} replaces only the agent inputs whose
+    recorded identity has that name (its "model" or "name"); the other models answer from the record."""
     from . import load
     record_path = Path(record_path)
     record = json.loads(record_path.read_text())
     if record.get("vault"):
         vault = load_vault(record_path, record)
         if vault is None:
-            return False, [f"{record_path.name}: its vault was erased, so the model's answers are gone; "
-                           "the record still shows what was decided and why"]
+            return _failed([f"{record_path.name}: its vault was erased, so the model's answers are gone; "
+                            "the record still shows what was decided and why"])
         record = merge(record, vault)
     dropped = sorted({c for c in _dropped_classes(record)})
     if dropped:
-        return False, [f"{record_path.name}: {', '.join(dropped)} {'was' if len(dropped) == 1 else 'were'} dropped "
-                       "under the data policy (written nowhere), so the inputs and the model's answers cannot be "
-                       "rebuilt; the record still shows what was decided and why"]
+        return _failed([f"{record_path.name}: {', '.join(dropped)} {'was' if len(dropped) == 1 else 'were'} dropped "
+                        "under the data policy (written nowhere), so the inputs and the model's answers cannot be "
+                        "rebuilt; the record still shows what was decided and why"], record)
     prog = record.get("program") or {}
     path = Path(program or prog.get("path", ""))
     if not path.exists():
-        return False, [f"program {path} not found; pass --program"]
+        return _failed([f"program {path} not found; pass --program"], record)
     sha = hashlib.sha256(path.read_text().encode()).hexdigest()
     changed = sha != prog.get("sha256")
     if changed and not allow_changed:
-        return False, [f"{path.name} has changed since this decision (sha256 {sha[:12]} now, {str(prog.get('sha256'))[:12]} "
-                       "recorded); pass --allow-changed to see what the current program would decide"]
+        return _failed([f"{path.name} has changed since this decision (sha256 {sha[:12]} now, "
+                        f"{str(prog.get('sha256'))[:12]} recorded); pass --allow-changed to see what the current "
+                        "program would decide"], record)
     mod = load(path)
     fn = getattr(mod, record["agent"], None)
     if fn is None:
-        return False, [f"agent {record['agent']} is not in {path.name}"]
-    model = RecordedModel(record)
+        return _failed([f"agent {record['agent']} is not in {path.name}"], record)
+    recorded_model = RecordedModel(record)
+    answering = model if model is not None else recorded_model
+    if swap:
+        def answering(ident, _swap=dict(swap), _default=answering):
+            return _swap.get((ident or {}).get("model") or (ident or {}).get("name"), _default)
     try:
-        args = _decode(record["inputs"].get("args", []), model)
-        kwargs = _decode(record["inputs"].get("kwargs", {}), model)
+        args = _decode(record["inputs"].get("args", []), answering)
+        kwargs = _decode(record["inputs"].get("kwargs", {}), answering)
     except Divergence as e:
-        return False, [str(e)]
+        return _failed([str(e)], record)
+    for name, m in (models or {}).items():
+        if not hasattr(mod, name):
+            return _failed([f"{path.name} declares no model {name!r} to replace"], record)
+        setattr(mod, name, m)
     saved = {k: core._config.get(k) for k in ("table_override", "as_of", "policies", "jurisdiction")}
     scope = jurisdiction or record.get("jurisdiction")
     if policies is not None:
         try:
             scope = policies.require_jurisdiction(scope, f"replaying {record_path.name} under {policies.where or 'them'}")
         except PolicyError as e:
-            return False, [str(e)]
+            return _failed([str(e)], record)
     core._config["jurisdiction"] = scope
     if policies is None:
         core._config["table_override"] = {t["name"]: {"stamp": {k: v for k, v in t.items() if k != "used"},
@@ -154,9 +180,12 @@ def replay(record_path, program=None, allow_changed=False, policies=None, at=Non
     try:
         fn(*args, **kwargs)
     except Divergence as e:
-        return False, [f"diverged: {e}"]
+        return _failed([f"diverged: {e}"], record)
     except PolicyError as e:
-        return False, [f"diverged: {e} (the program now reads a table value the decision did not)"]
+        return _failed([f"diverged: {e} (the program now reads a table value the decision did not)"], record)
+    except Exception as e:           # a new model or program that crashes the agent: that is the impact
+        return {**_failed([f"the agent raised {type(e).__name__}: {e}"], record), "replayed": True,
+                "error": f"{type(e).__name__}: {e}"}
     finally:
         fn.replaying = False
         core._config.update(saved)
@@ -168,7 +197,10 @@ def replay(record_path, program=None, allow_changed=False, policies=None, at=Non
     lines = [f"replayed {record_path.name} with {path.name}" + (" (CHANGED since the decision)" if changed else "")
              + (f" under the policies in force on {as_of}" + (f" for {scope}" if scope else "")
                 if policies is not None else ""),
-             f"  {model.used} recorded model answers used, {len(c1)} checks, {len(r1)} rules"] + table_note
+             (f"  {recorded_model.used} recorded model answers used" if model is None and not swap else
+              f"  answered by {', '.join(sorted(swap)) + ' swapped' if swap else getattr(model, 'name', type(model).__name__)}"
+              f" instead of the recorded answers")
+             + f", {len(c1)} checks, {len(r1)} rules"] + table_note
     diffs = []
     if c0 != c1:
         for a, b in zip(c0, c1):
@@ -182,8 +214,9 @@ def replay(record_path, program=None, allow_changed=False, policies=None, at=Non
                 diffs.append(f"  rule {a[0]}[{a[1]}]: recorded {a[2][:120]}, now {b[2][:120]}")
     if o0 != o1:
         diffs.append(f"  outcome: recorded {o0[:200]}, now {o1[:200]}")
-    leftover = sum(len(q) for q in model.queues.values())
+    leftover = sum(len(q) for q in recorded_model.queues.values()) if model is None and not swap else 0
     if leftover:
         diffs.append(f"  {leftover} recorded model answers were not asked for")
     lines += diffs or ["  REPRODUCED: same checks, same rules, same outcome"]
-    return not diffs, lines
+    return {"reproduced": not diffs, "replayed": True, "lines": lines, "recorded": record, "now": now,
+            "diffs": diffs, "outcome_changed": o0 != o1}

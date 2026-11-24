@@ -3,6 +3,86 @@
 Shio follows [semantic versioning](https://semver.org). Until 1.0, a minor version (0.x) may change the language or the
 API; every such change is listed here.
 
+## Unreleased: Shio Guard
+
+Governance over Shio agents, built to the Shio Guard build plan (all five phases; see
+[docs/governance/README.md](docs/governance/README.md) for each deliverable, its test, and what still needs a person).
+New package `shio.governance` and 13 built-in packs in `shio/packs/`; new commands `shio registry | assess | pack |
+adapters | licences | eval | impact | effectiveness | monitors | incident | safety-case | policy-draft | release | cds |
+cedar | credo | console`; `shio evidence --framework` builds framework bundles; `shio verify` also verifies cards,
+bundles, sealed documents and signed chains. Two reference agents in `examples/medical/` (simulated data and models).
+
+Also in this release:
+
+- **Live monitor.** `shio console` now serves `/monitor`, a read-only dashboard of every checkpoint (ledger
+  integrity, checks, sign-offs, cards, packs, evals, drift and incidents, tool-call gates, evidence) over a JSON API
+  (`/api/<view>`). `--workspace` serves a whole workspace folder, and `--demo DIR` builds a synthetic one. The page's
+  CSP allows scripts from the console only, and the console answers only loopback Host headers when bound to
+  loopback. See docs/governance/monitor.md.
+- **Microsoft Agent Governance Toolkit.** `shio-lang[agt]` adds AGT 5.0.0 as a policy backend (`AgtBackend`), a tool
+  gate with signed ledger entries and call-bound approvals (`AgtGate`), and a check adapter (`AgtPolicyCheck`). Strict
+  mode refuses rules AGT could never match and denies when a deny rule's input is missing or unreadable (AGT alone
+  reads a missing number as 0). See docs/governance/microsoft-agt.md.
+
+- **Pre-model compliance gate and policy packs** (the policy pack specification). `shio.governance.preflight`: the
+  compliance context, model profiles and registries (loaded strictly), a signed attestation ledger, a seven-step gate
+  with a strictest-wins outcome lattice, routing, redaction by tokenisation with a second detector pass, holds with
+  named-role maker-checker approval, a signed record written before any call (hashes only), a single-use bound
+  client, output leak checks, fail-closed everywhere, a no-bypass lint and import seal. 35 enforced controls, each
+  with fixtures and a mutation test. 13 new draft packs generated from the spec (`tools/spec_packs.py`); the pack
+  format gains `gate` and `attestation` proofs, `stage`, `on_fail` and `planned` controls. `shio preflight
+  check | attest | attestations | coverage | lint | fixtures | demo`; a Pre-model gate view in the monitor; the
+  coverage matrix in docs/governance/coverage.md. See docs/governance/preflight.md.
+
+- **Product requirements (PRD), first round** (see docs/governance/requirements.md for every requirement's status):
+  argument-level policies with plan narrowing and strict value reading (CORE-2, `ArgPolicy`, `ArgGate`); an adaptive
+  attacker with pass^k (EVAL-1, `shio attack run`); temporal policies compiled to a monitor (CORE-3, `shio temporal`);
+  circuit breakers and a kill switch (CORE-4); MCP definition pinning (CORE-6); detector plug-ins as signals (CORE-7);
+  an OpenAI-compatible drop-in proxy (INT-2, `shio proxy`); `shio doctor` and discovery (DX-3, GOV-2); the registry as
+  code with a dependency graph (GOV-1, GOV-6, `shio inventory`); risk classification and a risk register (GOV-3,
+  `shio risk`); a SOC 2 draft pack (GOV-4); the control evidence report and reviewer metrics (EVID-1, OVR-3,
+  `shio report`); a ranked, capped review queue (OVR-1); expiring exceptions and four-eyes policy changes (GOV-5);
+  calibrated clinical abstention with an exact error bound and a patient-facing release gate (MED-3, MED-8);
+  `shio quickstart` (DX-1), `shio preflight explain` (DX-2), `shio preflight bench` (NFR-4), a GitHub Action with a
+  coverage diff (INT-3), and a proposed stability policy (docs/STABILITY.md).
+- **Pre-model gate hardening, found by the adaptive attacker.** Disguised identifiers (spacing, spelled-out or
+  non-ASCII digits, full-width, zero-width, homoglyphs, " at " / " dot ", base64) went through redaction 100% of the
+  time. A de-obfuscation pass now runs in classification and in the second pass after redaction; the same attacker
+  found no bypass afterwards (docs/governance/results/adaptive.json).
+
+- **Code-driven harness and durable execution** (experimental; the build brief's HAR and DUR packages). New modules,
+  standard library only: `shio.durable` (SQLite run journal, resume by replay, idempotent acts that hold on an unknown
+  outcome, durable approvals with deadlines, timers, retry policy, workers and leases, version pinning and `migrate`,
+  a signed ledger record derived from the journal), `shio.harness` (the agent loop over the Guard gate, context
+  engine with lineage, memory with provenance and erasure, signed and reviewed skills, subagents, credential
+  handles, cron and webhook triggers, `shio init` templates), `shio.sandbox` (sandbox-exec, bubblewrap and Docker
+  backends, fail closed), `shio.tools` (scoped file, allowlisted fetch, sandboxed shell, read-only git and SQL),
+  `shio.gateways` (Slack, web and email approvers with channel identity) and `shio.adapters.claude_code` (a
+  PreToolUse hook). Commands: `shio runs | resume | worker | init | hook`. Not built: the Temporal backend (DUR-9),
+  Hermes and OpenAI Agents SDK adapters, Postgres. See docs/harness.md and docs/durable.md.
+
+Changes to existing behaviour:
+
+- **Signed chains (performance).** Appends read only the last entry instead of the whole file (they were O(n) each,
+  O(n^2) overall).
+- **med.phi.** The MRN pattern accepts any single punctuation mark after the keyword ("MRN= 123...").
+- **med.phi (fix).** Keyword identifier patterns (MRN, device, account, licence, plan ID) no longer match inside base64
+  signatures and hashes ("+mRn...", "udIa..."), which made the PHI-in-records test fail about once in 4,000 runs.
+- **CLI.** A command that returns a non-zero status now exits with it (so `shio preflight lint` fails CI).
+- **Evidence (fix).** `shio evidence` no longer crashes on records that carry no program path (it tried to read the
+  current directory as the program).
+
+- **Ledger (fix).** `split` now moves check arguments that aren't JSON (recorded as `opaque` reprs, such as a `Source`
+  passed to a check) to the vault. Before, their repr stayed in the clear record and could carry free text or personal
+  data. Found while building the referral agent; regression test `test_check_arguments_that_are_not_json_go_to_the_vault`.
+- **Records.** A top-level record may carry `packs` (the pack versions whose checks decided, with their sha256) and
+  `slices` (coarse monitoring groups a pack check vetted); a check record may carry `controls` (the pack controls it
+  enforced). A failed pack check with no message of its own records the pack's reason. New: `shio.core.cite()`.
+- **Replay.** `shio.replay.replay_detail()` returns structured results and can answer reads with a new model (all, or
+  swapped by recorded name), which change-impact replay uses. `replay()` is unchanged.
+- **Evidence.** Records whose `record_type` is not a decision (incidents, safety events) are counted as events, not
+  decisions. `build(..., write_manifest=False)` lets a framework bundle write one manifest over everything.
+
 ## 1.0.0rc2 (2026-10-23)
 
 Security fixes for the nine findings in [docs/REVIEW-BRIEF.md](docs/REVIEW-BRIEF.md) §4, found preparing the outside

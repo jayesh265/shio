@@ -1,0 +1,149 @@
+{
+ "format": "shio-pack/1",
+ "id": "med.hipaa.baa",
+ "name": "HIPAA business associate agreements for every model, tool and storage provider",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null,
+  "clinical_lead": null
+ },
+ "description": "HIPAA business associate agreements for every model, tool and storage provider. From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "hipaa-baa",
+   "title": "HIPAA business associate requirements (164.502(e), 164.504(e), 164.314(a))"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "BAA-01",
+   "title": "Every provider that handles PHI has an agreement on file (PRV-08 enforces it at the gate)",
+   "requirement": "Every provider that handles PHI has an agreement on file (PRV-08 enforces it at the gate).",
+   "stage": "P",
+   "on_fail": "route or deny",
+   "source": "164.502(e)(2)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-baa",
+     "ref": "164.502(e)(2)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "BAA-02",
+   "title": "The agreement's scope names the specific service used",
+   "requirement": "The agreement's scope names the specific service used, and the profile references it.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.504(e)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-baa",
+     "ref": "164.504(e)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "BAA-02"
+    }
+   ]
+  },
+  {
+   "id": "BAA-03",
+   "title": "Agreement terms include the required provisions (counsel reviews the wording)",
+   "requirement": "Agreement terms include the required provisions (counsel reviews the wording).",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.504(e)(2)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-baa",
+     "ref": "164.504(e)(2)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "baa-terms-reviewed",
+     "owner": "privacy_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "BAA-04",
+   "title": "Each subprocessor has a current flow-down agreement and the profile lists it",
+   "requirement": "Each subprocessor has a current flow-down agreement and the profile lists it.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.502(e)(1)(ii)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-baa",
+     "ref": "164.502(e)(1)(ii)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "BAA-04"
+    }
+   ]
+  },
+  {
+   "id": "BAA-05",
+   "title": "The agreement is within its term",
+   "requirement": "The agreement is within its term: a warning 60 days out, Deny the day it lapses.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.504(e)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-baa",
+     "ref": "164.504(e)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "BAA-05"
+    }
+   ]
+  },
+  {
+   "id": "BAA-06",
+   "title": "Providers that are not business associates are recorded as such",
+   "requirement": "Providers that are not business associates are recorded as such, with the reasoning.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.502(e)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-baa",
+     "ref": "164.502(e)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.hipaa.baa.baa-06",
+     "owner": "privacy_officer",
+     "valid_days": 365
+    }
+   ]
+  }
+ ]
+}

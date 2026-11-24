@@ -1,0 +1,32 @@
+{
+  "format": "shio-pack/1",
+  "id": "med.rx",
+  "name": "Prescribing: drug resolution, dose recomputation, interactions and allergies",
+  "version": "0.1.0",
+  "effective": "2026-11-22",
+  "licence": "MIT OR Apache-2.0",
+  "status": "draft",
+  "review": {"clinical_lead": null, "counsel": null},
+  "description": "A drug a model reads is resolved to a code, its dose is recomputed in code from the patient's weight, age and kidney function, and interactions and allergies are looked up, all against licensed reference data.",
+  "limits": "Ships no reference data: the bundled formulary is a fixture with made-up codes and simplified rules, for tests only. Real drug, dosing, interaction and allergy-class data must be licensed and confirmed before loading. Cockcroft-Gault is one estimate of kidney function among several. Not reviewed by the clinical safety lead.",
+  "checks": "checks.py",
+  "frameworks": [
+    {"id": "dcb0129", "title": "DCB0129 clinical risk management (manufacturers)", "source": "https://digital.nhs.uk/data-and-information/information-standards"}
+  ],
+  "hazards": [
+    {"id": "HAZ-RX-1", "title": "A wrong drug or dose reaches a prescriber's screen", "severity": 5, "likelihood": 3},
+    {"id": "HAZ-RX-2", "title": "A dangerous interaction or allergy is missed", "severity": 5, "likelihood": 2}
+  ],
+  "controls": [
+    {"id": "RX-1", "title": "Drug resolved to a standard code", "requirement": "Each drug a model reads resolves to exactly one code in the licensed reference data, by exact name or listed synonym.",
+     "refs": [{"framework": "dcb0129", "ref": "hazard control"}], "hazards": ["HAZ-RX-1"], "proof": [{"kind": "runtime", "check": "drug_resolved"}]},
+    {"id": "RX-2", "title": "Dose recomputed in code", "requirement": "The dose is recomputed in code from weight, age and kidney function, and a proposed dose that differs, or a contraindication, is caught.",
+     "refs": [{"framework": "dcb0129", "ref": "hazard control"}], "hazards": ["HAZ-RX-1"], "proof": [{"kind": "runtime", "check": "dose_matches"}]},
+    {"id": "RX-3", "title": "Interactions looked up", "requirement": "No major or contraindicated interaction with a current medication; an unknown medication fails safe.",
+     "refs": [{"framework": "dcb0129", "ref": "hazard control"}], "hazards": ["HAZ-RX-2"], "proof": [{"kind": "runtime", "check": "no_interactions"}]},
+    {"id": "RX-4", "title": "Allergies looked up", "requirement": "The drug is not, and is not in the class of, a recorded allergy; an unknown allergy fails safe.",
+     "refs": [{"framework": "dcb0129", "ref": "hazard control"}], "hazards": ["HAZ-RX-2"], "proof": [{"kind": "runtime", "check": "no_allergy_conflict"}]},
+    {"id": "RX-5", "title": "Reference data licensing confirmed", "requirement": "Reference data is loaded only once its licence is confirmed and recorded; fixtures are marked as fixtures.",
+     "refs": [{"framework": "dcb0129", "ref": "hazard control"}], "proof": [{"kind": "signoff", "role": "regulatory_counsel", "subject": "reference-data"}]}
+  ]
+}

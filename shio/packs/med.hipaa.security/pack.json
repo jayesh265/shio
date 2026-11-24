@@ -1,0 +1,372 @@
+{
+ "format": "shio-pack/1",
+ "id": "med.hipaa.security",
+ "name": "HIPAA Security Rule: risk analysis, access, audit, integrity and transmission security",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null,
+  "clinical_lead": null
+ },
+ "description": "HIPAA Security Rule: risk analysis, access, audit, integrity and transmission security. From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "hipaa-security",
+   "title": "HIPAA Security Rule (45 CFR 164.308 to 164.316)"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "SEC-01",
+   "title": "A current security risk analysis covers the agent",
+   "requirement": "A current security risk analysis covers the agent, its model destinations, tools and stores.",
+   "stage": "X",
+   "on_fail": "deny",
+   "source": "164.308(a)(1)(ii)(A)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.308(a)(1)(ii)(A)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "security-risk-analysis",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "SEC-02",
+   "title": "A risk management plan records the measures taken against each risk found",
+   "requirement": "A risk management plan records the measures taken against each risk found.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.308(a)(1)(ii)(B)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.308(a)(1)(ii)(B)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.hipaa.security.sec-02",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "SEC-03",
+   "title": "Audit records are reviewed on a schedule by a named role",
+   "requirement": "Audit records are reviewed on a schedule by a named role.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.308(a)(1)(ii)(D)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.308(a)(1)(ii)(D)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.hipaa.security.sec-03",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "SEC-04",
+   "title": "Security official",
+   "requirement": "Security official, workforce security, access management and awareness training attestations are current.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.308(a)(2)-(5)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.308(a)(2)-(5)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.hipaa.security.sec-04",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "SEC-05",
+   "title": "Security incident procedures exist and agent incidents are recorded as events",
+   "requirement": "Security incident procedures exist and agent incidents are recorded as events.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "164.308(a)(6)",
+   "spec_proof": "check, sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.308(a)(6)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "SEC-06",
+   "title": "The contingency plan covers the agent",
+   "requirement": "The contingency plan covers the agent: backups, disaster recovery and emergency mode.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.308(a)(7)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.308(a)(7)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.hipaa.security.sec-06",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "SEC-07",
+   "title": "Periodic evaluation",
+   "requirement": "Periodic evaluation, repeated after a change (a model version change counts).",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.308(a)(8)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.308(a)(8)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.hipaa.security.sec-07",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "SEC-08",
+   "title": "Every caller has a unique identity",
+   "requirement": "Every caller has a unique identity; no shared service account reaches PHI.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.312(a)(2)(i)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.312(a)(2)(i)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "SEC-08"
+    }
+   ]
+  },
+  {
+   "id": "SEC-09",
+   "title": "Emergency access is documented",
+   "requirement": "Emergency access is documented, limited to named roles, logged and reviewed.",
+   "stage": "A",
+   "on_fail": "hold",
+   "source": "164.312(a)(2)(ii)",
+   "spec_proof": "check, sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.312(a)(2)(ii)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "SEC-10",
+   "title": "Interactive sessions log off automatically",
+   "requirement": "Interactive sessions log off automatically.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "164.312(a)(2)(iii)",
+   "spec_proof": "lint",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.312(a)(2)(iii)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "SEC-11",
+   "title": "PHI at rest in vaults",
+   "requirement": "PHI at rest in vaults, traces, caches and eval sets is encrypted.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "164.312(a)(2)(iv)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.312(a)(2)(iv)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "SEC-12",
+   "title": "Every PHI access and model call produces a signed",
+   "requirement": "Every PHI access and model call produces a signed, hash-chained record.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "164.312(b)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.312(b)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "lint",
+     "proof": "regulated-mode"
+    }
+   ]
+  },
+  {
+   "id": "SEC-13",
+   "title": "Stored PHI and records are protected from alteration",
+   "requirement": "Stored PHI and records are protected from alteration; chain verification passes.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "164.312(c)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.312(c)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "SEC-14",
+   "title": "Callers and tools are authenticated",
+   "requirement": "Callers and tools are authenticated; model destinations are pinned to a version.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.312(d)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.312(d)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "SEC-14"
+    }
+   ]
+  },
+  {
+   "id": "SEC-15",
+   "title": "Model and tool endpoints use TLS",
+   "requirement": "Model and tool endpoints use TLS; plain HTTP is refused.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.312(e)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.312(e)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "SEC-15"
+    }
+   ]
+  },
+  {
+   "id": "SEC-16",
+   "title": "Physical safeguards are attested for every site hosting the runtime",
+   "requirement": "Physical safeguards are attested for every site hosting the runtime.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.310",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.310"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.hipaa.security.sec-16",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "SEC-17",
+   "title": "Security policies and documentation are retained six years",
+   "requirement": "Security policies and documentation are retained six years.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.316(b)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-security",
+     "ref": "164.316(b)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.hipaa.security.sec-17",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,54 @@
+{
+  "format": "shio-pack/1",
+  "id": "med.grounding",
+  "name": "Grounding of clinical text in its source",
+  "version": "0.1.0",
+  "effective": "2026-11-22",
+  "licence": "MIT OR Apache-2.0",
+  "status": "draft",
+  "review": {"clinical_lead": null, "counsel": null},
+  "description": "Ties every claim and figure in a model's clinical output to the source it was read from, and catches required items left out.",
+  "limits": "A quote shows where a claim came from, not that the claim follows from it: a clinician still reads the output. Figures are matched by value and unit, not by meaning. Rates published for this pack come from a labelled set; until the clinical safety lead labels one, the set in the reference agent is synthetic and says so.",
+  "checks": "checks.py",
+  "frameworks": [
+    {"id": "nist-ai-rmf", "title": "NIST AI Risk Management Framework 1.0", "source": "https://doi.org/10.6028/NIST.AI.100-1"},
+    {"id": "dcb0129", "title": "DCB0129 clinical risk management (manufacturers)", "source": "https://digital.nhs.uk/data-and-information/information-standards"}
+  ],
+  "hazards": [
+    {"id": "HAZ-GRD-1", "title": "A summary states something the source does not (hallucination) and a clinician acts on it", "severity": 4, "likelihood": 3},
+    {"id": "HAZ-GRD-2", "title": "A summary leaves out a required item (an allergy, a medication)", "severity": 5, "likelihood": 2}
+  ],
+  "controls": [
+    {
+      "id": "GRD-1",
+      "title": "Every claim is quoted from the source",
+      "requirement": "Each claim in the output carries a quote found word for word in the source, outside any instruction-like text the source contains.",
+      "refs": [{"framework": "nist-ai-rmf", "ref": "MEASURE 2.5"}, {"framework": "dcb0129", "ref": "hazard control"}],
+      "hazards": ["HAZ-GRD-1"],
+      "proof": [{"kind": "runtime", "check": "claims_quoted"}, {"kind": "eval", "suite": "grounding", "metric": "hallucination_caught", "op": ">=", "threshold": 0.95}]
+    },
+    {
+      "id": "GRD-2",
+      "title": "Every figure appears in the source",
+      "requirement": "Each figure in the output, with its unit when it has one, appears in the source.",
+      "refs": [{"framework": "nist-ai-rmf", "ref": "MEASURE 2.5"}],
+      "hazards": ["HAZ-GRD-1"],
+      "proof": [{"kind": "runtime", "check": "figures_in_source"}]
+    },
+    {
+      "id": "GRD-3",
+      "title": "Required items are not omitted",
+      "requirement": "Each required item is present, or recorded as none only where the source says so.",
+      "refs": [{"framework": "nist-ai-rmf", "ref": "MEASURE 2.5"}, {"framework": "dcb0129", "ref": "hazard control"}],
+      "hazards": ["HAZ-GRD-2"],
+      "proof": [{"kind": "runtime", "check": "required_items"}, {"kind": "eval", "suite": "grounding", "metric": "omission_caught", "op": ">=", "threshold": 0.95}]
+    },
+    {
+      "id": "GRD-4",
+      "title": "Wrongful rejection of good text is measured",
+      "requirement": "The share of correct outputs these checks reject is measured on a labelled set and stays under the agreed limit.",
+      "refs": [{"framework": "nist-ai-rmf", "ref": "MEASURE 2.5"}],
+      "proof": [{"kind": "eval", "suite": "grounding", "metric": "wrongful_rejection", "op": "<=", "threshold": 0.10}, {"kind": "signoff", "role": "clinical_safety_lead", "subject": "eval"}]
+    }
+  ]
+}

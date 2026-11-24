@@ -1,5 +1,7 @@
 """shio run | check | build | train | show | new | keygen | verify | replay | label | erase | signoff | reasons | explain |
-policy | audit | migrate | retention | evidence | monitor"""
+policy | audit | migrate | retention | evidence | monitor, and the Shio Guard commands (shio.governance.cli): registry |
+assess | pack | adapters | licences | eval | impact | effectiveness | monitors | incident | safety-case | policy-draft |
+release | cds | cedar | credo | console"""
 import argparse
 import json
 import subprocess
@@ -152,6 +154,13 @@ def _verify(a):
     from .ledger import load_public_key, verify
     pub = load_public_key(a.pubkey) if a.pubkey else None
     secret = a.secret.encode() if a.secret else None
+    from .governance.cli import verify_artifact
+    other = verify_artifact(a.folder, pub, secret)     # an agent card, an evidence bundle, a sealed document, a chain
+    if other is not None:
+        ok, report = other
+        print("\n".join(report))
+        print("VERIFIED" if ok else "NOT VERIFIED")
+        sys.exit(0 if ok else 1)
     people = [load_public_key(k) for k in a.signer_pubkey or []]
     ok, report, _ = verify(a.folder, pub, secret, a.head, people)
     print("\n".join(report))
@@ -347,6 +356,16 @@ def _evidence(a):
     if not (a.folder and a.out and a.start and a.end):
         sys.exit("shio evidence FOLDER --from DATE --to DATE -o OUT  (or --check PACK)")
     from .core import _signer
+    if a.framework:                 # a framework bundle: each control of the pack mapped to its evidence (Shio Guard)
+        from .governance.bundle import build as build_bundle
+        b, out = build_bundle(a.folder, a.framework, a.out, _date(a.start), _date(a.end), a.card, a.assessment,
+                              a.eval or (), a.approvals or (), _signer(), pub, secret,
+                              _store(a) if a.policies else None)
+        print(f"evidence bundle for {b['framework']['id']}@{b['framework']['version']}, {a.start} to {a.end}: "
+              f"{out}/bundle.md")
+        print("  " + ", ".join(f"{n} {s.lower()}" for s, n in b["summary"].items())
+              + f"; ledger {'VERIFIED' if b['ledger']['verified'] else 'NOT VERIFIED'}")
+        return
     from .evidence import build
     data, out = build(a.folder, a.out, _date(a.start), _date(a.end), _store(a) if a.policies else None, pub, secret,
                       _signer(), jurisdiction=_jurisdiction(a))
@@ -520,6 +539,11 @@ def main(argv=None):
     evp.add_argument("--secret")
     evp.add_argument("--check", metavar="PACK", help="check an existing pack against its manifest")
     evp.add_argument("--jurisdiction", help="only the decisions made for this jurisdiction")
+    evp.add_argument("--framework", help="a framework pack (e.g. gov.nist-ai-rmf): map each control to its evidence")
+    evp.add_argument("--card", help="with --framework: the signed agent card")
+    evp.add_argument("--assessment", help="with --framework: the signed assessment (shio assess -o)")
+    evp.add_argument("--eval", action="append", help="with --framework: an eval result (repeatable)")
+    evp.add_argument("--approvals", action="append", help="with --framework: a folder of approval logs (repeatable)")
     evp.set_defaults(fn=_evidence)
     mo = sub.add_parser("monitor", help="the evidence pack's monitoring flags over a rolling window, for alerts: "
                                         "check pass-rate drops, weight changes, model failures, old pending sign-offs")
@@ -537,9 +561,13 @@ def main(argv=None):
     s = sub.add_parser("show", help="summarise trace files")
     s.add_argument("traces", nargs="+")
     s.set_defaults(fn=_show)
+    from .governance.cli import register
+    register(sub)                   # Shio Guard: cards, assess, packs, evals, impact, monitors, console...
     a = p.parse_args(argv)
     try:
-        a.fn(a)
+        rc = a.fn(a)
+        if isinstance(rc, int) and not isinstance(rc, bool) and rc:
+            sys.exit(rc)            # a command that returns a non-zero status (shio preflight lint, say) fails CI
     except ShioError as e:
         sys.exit(e.format())
     except BoundaryError as e:
@@ -548,6 +576,14 @@ def main(argv=None):
         sys.exit(f"policy: {e}")
     except RegulatedError as e:
         sys.exit(f"regulated: {e}")
+    except Exception as e:          # Shio Guard's own refusals read as messages, not tracebacks
+        from .governance.packs import PackError
+        from .governance.card import CardError
+        from .governance.registry_index import RegistryError
+        from .governance.chain import ChainError
+        if isinstance(e, (PackError, CardError, RegistryError, ChainError)):
+            sys.exit(f"{type(e).__name__}: {e}")
+        raise
 
 
 if __name__ == "__main__":

@@ -1,0 +1,78 @@
+# Reference agent 1: a clinician-facing referral summariser (Shio Guard, D19).
+#
+# A model reads a referral letter and proposes a structured summary in which every claim quotes the letter. Code
+# decides whether the summary may go to the clinician: every claim must be quoted from the letter (med.grounding
+# GRD-1), every figure must appear in it (GRD-2), required items must not be omitted (GRD-3), no identifier may be
+# left in the summary (med.phi PHI-1) and only the fields the purpose needs are kept (PHI-3). The model only sees the
+# letter if it is approved for PHI (PHI-2, through the gate). A PHI detector reads the summary too; it is a reader, so
+# its findings are a reading that only a check judges. Every summary, ready or not, waits for a clinician's sign-off.
+#
+# SIMULATED: the letters are synthetic and the models are mocks (referral_support.py). Not a clinical tool.
+#
+#   shio keygen keys && export SHIO_SIGNING_KEY=keys/shio-signing.key
+#   shio run referral.shio --traces records --as intake-bot
+#   shio signoff records/<record>.json --as "Dr R. Osei" --role clinician --meaning "summary checked against the letter"
+#   shio verify records --pubkey keys/shio-signing.pub
+
+regulated
+
+from referral_support import phi, grounding, gate, identity, known_names, letter, careful, detector, Findings
+
+type Medication:
+    name: str               # the medicine, as the letter names it
+    dose: str               # dose and frequency, copied from the letter
+
+type Claim:
+    text: str               # one statement in the summary
+    quote: str              # the words in the letter it comes from, copied exactly
+
+type Summary:
+    reason: str             # why the patient is referred
+    history: str            # relevant history, in a sentence or two
+    medications: list[Medication]
+    allergies: list[str] | str    # each allergy and reaction, or "none known" if the letter says so
+    findings: str           # key results, with their figures and units
+    claims: list[Claim]     # every statement above, each with its quote from the letter
+
+codes:
+    UNAPPROVED_MODEL: "The model is not approved to receive health information."
+    UNGROUNDED: "A statement in the summary could not be found in the referral letter."
+    FIGURE_NOT_IN_LETTER: "A figure in the summary does not appear in the referral letter."
+    OMITTED: "The summary leaves out a required item."
+    IDENTIFIER_IN_SUMMARY: "The summary contains an identifier and cannot be shared."
+    EXTRA_FIELDS: "The summary holds more than the referral needs."
+    DETECTED_IDENTIFIER: "The identifier detector found something that may identify the patient."
+
+agent summarise(letter_text: Source, patient_name: str, llm, detector):
+    check approved as UNAPPROVED_MODEL: phi.approved_model(identity(llm))
+    read s: Summary from letter_text by gate(llm):
+        Summarise this referral letter for the receiving clinician. Copy every dose and figure exactly. For every
+        statement, give the words in the letter it comes from as its quote. Do not add anything the letter does not say.
+
+    check grounded as UNGROUNDED: grounding.claims_quoted(s.claims, letter_text.text)
+    check figures as FIGURE_NOT_IN_LETTER: grounding.figures_in_source([s.history, s.findings] + [m.dose for m in s.medications], letter_text.text)
+    check complete as OMITTED: grounding.required_items(s, letter_text.text)
+    check no_identifiers as IDENTIFIER_IN_SUMMARY: phi.no_identifiers([s.reason, s.history, s.findings, s.allergies] + [c.text for c in s.claims], known_names(patient_name))
+    check minimum as EXTRA_FIELDS: phi.minimum_necessary(s.model_dump(), "referral_summary")
+
+    # the PHI detector is a reader (it can be wrong): what it finds is a reading, and only this check decides
+    read found: Findings by detector seeing s:
+        Find anything in the summary that could identify the patient.
+    check detected as DETECTED_IDENTIFIER: found.entities == [], "the detector found " + ", ".join(sorted({e.kind.lower() for e in found.entities}))
+
+    rule decide:
+        if s is None:
+            refused = [c["code"] for c in checks.failures() if c["name"] == "approved"]
+            return {"status": "REVIEW", "why": refused or ["the model gave no usable answer"]}
+        if checks.failures():
+            return {"status": "REVIEW", "why": [c["code"] for c in checks.failures()]}
+        return {"status": "SUMMARY_READY", "summary": {"reason": s.reason, "history": s.history,
+                "medications": [m.model_dump() for m in s.medications], "allergies": s.allergies,
+                "findings": s.findings, "claims": [c.model_dump() for c in s.claims]}}
+    signoff * by role "clinician"
+    return decide
+
+main:
+    pid = argv[0] if argv else "L001"
+    from referral_support import patient
+    return summarise(Source(pid, text=letter(pid)), patient(pid)["name"], careful, detector)

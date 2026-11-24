@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shio Guard Monitor</title>
+<link rel="icon" href="/static/monitor.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/monitor.css">
+<script src="/static/monitor.js" defer></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="side" id="side">
+    <div class="brand">
+      <img src="/static/monitor.svg" alt="" width="22" height="22">
+      <div><strong>Shio Guard</strong><span>Monitor</span></div>
+    </div>
+    <nav id="nav" aria-label="Views"></nav>
+    <div class="side-foot">
+      <a href="/">Classic console</a>
+      <span>Read-only. Vaults are never opened.</span>
+    </div>
+  </aside>
+  <div class="main">
+    <header class="top">
+      <button class="icon-btn menu" id="menu" aria-label="Show views" aria-expanded="false">&#9776;</button>
+      <div class="top-title">
+        <h1 id="title">Overview</h1>
+        <span class="muted" id="subtitle"></span>
+      </div>
+      <div class="top-actions">
+        <span class="live" id="live" title="When the page last refreshed"><i></i><span id="updated">loading</span></span>
+        <label class="toggle"><input type="checkbox" id="auto" checked> Auto-refresh</label>
+        <button class="btn" id="refresh">Refresh</button>
+        <button class="icon-btn" id="theme" aria-label="Switch light or dark theme" title="Theme">&#9680;</button>
+      </div>
+    </header>
+    <main id="view" tabindex="-1" aria-live="polite"></main>
+  </div>
+</div>
+<noscript><p class="noscript">The live monitor needs JavaScript. The <a href="/">classic console</a> works without it.</p></noscript>
+</body>
+</html>

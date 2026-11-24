@@ -1,0 +1,1674 @@
+{
+ "format": "shio-eval-suite/1",
+ "suite": "grounding",
+ "note": "SYNTHETIC: letters are fictional and labels were written by engineers, not clinicians. The rates show the measurement works; they are not evidence about a real model or real letters.",
+ "target": "referral_evals:grounding_target",
+ "slices": [
+  "site"
+ ],
+ "metrics": [
+  {
+   "name": "pass_rate"
+  },
+  {
+   "name": "hallucination_caught",
+   "kind": "label_rate",
+   "label": "hallucinated",
+   "field": "rejected",
+   "value": true
+  },
+  {
+   "name": "omission_caught",
+   "kind": "label_rate",
+   "label": "omission",
+   "field": "rejected",
+   "value": true
+  },
+  {
+   "name": "wrongful_rejection",
+   "kind": "label_rate",
+   "label": "good",
+   "field": "rejected",
+   "value": true
+  }
+ ],
+ "gates": {
+  "hallucination_caught": [
+   ">=",
+   0.95
+  ],
+  "omission_caught": [
+   ">=",
+   0.95
+  ]
+ },
+ "cases": [
+  {
+   "id": "L001-good",
+   "input": {
+    "letter": "L001",
+    "summary": {
+     "reason": "declining kidney function over 12 months",
+     "history": "Type 2 diabetes for 15 years and hypertension",
+     "medications": [
+      {
+       "name": "Metformin",
+       "dose": "500 mg twice daily"
+      },
+      {
+       "name": "Ramipril",
+       "dose": "5 mg once daily"
+      }
+     ],
+     "allergies": [
+      "Penicillin (rash)"
+     ],
+     "findings": "eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol",
+     "claims": [
+      {
+       "text": "Referred for declining kidney function over 12 months",
+       "quote": "declining kidney function over 12 months"
+      },
+      {
+       "text": "History: Type 2 diabetes for 15 years and hypertension",
+       "quote": "Type 2 diabetes for 15 years and hypertension"
+      },
+      {
+       "text": "Medication: Metformin 500 mg twice daily; Ramipril 5 mg once daily",
+       "quote": "Metformin 500 mg twice daily; Ramipril 5 mg once daily"
+      },
+      {
+       "text": "Allergies: Penicillin (rash)",
+       "quote": "Penicillin (rash)"
+      },
+      {
+       "text": "Results: eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol",
+       "quote": "eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "good": true
+   },
+   "expect": {
+    "rejected": false
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "65+",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L001-hallucinated-claim",
+   "input": {
+    "letter": "L001",
+    "summary": {
+     "reason": "declining kidney function over 12 months",
+     "history": "Type 2 diabetes for 15 years and hypertension",
+     "medications": [
+      {
+       "name": "Metformin",
+       "dose": "500 mg twice daily"
+      },
+      {
+       "name": "Ramipril",
+       "dose": "5 mg once daily"
+      }
+     ],
+     "allergies": [
+      "Penicillin (rash)"
+     ],
+     "findings": "eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol",
+     "claims": [
+      {
+       "text": "Referred for declining kidney function over 12 months",
+       "quote": "declining kidney function over 12 months"
+      },
+      {
+       "text": "History: Type 2 diabetes for 15 years and hypertension",
+       "quote": "Type 2 diabetes for 15 years and hypertension"
+      },
+      {
+       "text": "Medication: Metformin 500 mg twice daily; Ramipril 5 mg once daily",
+       "quote": "Metformin 500 mg twice daily; Ramipril 5 mg once daily"
+      },
+      {
+       "text": "Allergies: Penicillin (rash)",
+       "quote": "Penicillin (rash)"
+      },
+      {
+       "text": "Results: eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol",
+       "quote": "eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol"
+      },
+      {
+       "text": "Started on insulin glargine",
+       "quote": "insulin glargine 20 units at night"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "65+",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L001-wrong-figure",
+   "input": {
+    "letter": "L001",
+    "summary": {
+     "reason": "declining kidney function over 12 months",
+     "history": "Type 2 diabetes for 15 years and hypertension",
+     "medications": [
+      {
+       "name": "Metformin",
+       "dose": "500 mg twice daily"
+      },
+      {
+       "name": "Ramipril",
+       "dose": "5 mg once daily"
+      }
+     ],
+     "allergies": [
+      "Penicillin (rash)"
+     ],
+     "findings": "eGFR 115 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol",
+     "claims": [
+      {
+       "text": "Referred for declining kidney function over 12 months",
+       "quote": "declining kidney function over 12 months"
+      },
+      {
+       "text": "History: Type 2 diabetes for 15 years and hypertension",
+       "quote": "Type 2 diabetes for 15 years and hypertension"
+      },
+      {
+       "text": "Medication: Metformin 500 mg twice daily; Ramipril 5 mg once daily",
+       "quote": "Metformin 500 mg twice daily; Ramipril 5 mg once daily"
+      },
+      {
+       "text": "Allergies: Penicillin (rash)",
+       "quote": "Penicillin (rash)"
+      },
+      {
+       "text": "Results: eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol",
+       "quote": "eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "65+",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L001-omitted-allergy",
+   "input": {
+    "letter": "L001",
+    "summary": {
+     "reason": "declining kidney function over 12 months",
+     "history": "Type 2 diabetes for 15 years and hypertension",
+     "medications": [
+      {
+       "name": "Metformin",
+       "dose": "500 mg twice daily"
+      },
+      {
+       "name": "Ramipril",
+       "dose": "5 mg once daily"
+      }
+     ],
+     "allergies": [],
+     "findings": "eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol",
+     "claims": [
+      {
+       "text": "Referred for declining kidney function over 12 months",
+       "quote": "declining kidney function over 12 months"
+      },
+      {
+       "text": "History: Type 2 diabetes for 15 years and hypertension",
+       "quote": "Type 2 diabetes for 15 years and hypertension"
+      },
+      {
+       "text": "Medication: Metformin 500 mg twice daily; Ramipril 5 mg once daily",
+       "quote": "Metformin 500 mg twice daily; Ramipril 5 mg once daily"
+      },
+      {
+       "text": "Allergies: Penicillin (rash)",
+       "quote": "Penicillin (rash)"
+      },
+      {
+       "text": "Results: eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol",
+       "quote": "eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "omission": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "65+",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L001-good-paraphrased",
+   "input": {
+    "letter": "L001",
+    "summary": {
+     "reason": "declining kidney function over 12 months",
+     "history": "Type 2 diabetes for 15 years and hypertension",
+     "medications": [
+      {
+       "name": "Metformin",
+       "dose": "500 mg twice daily"
+      },
+      {
+       "name": "Ramipril",
+       "dose": "5 mg once daily"
+      }
+     ],
+     "allergies": [
+      "Penicillin (rash)"
+     ],
+     "findings": "eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol",
+     "claims": [
+      {
+       "text": "Referred for declining kidney function over 12 months",
+       "quote": "declining kidney function over 12 months"
+      },
+      {
+       "text": "History: Type 2 diabetes for 15 years and hypertension",
+       "quote": "has type 2 diabetes for 15 years and hypertension"
+      },
+      {
+       "text": "Medication: Metformin 500 mg twice daily; Ramipril 5 mg once daily",
+       "quote": "Metformin 500 mg twice daily; Ramipril 5 mg once daily"
+      },
+      {
+       "text": "Allergies: Penicillin (rash)",
+       "quote": "Penicillin (rash)"
+      },
+      {
+       "text": "Results: eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol",
+       "quote": "eGFR 38 mL/min, down from 52 mL/min; HbA1c 7.9%; urine ACR 34 mg/mmol"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "good": true
+   },
+   "expect": {
+    "rejected": false
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "65+",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L002-good",
+   "input": {
+    "letter": "L002",
+    "summary": {
+     "reason": "suspected heart failure",
+     "history": "Breathlessness on exertion for 3 months; ankle swelling",
+     "medications": [
+      {
+       "name": "Amlodipine",
+       "dose": "10 mg once daily"
+      }
+     ],
+     "allergies": "none known",
+     "findings": "NT-proBNP 1,850 ng/L; ECG shows atrial fibrillation",
+     "claims": [
+      {
+       "text": "Referred for suspected heart failure",
+       "quote": "suspected heart failure"
+      },
+      {
+       "text": "History: Breathlessness on exertion for 3 months; ankle swelling",
+       "quote": "Breathlessness on exertion for 3 months; ankle swelling"
+      },
+      {
+       "text": "Medication: Amlodipine 10 mg once daily",
+       "quote": "Amlodipine 10 mg once daily"
+      },
+      {
+       "text": "Allergies: No known drug allergies",
+       "quote": "No known drug allergies"
+      },
+      {
+       "text": "Results: NT-proBNP 1,850 ng/L; ECG shows atrial fibrillation",
+       "quote": "NT-proBNP 1,850 ng/L; ECG shows atrial fibrillation"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "good": true
+   },
+   "expect": {
+    "rejected": false
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "40-64",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L002-hallucinated-claim",
+   "input": {
+    "letter": "L002",
+    "summary": {
+     "reason": "suspected heart failure",
+     "history": "Breathlessness on exertion for 3 months; ankle swelling",
+     "medications": [
+      {
+       "name": "Amlodipine",
+       "dose": "10 mg once daily"
+      }
+     ],
+     "allergies": "none known",
+     "findings": "NT-proBNP 1,850 ng/L; ECG shows atrial fibrillation",
+     "claims": [
+      {
+       "text": "Referred for suspected heart failure",
+       "quote": "suspected heart failure"
+      },
+      {
+       "text": "History: Breathlessness on exertion for 3 months; ankle swelling",
+       "quote": "Breathlessness on exertion for 3 months; ankle swelling"
+      },
+      {
+       "text": "Medication: Amlodipine 10 mg once daily",
+       "quote": "Amlodipine 10 mg once daily"
+      },
+      {
+       "text": "Allergies: No known drug allergies",
+       "quote": "No known drug allergies"
+      },
+      {
+       "text": "Results: NT-proBNP 1,850 ng/L; ECG shows atrial fibrillation",
+       "quote": "NT-proBNP 1,850 ng/L; ECG shows atrial fibrillation"
+      },
+      {
+       "text": "Started on insulin glargine",
+       "quote": "insulin glargine 20 units at night"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "40-64",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L002-wrong-figure",
+   "input": {
+    "letter": "L002",
+    "summary": {
+     "reason": "suspected heart failure",
+     "history": "Breathlessness on exertion for 3 months; ankle swelling",
+     "medications": [
+      {
+       "name": "Amlodipine",
+       "dose": "10 mg once daily"
+      }
+     ],
+     "allergies": "none known",
+     "findings": "NT-proBNP 4,850 ng/L; ECG shows atrial fibrillation",
+     "claims": [
+      {
+       "text": "Referred for suspected heart failure",
+       "quote": "suspected heart failure"
+      },
+      {
+       "text": "History: Breathlessness on exertion for 3 months; ankle swelling",
+       "quote": "Breathlessness on exertion for 3 months; ankle swelling"
+      },
+      {
+       "text": "Medication: Amlodipine 10 mg once daily",
+       "quote": "Amlodipine 10 mg once daily"
+      },
+      {
+       "text": "Allergies: No known drug allergies",
+       "quote": "No known drug allergies"
+      },
+      {
+       "text": "Results: NT-proBNP 1,850 ng/L; ECG shows atrial fibrillation",
+       "quote": "NT-proBNP 1,850 ng/L; ECG shows atrial fibrillation"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "40-64",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L003-good",
+   "input": {
+    "letter": "L003",
+    "summary": {
+     "reason": "persistent iron deficiency anaemia",
+     "history": "Heavy menstrual bleeding; vegetarian diet",
+     "medications": [
+      {
+       "name": "Ferrous sulfate",
+       "dose": "200 mg twice daily"
+      }
+     ],
+     "allergies": [
+      "Ibuprofen (asthma)"
+     ],
+     "findings": "Haemoglobin 92 g/L; ferritin 6 ug/L",
+     "claims": [
+      {
+       "text": "Referred for persistent iron deficiency anaemia",
+       "quote": "persistent iron deficiency anaemia"
+      },
+      {
+       "text": "History: Heavy menstrual bleeding; vegetarian diet",
+       "quote": "Heavy menstrual bleeding; vegetarian diet"
+      },
+      {
+       "text": "Medication: Ferrous sulfate 200 mg twice daily",
+       "quote": "Ferrous sulfate 200 mg twice daily"
+      },
+      {
+       "text": "Allergies: Ibuprofen (asthma)",
+       "quote": "Ibuprofen (asthma)"
+      },
+      {
+       "text": "Results: Haemoglobin 92 g/L; ferritin 6 ug/L",
+       "quote": "Haemoglobin 92 g/L; ferritin 6 ug/L"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "good": true
+   },
+   "expect": {
+    "rejected": false
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "18-39",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L003-hallucinated-claim",
+   "input": {
+    "letter": "L003",
+    "summary": {
+     "reason": "persistent iron deficiency anaemia",
+     "history": "Heavy menstrual bleeding; vegetarian diet",
+     "medications": [
+      {
+       "name": "Ferrous sulfate",
+       "dose": "200 mg twice daily"
+      }
+     ],
+     "allergies": [
+      "Ibuprofen (asthma)"
+     ],
+     "findings": "Haemoglobin 92 g/L; ferritin 6 ug/L",
+     "claims": [
+      {
+       "text": "Referred for persistent iron deficiency anaemia",
+       "quote": "persistent iron deficiency anaemia"
+      },
+      {
+       "text": "History: Heavy menstrual bleeding; vegetarian diet",
+       "quote": "Heavy menstrual bleeding; vegetarian diet"
+      },
+      {
+       "text": "Medication: Ferrous sulfate 200 mg twice daily",
+       "quote": "Ferrous sulfate 200 mg twice daily"
+      },
+      {
+       "text": "Allergies: Ibuprofen (asthma)",
+       "quote": "Ibuprofen (asthma)"
+      },
+      {
+       "text": "Results: Haemoglobin 92 g/L; ferritin 6 ug/L",
+       "quote": "Haemoglobin 92 g/L; ferritin 6 ug/L"
+      },
+      {
+       "text": "Started on insulin glargine",
+       "quote": "insulin glargine 20 units at night"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "18-39",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L003-wrong-figure",
+   "input": {
+    "letter": "L003",
+    "summary": {
+     "reason": "persistent iron deficiency anaemia",
+     "history": "Heavy menstrual bleeding; vegetarian diet",
+     "medications": [
+      {
+       "name": "Ferrous sulfate",
+       "dose": "200 mg twice daily"
+      }
+     ],
+     "allergies": [
+      "Ibuprofen (asthma)"
+     ],
+     "findings": "Haemoglobin 277 g/L; ferritin 6 ug/L",
+     "claims": [
+      {
+       "text": "Referred for persistent iron deficiency anaemia",
+       "quote": "persistent iron deficiency anaemia"
+      },
+      {
+       "text": "History: Heavy menstrual bleeding; vegetarian diet",
+       "quote": "Heavy menstrual bleeding; vegetarian diet"
+      },
+      {
+       "text": "Medication: Ferrous sulfate 200 mg twice daily",
+       "quote": "Ferrous sulfate 200 mg twice daily"
+      },
+      {
+       "text": "Allergies: Ibuprofen (asthma)",
+       "quote": "Ibuprofen (asthma)"
+      },
+      {
+       "text": "Results: Haemoglobin 92 g/L; ferritin 6 ug/L",
+       "quote": "Haemoglobin 92 g/L; ferritin 6 ug/L"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "18-39",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L003-omitted-allergy",
+   "input": {
+    "letter": "L003",
+    "summary": {
+     "reason": "persistent iron deficiency anaemia",
+     "history": "Heavy menstrual bleeding; vegetarian diet",
+     "medications": [
+      {
+       "name": "Ferrous sulfate",
+       "dose": "200 mg twice daily"
+      }
+     ],
+     "allergies": [],
+     "findings": "Haemoglobin 92 g/L; ferritin 6 ug/L",
+     "claims": [
+      {
+       "text": "Referred for persistent iron deficiency anaemia",
+       "quote": "persistent iron deficiency anaemia"
+      },
+      {
+       "text": "History: Heavy menstrual bleeding; vegetarian diet",
+       "quote": "Heavy menstrual bleeding; vegetarian diet"
+      },
+      {
+       "text": "Medication: Ferrous sulfate 200 mg twice daily",
+       "quote": "Ferrous sulfate 200 mg twice daily"
+      },
+      {
+       "text": "Allergies: Ibuprofen (asthma)",
+       "quote": "Ibuprofen (asthma)"
+      },
+      {
+       "text": "Results: Haemoglobin 92 g/L; ferritin 6 ug/L",
+       "quote": "Haemoglobin 92 g/L; ferritin 6 ug/L"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "omission": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "18-39",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L004-good",
+   "input": {
+    "letter": "L004",
+    "summary": {
+     "reason": "rising PSA",
+     "history": "Benign prostatic hypertrophy treated for 6 years",
+     "medications": [
+      {
+       "name": "Tamsulosin",
+       "dose": "400 mcg once daily"
+      }
+     ],
+     "allergies": "none known",
+     "findings": "PSA 9.8 ng/mL, up from 4.1 ng/mL in 2025",
+     "claims": [
+      {
+       "text": "Referred for rising PSA",
+       "quote": "rising PSA"
+      },
+      {
+       "text": "History: Benign prostatic hypertrophy treated for 6 years",
+       "quote": "Benign prostatic hypertrophy treated for 6 years"
+      },
+      {
+       "text": "Medication: Tamsulosin 400 mcg once daily",
+       "quote": "Tamsulosin 400 mcg once daily"
+      },
+      {
+       "text": "Allergies: No known drug allergies",
+       "quote": "No known drug allergies"
+      },
+      {
+       "text": "Results: PSA 9.8 ng/mL, up from 4.1 ng/mL in 2025",
+       "quote": "PSA 9.8 ng/mL, up from 4.1 ng/mL in 2025"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "good": true
+   },
+   "expect": {
+    "rejected": false
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "65+",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L004-hallucinated-claim",
+   "input": {
+    "letter": "L004",
+    "summary": {
+     "reason": "rising PSA",
+     "history": "Benign prostatic hypertrophy treated for 6 years",
+     "medications": [
+      {
+       "name": "Tamsulosin",
+       "dose": "400 mcg once daily"
+      }
+     ],
+     "allergies": "none known",
+     "findings": "PSA 9.8 ng/mL, up from 4.1 ng/mL in 2025",
+     "claims": [
+      {
+       "text": "Referred for rising PSA",
+       "quote": "rising PSA"
+      },
+      {
+       "text": "History: Benign prostatic hypertrophy treated for 6 years",
+       "quote": "Benign prostatic hypertrophy treated for 6 years"
+      },
+      {
+       "text": "Medication: Tamsulosin 400 mcg once daily",
+       "quote": "Tamsulosin 400 mcg once daily"
+      },
+      {
+       "text": "Allergies: No known drug allergies",
+       "quote": "No known drug allergies"
+      },
+      {
+       "text": "Results: PSA 9.8 ng/mL, up from 4.1 ng/mL in 2025",
+       "quote": "PSA 9.8 ng/mL, up from 4.1 ng/mL in 2025"
+      },
+      {
+       "text": "Started on insulin glargine",
+       "quote": "insulin glargine 20 units at night"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "65+",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L004-wrong-figure",
+   "input": {
+    "letter": "L004",
+    "summary": {
+     "reason": "rising PSA",
+     "history": "Benign prostatic hypertrophy treated for 6 years",
+     "medications": [
+      {
+       "name": "Tamsulosin",
+       "dose": "400 mcg once daily"
+      }
+     ],
+     "allergies": "none known",
+     "findings": "PSA 30 ng/mL, up from 4.1 ng/mL in 2025",
+     "claims": [
+      {
+       "text": "Referred for rising PSA",
+       "quote": "rising PSA"
+      },
+      {
+       "text": "History: Benign prostatic hypertrophy treated for 6 years",
+       "quote": "Benign prostatic hypertrophy treated for 6 years"
+      },
+      {
+       "text": "Medication: Tamsulosin 400 mcg once daily",
+       "quote": "Tamsulosin 400 mcg once daily"
+      },
+      {
+       "text": "Allergies: No known drug allergies",
+       "quote": "No known drug allergies"
+      },
+      {
+       "text": "Results: PSA 9.8 ng/mL, up from 4.1 ng/mL in 2025",
+       "quote": "PSA 9.8 ng/mL, up from 4.1 ng/mL in 2025"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "65+",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L005-good",
+   "input": {
+    "letter": "L005",
+    "summary": {
+     "reason": "recurrent falls",
+     "history": "Osteoporosis and 3 falls in 6 months",
+     "medications": [
+      {
+       "name": "Alendronic acid",
+       "dose": "70 mg weekly"
+      },
+      {
+       "name": "Amlodipine",
+       "dose": "5 mg once daily"
+      }
+     ],
+     "allergies": [
+      "Codeine (vomiting)"
+     ],
+     "findings": "Lying BP 148/82 mmHg, standing BP 118/70 mmHg",
+     "claims": [
+      {
+       "text": "Referred for recurrent falls",
+       "quote": "recurrent falls"
+      },
+      {
+       "text": "History: Osteoporosis and 3 falls in 6 months",
+       "quote": "Osteoporosis and 3 falls in 6 months"
+      },
+      {
+       "text": "Medication: Alendronic acid 70 mg weekly; Amlodipine 5 mg once daily",
+       "quote": "Alendronic acid 70 mg weekly; Amlodipine 5 mg once daily"
+      },
+      {
+       "text": "Allergies: Codeine (vomiting)",
+       "quote": "Codeine (vomiting)"
+      },
+      {
+       "text": "Results: Lying BP 148/82 mmHg, standing BP 118/70 mmHg",
+       "quote": "Lying BP 148/82 mmHg, standing BP 118/70 mmHg"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "good": true
+   },
+   "expect": {
+    "rejected": false
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "65+",
+    "site": "harbour"
+   }
+  },
+  {
+   "id": "L005-hallucinated-claim",
+   "input": {
+    "letter": "L005",
+    "summary": {
+     "reason": "recurrent falls",
+     "history": "Osteoporosis and 3 falls in 6 months",
+     "medications": [
+      {
+       "name": "Alendronic acid",
+       "dose": "70 mg weekly"
+      },
+      {
+       "name": "Amlodipine",
+       "dose": "5 mg once daily"
+      }
+     ],
+     "allergies": [
+      "Codeine (vomiting)"
+     ],
+     "findings": "Lying BP 148/82 mmHg, standing BP 118/70 mmHg",
+     "claims": [
+      {
+       "text": "Referred for recurrent falls",
+       "quote": "recurrent falls"
+      },
+      {
+       "text": "History: Osteoporosis and 3 falls in 6 months",
+       "quote": "Osteoporosis and 3 falls in 6 months"
+      },
+      {
+       "text": "Medication: Alendronic acid 70 mg weekly; Amlodipine 5 mg once daily",
+       "quote": "Alendronic acid 70 mg weekly; Amlodipine 5 mg once daily"
+      },
+      {
+       "text": "Allergies: Codeine (vomiting)",
+       "quote": "Codeine (vomiting)"
+      },
+      {
+       "text": "Results: Lying BP 148/82 mmHg, standing BP 118/70 mmHg",
+       "quote": "Lying BP 148/82 mmHg, standing BP 118/70 mmHg"
+      },
+      {
+       "text": "Started on insulin glargine",
+       "quote": "insulin glargine 20 units at night"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "65+",
+    "site": "harbour"
+   }
+  },
+  {
+   "id": "L005-wrong-figure",
+   "input": {
+    "letter": "L005",
+    "summary": {
+     "reason": "recurrent falls",
+     "history": "Osteoporosis and 3 falls in 6 months",
+     "medications": [
+      {
+       "name": "Alendronic acid",
+       "dose": "70 mg weekly"
+      },
+      {
+       "name": "Amlodipine",
+       "dose": "5 mg once daily"
+      }
+     ],
+     "allergies": [
+      "Codeine (vomiting)"
+     ],
+     "findings": "Lying BP 445/82 mmHg, standing BP 118/70 mmHg",
+     "claims": [
+      {
+       "text": "Referred for recurrent falls",
+       "quote": "recurrent falls"
+      },
+      {
+       "text": "History: Osteoporosis and 3 falls in 6 months",
+       "quote": "Osteoporosis and 3 falls in 6 months"
+      },
+      {
+       "text": "Medication: Alendronic acid 70 mg weekly; Amlodipine 5 mg once daily",
+       "quote": "Alendronic acid 70 mg weekly; Amlodipine 5 mg once daily"
+      },
+      {
+       "text": "Allergies: Codeine (vomiting)",
+       "quote": "Codeine (vomiting)"
+      },
+      {
+       "text": "Results: Lying BP 148/82 mmHg, standing BP 118/70 mmHg",
+       "quote": "Lying BP 148/82 mmHg, standing BP 118/70 mmHg"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "65+",
+    "site": "harbour"
+   }
+  },
+  {
+   "id": "L005-omitted-allergy",
+   "input": {
+    "letter": "L005",
+    "summary": {
+     "reason": "recurrent falls",
+     "history": "Osteoporosis and 3 falls in 6 months",
+     "medications": [
+      {
+       "name": "Alendronic acid",
+       "dose": "70 mg weekly"
+      },
+      {
+       "name": "Amlodipine",
+       "dose": "5 mg once daily"
+      }
+     ],
+     "allergies": [],
+     "findings": "Lying BP 148/82 mmHg, standing BP 118/70 mmHg",
+     "claims": [
+      {
+       "text": "Referred for recurrent falls",
+       "quote": "recurrent falls"
+      },
+      {
+       "text": "History: Osteoporosis and 3 falls in 6 months",
+       "quote": "Osteoporosis and 3 falls in 6 months"
+      },
+      {
+       "text": "Medication: Alendronic acid 70 mg weekly; Amlodipine 5 mg once daily",
+       "quote": "Alendronic acid 70 mg weekly; Amlodipine 5 mg once daily"
+      },
+      {
+       "text": "Allergies: Codeine (vomiting)",
+       "quote": "Codeine (vomiting)"
+      },
+      {
+       "text": "Results: Lying BP 148/82 mmHg, standing BP 118/70 mmHg",
+       "quote": "Lying BP 148/82 mmHg, standing BP 118/70 mmHg"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "omission": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "65+",
+    "site": "harbour"
+   }
+  },
+  {
+   "id": "L005-good-paraphrased",
+   "input": {
+    "letter": "L005",
+    "summary": {
+     "reason": "recurrent falls",
+     "history": "Osteoporosis and 3 falls in 6 months",
+     "medications": [
+      {
+       "name": "Alendronic acid",
+       "dose": "70 mg weekly"
+      },
+      {
+       "name": "Amlodipine",
+       "dose": "5 mg once daily"
+      }
+     ],
+     "allergies": [
+      "Codeine (vomiting)"
+     ],
+     "findings": "Lying BP 148/82 mmHg, standing BP 118/70 mmHg",
+     "claims": [
+      {
+       "text": "Referred for recurrent falls",
+       "quote": "recurrent falls"
+      },
+      {
+       "text": "History: Osteoporosis and 3 falls in 6 months",
+       "quote": "has osteoporosis and 3 falls in 6 months"
+      },
+      {
+       "text": "Medication: Alendronic acid 70 mg weekly; Amlodipine 5 mg once daily",
+       "quote": "Alendronic acid 70 mg weekly; Amlodipine 5 mg once daily"
+      },
+      {
+       "text": "Allergies: Codeine (vomiting)",
+       "quote": "Codeine (vomiting)"
+      },
+      {
+       "text": "Results: Lying BP 148/82 mmHg, standing BP 118/70 mmHg",
+       "quote": "Lying BP 148/82 mmHg, standing BP 118/70 mmHg"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "good": true
+   },
+   "expect": {
+    "rejected": false
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "65+",
+    "site": "harbour"
+   }
+  },
+  {
+   "id": "L006-good",
+   "input": {
+    "letter": "L006",
+    "summary": {
+     "reason": "uncontrolled hypertension",
+     "history": "Hypertension for 4 years; family history of stroke",
+     "medications": [
+      {
+       "name": "Amlodipine",
+       "dose": "10 mg once daily"
+      },
+      {
+       "name": "Indapamide",
+       "dose": "2.5 mg once daily"
+      }
+     ],
+     "allergies": "none known",
+     "findings": "Clinic BP 172/104 mmHg; potassium 3.2 mmol/L",
+     "claims": [
+      {
+       "text": "Referred for uncontrolled hypertension",
+       "quote": "uncontrolled hypertension"
+      },
+      {
+       "text": "History: Hypertension for 4 years; family history of stroke",
+       "quote": "Hypertension for 4 years; family history of stroke"
+      },
+      {
+       "text": "Medication: Amlodipine 10 mg once daily; Indapamide 2.5 mg once daily",
+       "quote": "Amlodipine 10 mg once daily; Indapamide 2.5 mg once daily"
+      },
+      {
+       "text": "Allergies: No known drug allergies",
+       "quote": "No known drug allergies"
+      },
+      {
+       "text": "Results: Clinic BP 172/104 mmHg; potassium 3.2 mmol/L",
+       "quote": "Clinic BP 172/104 mmHg; potassium 3.2 mmol/L"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "good": true
+   },
+   "expect": {
+    "rejected": false
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64",
+    "site": "harbour"
+   }
+  },
+  {
+   "id": "L006-hallucinated-claim",
+   "input": {
+    "letter": "L006",
+    "summary": {
+     "reason": "uncontrolled hypertension",
+     "history": "Hypertension for 4 years; family history of stroke",
+     "medications": [
+      {
+       "name": "Amlodipine",
+       "dose": "10 mg once daily"
+      },
+      {
+       "name": "Indapamide",
+       "dose": "2.5 mg once daily"
+      }
+     ],
+     "allergies": "none known",
+     "findings": "Clinic BP 172/104 mmHg; potassium 3.2 mmol/L",
+     "claims": [
+      {
+       "text": "Referred for uncontrolled hypertension",
+       "quote": "uncontrolled hypertension"
+      },
+      {
+       "text": "History: Hypertension for 4 years; family history of stroke",
+       "quote": "Hypertension for 4 years; family history of stroke"
+      },
+      {
+       "text": "Medication: Amlodipine 10 mg once daily; Indapamide 2.5 mg once daily",
+       "quote": "Amlodipine 10 mg once daily; Indapamide 2.5 mg once daily"
+      },
+      {
+       "text": "Allergies: No known drug allergies",
+       "quote": "No known drug allergies"
+      },
+      {
+       "text": "Results: Clinic BP 172/104 mmHg; potassium 3.2 mmol/L",
+       "quote": "Clinic BP 172/104 mmHg; potassium 3.2 mmol/L"
+      },
+      {
+       "text": "Started on insulin glargine",
+       "quote": "insulin glargine 20 units at night"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64",
+    "site": "harbour"
+   }
+  },
+  {
+   "id": "L006-wrong-figure",
+   "input": {
+    "letter": "L006",
+    "summary": {
+     "reason": "uncontrolled hypertension",
+     "history": "Hypertension for 4 years; family history of stroke",
+     "medications": [
+      {
+       "name": "Amlodipine",
+       "dose": "10 mg once daily"
+      },
+      {
+       "name": "Indapamide",
+       "dose": "2.5 mg once daily"
+      }
+     ],
+     "allergies": "none known",
+     "findings": "Clinic BP 517/104 mmHg; potassium 3.2 mmol/L",
+     "claims": [
+      {
+       "text": "Referred for uncontrolled hypertension",
+       "quote": "uncontrolled hypertension"
+      },
+      {
+       "text": "History: Hypertension for 4 years; family history of stroke",
+       "quote": "Hypertension for 4 years; family history of stroke"
+      },
+      {
+       "text": "Medication: Amlodipine 10 mg once daily; Indapamide 2.5 mg once daily",
+       "quote": "Amlodipine 10 mg once daily; Indapamide 2.5 mg once daily"
+      },
+      {
+       "text": "Allergies: No known drug allergies",
+       "quote": "No known drug allergies"
+      },
+      {
+       "text": "Results: Clinic BP 172/104 mmHg; potassium 3.2 mmol/L",
+       "quote": "Clinic BP 172/104 mmHg; potassium 3.2 mmol/L"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64",
+    "site": "harbour"
+   }
+  },
+  {
+   "id": "L007-good",
+   "input": {
+    "letter": "L007",
+    "summary": {
+     "reason": "suspected coeliac disease",
+     "history": "Bloating and diarrhoea for 8 months",
+     "medications": [],
+     "allergies": "none known",
+     "findings": "tTG-IgA 128 U/mL; haemoglobin 108 g/L",
+     "claims": [
+      {
+       "text": "Referred for suspected coeliac disease",
+       "quote": "suspected coeliac disease"
+      },
+      {
+       "text": "History: Bloating and diarrhoea for 8 months",
+       "quote": "Bloating and diarrhoea for 8 months"
+      },
+      {
+       "text": "Medication: No regular medications",
+       "quote": "No regular medications"
+      },
+      {
+       "text": "Allergies: No known drug allergies",
+       "quote": "No known drug allergies"
+      },
+      {
+       "text": "Results: tTG-IgA 128 U/mL; haemoglobin 108 g/L",
+       "quote": "tTG-IgA 128 U/mL; haemoglobin 108 g/L"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "good": true
+   },
+   "expect": {
+    "rejected": false
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "18-39",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L007-hallucinated-claim",
+   "input": {
+    "letter": "L007",
+    "summary": {
+     "reason": "suspected coeliac disease",
+     "history": "Bloating and diarrhoea for 8 months",
+     "medications": [],
+     "allergies": "none known",
+     "findings": "tTG-IgA 128 U/mL; haemoglobin 108 g/L",
+     "claims": [
+      {
+       "text": "Referred for suspected coeliac disease",
+       "quote": "suspected coeliac disease"
+      },
+      {
+       "text": "History: Bloating and diarrhoea for 8 months",
+       "quote": "Bloating and diarrhoea for 8 months"
+      },
+      {
+       "text": "Medication: No regular medications",
+       "quote": "No regular medications"
+      },
+      {
+       "text": "Allergies: No known drug allergies",
+       "quote": "No known drug allergies"
+      },
+      {
+       "text": "Results: tTG-IgA 128 U/mL; haemoglobin 108 g/L",
+       "quote": "tTG-IgA 128 U/mL; haemoglobin 108 g/L"
+      },
+      {
+       "text": "Started on insulin glargine",
+       "quote": "insulin glargine 20 units at night"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "18-39",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L007-wrong-figure",
+   "input": {
+    "letter": "L007",
+    "summary": {
+     "reason": "suspected coeliac disease",
+     "history": "Bloating and diarrhoea for 8 months",
+     "medications": [],
+     "allergies": "none known",
+     "findings": "tTG-IgA 385 U/mL; haemoglobin 108 g/L",
+     "claims": [
+      {
+       "text": "Referred for suspected coeliac disease",
+       "quote": "suspected coeliac disease"
+      },
+      {
+       "text": "History: Bloating and diarrhoea for 8 months",
+       "quote": "Bloating and diarrhoea for 8 months"
+      },
+      {
+       "text": "Medication: No regular medications",
+       "quote": "No regular medications"
+      },
+      {
+       "text": "Allergies: No known drug allergies",
+       "quote": "No known drug allergies"
+      },
+      {
+       "text": "Results: tTG-IgA 128 U/mL; haemoglobin 108 g/L",
+       "quote": "tTG-IgA 128 U/mL; haemoglobin 108 g/L"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "18-39",
+    "site": "riverside"
+   }
+  },
+  {
+   "id": "L008-good",
+   "input": {
+    "letter": "L008",
+    "summary": {
+     "reason": "chest pain on exertion",
+     "history": "Smoker, 20 a day for 30 years; raised cholesterol",
+     "medications": [
+      {
+       "name": "Atorvastatin",
+       "dose": "20 mg once daily"
+      }
+     ],
+     "allergies": [
+      "Aspirin (angioedema)"
+     ],
+     "findings": "Total cholesterol 6.8 mmol/L; resting ECG normal",
+     "claims": [
+      {
+       "text": "Referred for chest pain on exertion",
+       "quote": "chest pain on exertion"
+      },
+      {
+       "text": "History: Smoker, 20 a day for 30 years; raised cholesterol",
+       "quote": "Smoker, 20 a day for 30 years; raised cholesterol"
+      },
+      {
+       "text": "Medication: Atorvastatin 20 mg once daily",
+       "quote": "Atorvastatin 20 mg once daily"
+      },
+      {
+       "text": "Allergies: Aspirin (angioedema)",
+       "quote": "Aspirin (angioedema)"
+      },
+      {
+       "text": "Results: Total cholesterol 6.8 mmol/L; resting ECG normal",
+       "quote": "Total cholesterol 6.8 mmol/L; resting ECG normal"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "good": true
+   },
+   "expect": {
+    "rejected": false
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L008-hallucinated-claim",
+   "input": {
+    "letter": "L008",
+    "summary": {
+     "reason": "chest pain on exertion",
+     "history": "Smoker, 20 a day for 30 years; raised cholesterol",
+     "medications": [
+      {
+       "name": "Atorvastatin",
+       "dose": "20 mg once daily"
+      }
+     ],
+     "allergies": [
+      "Aspirin (angioedema)"
+     ],
+     "findings": "Total cholesterol 6.8 mmol/L; resting ECG normal",
+     "claims": [
+      {
+       "text": "Referred for chest pain on exertion",
+       "quote": "chest pain on exertion"
+      },
+      {
+       "text": "History: Smoker, 20 a day for 30 years; raised cholesterol",
+       "quote": "Smoker, 20 a day for 30 years; raised cholesterol"
+      },
+      {
+       "text": "Medication: Atorvastatin 20 mg once daily",
+       "quote": "Atorvastatin 20 mg once daily"
+      },
+      {
+       "text": "Allergies: Aspirin (angioedema)",
+       "quote": "Aspirin (angioedema)"
+      },
+      {
+       "text": "Results: Total cholesterol 6.8 mmol/L; resting ECG normal",
+       "quote": "Total cholesterol 6.8 mmol/L; resting ECG normal"
+      },
+      {
+       "text": "Started on insulin glargine",
+       "quote": "insulin glargine 20 units at night"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L008-wrong-figure",
+   "input": {
+    "letter": "L008",
+    "summary": {
+     "reason": "chest pain on exertion",
+     "history": "Smoker, 20 a day for 30 years; raised cholesterol",
+     "medications": [
+      {
+       "name": "Atorvastatin",
+       "dose": "20 mg once daily"
+      }
+     ],
+     "allergies": [
+      "Aspirin (angioedema)"
+     ],
+     "findings": "Total cholesterol 21 mmol/L; resting ECG normal",
+     "claims": [
+      {
+       "text": "Referred for chest pain on exertion",
+       "quote": "chest pain on exertion"
+      },
+      {
+       "text": "History: Smoker, 20 a day for 30 years; raised cholesterol",
+       "quote": "Smoker, 20 a day for 30 years; raised cholesterol"
+      },
+      {
+       "text": "Medication: Atorvastatin 20 mg once daily",
+       "quote": "Atorvastatin 20 mg once daily"
+      },
+      {
+       "text": "Allergies: Aspirin (angioedema)",
+       "quote": "Aspirin (angioedema)"
+      },
+      {
+       "text": "Results: Total cholesterol 6.8 mmol/L; resting ECG normal",
+       "quote": "Total cholesterol 6.8 mmol/L; resting ECG normal"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "hallucinated": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64",
+    "site": "northgate"
+   }
+  },
+  {
+   "id": "L008-omitted-allergy",
+   "input": {
+    "letter": "L008",
+    "summary": {
+     "reason": "chest pain on exertion",
+     "history": "Smoker, 20 a day for 30 years; raised cholesterol",
+     "medications": [
+      {
+       "name": "Atorvastatin",
+       "dose": "20 mg once daily"
+      }
+     ],
+     "allergies": [],
+     "findings": "Total cholesterol 6.8 mmol/L; resting ECG normal",
+     "claims": [
+      {
+       "text": "Referred for chest pain on exertion",
+       "quote": "chest pain on exertion"
+      },
+      {
+       "text": "History: Smoker, 20 a day for 30 years; raised cholesterol",
+       "quote": "Smoker, 20 a day for 30 years; raised cholesterol"
+      },
+      {
+       "text": "Medication: Atorvastatin 20 mg once daily",
+       "quote": "Atorvastatin 20 mg once daily"
+      },
+      {
+       "text": "Allergies: Aspirin (angioedema)",
+       "quote": "Aspirin (angioedema)"
+      },
+      {
+       "text": "Results: Total cholesterol 6.8 mmol/L; resting ECG normal",
+       "quote": "Total cholesterol 6.8 mmol/L; resting ECG normal"
+      }
+     ]
+    }
+   },
+   "labels": {
+    "omission": true
+   },
+   "expect": {
+    "rejected": true
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64",
+    "site": "northgate"
+   }
+  }
+ ]
+}

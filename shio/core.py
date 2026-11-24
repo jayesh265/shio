@@ -25,6 +25,7 @@ from .schema import parse, schema_ref, to_json_schema, to_jsonable
 _run = contextvars.ContextVar("shio_run", default=None)
 _open = contextvars.ContextVar("shio_open", default=False)   # True inside a @check or @rule
 _checking = contextvars.ContextVar("shio_checking", default=False)   # True inside a @check only
+_cited = contextvars.ContextVar("shio_cited", default=None)   # pack controls a running @check has cited
 
 # methods that change their object: a check only decides, so it may not call them (the compiler refuses them by
 # name; checked_getattr refuses them when the name is computed)
@@ -193,6 +194,8 @@ class Run:
         if parent is None:
             self._seq = itertools.count()
             self.tables = {}       # decision tables read in this decision: name -> {stamp, used values}
+            self.packs = {}        # pack versions whose checks decided here: "id@version" -> stamp
+            self.slices = {}       # coarse monitoring groups (site, age band) a pack check vetted, kept in clear
 
     def next_seq(self):
         return next(self.root._seq)
@@ -225,6 +228,10 @@ class Run:
             d["jurisdiction"] = self.jurisdiction
         if self.parent is None and self.tables:
             d["tables"] = [{**t["stamp"], "used": dict(sorted(t["used"].items()))} for t in self.tables.values()]
+        if self.parent is None and self.packs:
+            d["packs"] = [self.packs[k] for k in sorted(self.packs)]
+        if self.parent is None and self.slices:
+            d["slices"] = dict(sorted(self.slices.items()))
         return d
 
 
@@ -434,16 +441,20 @@ def check(fn=None, *, name=None, reward=True, after=(), code=None):
                                    "detail": f"not checked: {', '.join(dict.fromkeys(blocked))} failed",
                                    "reward": False, "args": [], "kwargs": {}, "readings": []})
                 return False
-            tok, ctok = _open.set(True), _checking.set(True)
+            tok, ctok, cited = _open.set(True), _checking.set(True), _cited.set({"controls": [], "details": []})
             try:
                 out = fn(*[_uncover(a) for a in args], **{k: _uncover(v) for k, v in kwargs.items()})
             except Exception as e:   # a check that cannot be evaluated (a null reading, say) has failed
                 out = (False, f"could not be evaluated: {type(e).__name__}: {e}")
             finally:
+                controls = _cited.get()
+                _cited.reset(cited)
                 _checking.reset(ctok)
                 _open.reset(tok)
             passed, detail = out if isinstance(out, tuple) else (out, "")
             passed = bool(passed)
+            if not passed and not detail and controls["details"]:   # a pack verdict explains itself
+                detail = "; ".join(dict.fromkeys(controls["details"]))
             if callable(detail):   # compiled checks explain themselves only when they fail
                 tok, ctok = _open.set(True), _checking.set(True)
                 try:
@@ -453,11 +464,14 @@ def check(fn=None, *, name=None, reward=True, after=(), code=None):
                 finally:
                     _checking.reset(ctok)
                     _open.reset(tok)
-            run.checks.append({"name": cname, "fn": ref, "key": key, "code": code, "passed": passed, "detail": detail,
-                               "reward": reward,
-                               "args": [_arg_spec(a) for a in args],
-                               "kwargs": {k: _arg_spec(v) for k, v in kwargs.items()},
-                               "readings": [a.id for a in [*args, *kwargs.values()] if isinstance(a, Reading)]})
+            record = {"name": cname, "fn": ref, "key": key, "code": code, "passed": passed, "detail": detail,
+                      "reward": reward,
+                      "args": [_arg_spec(a) for a in args],
+                      "kwargs": {k: _arg_spec(v) for k, v in kwargs.items()},
+                      "readings": [a.id for a in [*args, *kwargs.values()] if isinstance(a, Reading)]}
+            if controls["controls"]:   # the pack controls this check enforced, so evidence can find it by control id
+                record["controls"] = list(dict.fromkeys(controls["controls"]))
+            run.checks.append(record)
             return passed
         wrapper.check_fn = fn
         return wrapper
@@ -789,6 +803,23 @@ def agent(fn=None, *, record=True, name=None, signoffs=()):
         wrapper.replaying = False
         return wrapper
     return deco(fn) if fn else deco
+
+
+def cite(stamp, controls=(), detail=None, slices=None):
+    """A pack's check calls this as it decides: the top-level run records the pack version in force (so a later rule
+    change never rewrites history), and the running @check records the controls it enforced and, if it failed, why.
+    Outside an agent it does nothing, so a pack's checks can be tested on their own."""
+    run = _run.get()
+    if run is None:
+        return
+    run.root.packs.setdefault(f"{stamp['id']}@{stamp['version']}", dict(stamp))
+    if slices:                   # only a pack check that vetted them against an allowed list passes slices here
+        run.root.slices.update({str(k): str(v) for k, v in slices.items()})
+    cited = _cited.get()
+    if cited is not None:
+        cited["controls"] += [f"{stamp['id']}@{stamp['version']}:{c}" for c in controls]
+        if detail:
+            cited["details"].append(str(detail))
 
 
 def parallel(fn, items, workers=4):

@@ -1,0 +1,28 @@
+{
+ "note": "SYNTHETIC: engineer-written texts and labels on synthetic letters; not evidence about a real model.",
+ "cases": 24,
+ "min_coverage": 0.75,
+ "options": {
+  "STRUCTURED_ONLY": {
+   "option": 1,
+   "good": 56,
+   "bad": 16,
+   "wrongful_rejection": 0.1429,
+   "pass_through": 0.0
+  },
+  "VERIFY_AND_DROP": {
+   "option": 2,
+   "good": 64,
+   "bad": 16,
+   "wrongful_rejection": 0.3438,
+   "pass_through": 0.0
+  },
+  "VERIFY_AND_REJECT": {
+   "option": 3,
+   "good": 16,
+   "bad": 8,
+   "wrongful_rejection": 0.6875,
+   "pass_through": 0.0
+  }
+ }
+}

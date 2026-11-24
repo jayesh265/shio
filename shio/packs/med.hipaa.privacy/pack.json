@@ -1,0 +1,494 @@
+{
+ "format": "shio-pack/1",
+ "id": "med.hipaa.privacy",
+ "name": "HIPAA Privacy Rule: purpose, authorization, minimum necessary, de-identification and disclosures",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null,
+  "clinical_lead": null
+ },
+ "description": "HIPAA Privacy Rule: purpose, authorization, minimum necessary, de-identification and disclosures. From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "hipaa-privacy",
+   "title": "HIPAA Privacy Rule (45 CFR Part 164, Subpart E)"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "PRV-01",
+   "title": "Every request declares a purpose from the registry",
+   "requirement": "Every request declares a purpose from the registry; uses and disclosures are allowed only as the Rule permits.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.502(a), 164.506",
+   "spec_proof": "lint, check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.502(a), 164.506"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "PRV-01"
+    }
+   ]
+  },
+  {
+   "id": "PRV-02",
+   "title": "Purposes that need written authorization (marketing",
+   "requirement": "Purposes that need written authorization (marketing, sale of PHI, psychotherapy notes) have a matching, unexpired authorization.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "164.508(a)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.508(a)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "PRV-02"
+    }
+   ]
+  },
+  {
+   "id": "PRV-03",
+   "title": "An authorization relied on is signed",
+   "requirement": "An authorization relied on is signed, dated, names the information, recipient, purpose and expiry, carries the revocation statement and is not revoked.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.508(c)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.508(c)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "PRV-03"
+    }
+   ]
+  },
+  {
+   "id": "PRV-04",
+   "title": "Minimum necessary",
+   "requirement": "Minimum necessary: only fields on the purpose's allow-list are sent.",
+   "stage": "P",
+   "on_fail": "redact",
+   "source": "164.502(b), 164.514(d)",
+   "spec_proof": "lint, check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.502(b), 164.514(d)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "PRV-04"
+    }
+   ]
+  },
+  {
+   "id": "PRV-05",
+   "title": "Minimum-necessary exceptions are explicit and narrow",
+   "requirement": "Minimum-necessary exceptions are explicit and narrow; nothing else is exempt.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.502(b)(2)",
+   "spec_proof": "lint",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.502(b)(2)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "PRV-06",
+   "title": "A whole-record request carries a written justification",
+   "requirement": "A whole-record request carries a written justification.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "164.514(d)(5)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.514(d)(5)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "PRV-06"
+    }
+   ]
+  },
+  {
+   "id": "PRV-07",
+   "title": "Each caller has a role",
+   "requirement": "Each caller has a role, and each role a list of PHI categories it may read.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.514(d)(2)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.514(d)(2)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "PRV-07"
+    }
+   ]
+  },
+  {
+   "id": "PRV-08",
+   "title": "PHI goes only to parties with a business associate agreement on file",
+   "requirement": "PHI goes only to parties with a business associate agreement on file, that do not train on inputs, and are approved for the data classes sent.",
+   "stage": "P",
+   "on_fail": "route or deny",
+   "source": "164.502(e), 164.504(e)",
+   "spec_proof": "check, sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.502(e), 164.504(e)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "PRV-08"
+    }
+   ]
+  },
+  {
+   "id": "PRV-09",
+   "title": "Where the purpose needs no PHI",
+   "requirement": "Where the purpose needs no PHI, identifiers are de-identified (tokenised) before sending, and a second detector pass holds anything left.",
+   "stage": "P",
+   "on_fail": "redact",
+   "source": "164.514(a), (b)",
+   "spec_proof": "check, eval",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.514(a), (b)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "PRV-09"
+    }
+   ]
+  },
+  {
+   "id": "PRV-10",
+   "title": "Re-identification codes are not derived from identifiers and the key stays outside the mod",
+   "requirement": "Re-identification codes are not derived from identifiers and the key stays outside the model boundary.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.514(c)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.514(c)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "PRV-11",
+   "title": "A limited data set has a current data use agreement with the recipient",
+   "requirement": "A limited data set has a current data use agreement with the recipient.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "164.514(e)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.514(e)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "PRV-11"
+    }
+   ]
+  },
+  {
+   "id": "PRV-12",
+   "title": "Research names exactly one pathway",
+   "requirement": "Research names exactly one pathway, with its proof on file.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "164.512(i)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.512(i)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "PRV-12"
+    }
+   ]
+  },
+  {
+   "id": "PRV-13",
+   "title": "Disclosures to a personal representative need a representative record and respect state ru",
+   "requirement": "Disclosures to a personal representative need a representative record and respect state rules on minors.",
+   "stage": "P",
+   "on_fail": "hold",
+   "source": "164.502(g)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.502(g)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "PRV-14",
+   "title": "Restrictions and confidential communications the organisation agreed to are honoured",
+   "requirement": "Restrictions and confidential communications the organisation agreed to are honoured.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.522",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.522"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "PRV-14"
+    }
+   ]
+  },
+  {
+   "id": "PRV-15",
+   "title": "Opt-outs and fundraising or marketing preferences are applied",
+   "requirement": "Opt-outs and fundraising or marketing preferences are applied.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "164.514(f), 164.508(a)(3)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.514(f), 164.508(a)(3)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "PRV-15"
+    }
+   ]
+  },
+  {
+   "id": "PRV-16",
+   "title": "Disclosures to the individual go through the right-of-access path with identity verificati",
+   "requirement": "Disclosures to the individual go through the right-of-access path with identity verification.",
+   "stage": "A",
+   "on_fail": "hold",
+   "source": "164.524, 164.514(h)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.524, 164.514(h)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "PRV-17",
+   "title": "Every non-TPO disclosure is logged for accounting and kept six years",
+   "requirement": "Every non-TPO disclosure is logged for accounting and kept six years.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "164.528",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.528"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "PRV-18",
+   "title": "Amendment requests are routed to a person and tracked to a decision",
+   "requirement": "Amendment requests are routed to a person and tracked to a decision.",
+   "stage": "A",
+   "on_fail": "hold",
+   "source": "164.526",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.526"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "signoff",
+     "role": "privacy_officer"
+    }
+   ]
+  },
+  {
+   "id": "PRV-19",
+   "title": "The Notice of Privacy Practices is current and covers AI use where required",
+   "requirement": "The Notice of Privacy Practices is current and covers AI use where required.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.520",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.520"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.hipaa.privacy.prv-19",
+     "owner": "privacy_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "PRV-20",
+   "title": "Documentation",
+   "requirement": "Documentation, policies and training records are kept six years.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.530(j)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.530(j)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.hipaa.privacy.prv-20",
+     "owner": "privacy_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "PRV-21",
+   "title": "Workforce training",
+   "requirement": "Workforce training, a sanctions policy and a named privacy official exist.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.530(a)-(f)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.530(a)-(f)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "privacy-program",
+     "owner": "privacy_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "PRV-22",
+   "title": "Safeguards for PHI in prompts",
+   "requirement": "Safeguards for PHI in prompts, logs, traces, caches and eval sets are no weaker than for production records.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "164.530(c)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.530(c)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "PRV-23",
+   "title": "A harmful impermissible use opens a mitigation record",
+   "requirement": "A harmful impermissible use opens a mitigation record.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "164.530(f)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.530(f)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "PRV-24",
+   "title": "Identity and authority are verified before disclosing outside the organisation",
+   "requirement": "Identity and authority are verified before disclosing outside the organisation.",
+   "stage": "A",
+   "on_fail": "hold",
+   "source": "164.514(h)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-privacy",
+     "ref": "164.514(h)"
+    }
+   ],
+   "planned": true
+  }
+ ]
+}

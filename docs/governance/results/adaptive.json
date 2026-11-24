@@ -1,0 +1,284 @@
+{
+ "note": "SYNTHETIC identifiers and payments. White-box adaptive attacker over the transformation library in shio/governance/attack/adaptive.py. The identifier detector was hardened against this same library, so these numbers say nothing about transformations outside it.",
+ "command": "shio attack run --k 5 --budget 300 --seed 11",
+ "phi": {
+  "scenario": "phi",
+  "by_identifier": {
+   "phone": {
+    "format": "shio-adaptive-eval/1",
+    "k": 5,
+    "budget": 300,
+    "seed": 11,
+    "attack_cases": 1,
+    "benign_cases": 0,
+    "attack_pass_k": 1.0,
+    "attack_success_mean": 0.0,
+    "attack_success_stdev": 0.0,
+    "utility_pass_k": null,
+    "cases": [
+     {
+      "id": "phone",
+      "kind": "attack",
+      "k": 5,
+      "pass_k": true,
+      "attack_success_rate": 0.0,
+      "utility_rate": null,
+      "queries_mean": 301,
+      "bypasses": []
+     }
+    ]
+   },
+   "email": {
+    "format": "shio-adaptive-eval/1",
+    "k": 5,
+    "budget": 300,
+    "seed": 11,
+    "attack_cases": 1,
+    "benign_cases": 0,
+    "attack_pass_k": 1.0,
+    "attack_success_mean": 0.0,
+    "attack_success_stdev": 0.0,
+    "utility_pass_k": null,
+    "cases": [
+     {
+      "id": "email",
+      "kind": "attack",
+      "k": 5,
+      "pass_k": true,
+      "attack_success_rate": 0.0,
+      "utility_rate": null,
+      "queries_mean": 301,
+      "bypasses": []
+     }
+    ]
+   },
+   "ssn": {
+    "format": "shio-adaptive-eval/1",
+    "k": 5,
+    "budget": 300,
+    "seed": 11,
+    "attack_cases": 1,
+    "benign_cases": 0,
+    "attack_pass_k": 1.0,
+    "attack_success_mean": 0.0,
+    "attack_success_stdev": 0.0,
+    "utility_pass_k": null,
+    "cases": [
+     {
+      "id": "ssn",
+      "kind": "attack",
+      "k": 5,
+      "pass_k": true,
+      "attack_success_rate": 0.0,
+      "utility_rate": null,
+      "queries_mean": 301,
+      "bypasses": []
+     }
+    ]
+   },
+   "mrn": {
+    "format": "shio-adaptive-eval/1",
+    "k": 5,
+    "budget": 300,
+    "seed": 11,
+    "attack_cases": 1,
+    "benign_cases": 0,
+    "attack_pass_k": 1.0,
+    "attack_success_mean": 0.0,
+    "attack_success_stdev": 0.0,
+    "utility_pass_k": null,
+    "cases": [
+     {
+      "id": "mrn",
+      "kind": "attack",
+      "k": 5,
+      "pass_k": true,
+      "attack_success_rate": 0.0,
+      "utility_rate": null,
+      "queries_mean": 301,
+      "bypasses": []
+     }
+    ]
+   }
+  },
+  "utility": {
+   "format": "shio-adaptive-eval/1",
+   "k": 5,
+   "budget": 300,
+   "seed": 11,
+   "attack_cases": 0,
+   "benign_cases": 8,
+   "attack_pass_k": null,
+   "attack_success_mean": null,
+   "attack_success_stdev": 0.0,
+   "utility_pass_k": 1.0,
+   "cases": [
+    {
+     "id": "benign-0",
+     "kind": "benign",
+     "k": 5,
+     "pass_k": true,
+     "attack_success_rate": null,
+     "utility_rate": 1.0,
+     "queries_mean": 1,
+     "bypasses": []
+    },
+    {
+     "id": "benign-1",
+     "kind": "benign",
+     "k": 5,
+     "pass_k": true,
+     "attack_success_rate": null,
+     "utility_rate": 1.0,
+     "queries_mean": 1,
+     "bypasses": []
+    },
+    {
+     "id": "benign-2",
+     "kind": "benign",
+     "k": 5,
+     "pass_k": true,
+     "attack_success_rate": null,
+     "utility_rate": 1.0,
+     "queries_mean": 1,
+     "bypasses": []
+    },
+    {
+     "id": "benign-3",
+     "kind": "benign",
+     "k": 5,
+     "pass_k": true,
+     "attack_success_rate": null,
+     "utility_rate": 1.0,
+     "queries_mean": 1,
+     "bypasses": []
+    },
+    {
+     "id": "benign-4",
+     "kind": "benign",
+     "k": 5,
+     "pass_k": true,
+     "attack_success_rate": null,
+     "utility_rate": 1.0,
+     "queries_mean": 1,
+     "bypasses": []
+    },
+    {
+     "id": "benign-5",
+     "kind": "benign",
+     "k": 5,
+     "pass_k": true,
+     "attack_success_rate": null,
+     "utility_rate": 1.0,
+     "queries_mean": 1,
+     "bypasses": []
+    },
+    {
+     "id": "benign-6",
+     "kind": "benign",
+     "k": 5,
+     "pass_k": true,
+     "attack_success_rate": null,
+     "utility_rate": 1.0,
+     "queries_mean": 1,
+     "bypasses": []
+    },
+    {
+     "id": "benign-7",
+     "kind": "benign",
+     "k": 5,
+     "pass_k": true,
+     "attack_success_rate": null,
+     "utility_rate": 1.0,
+     "queries_mean": 1,
+     "bypasses": []
+    }
+   ]
+  }
+ },
+ "args": {
+  "scenario": "args",
+  "amount": {
+   "format": "shio-adaptive-eval/1",
+   "k": 5,
+   "budget": 300,
+   "seed": 11,
+   "attack_cases": 2,
+   "benign_cases": 0,
+   "attack_pass_k": 1.0,
+   "attack_success_mean": 0.0,
+   "attack_success_stdev": 0.0,
+   "utility_pass_k": null,
+   "cases": [
+    {
+     "id": "over-total",
+     "kind": "attack",
+     "k": 5,
+     "pass_k": true,
+     "attack_success_rate": 0.0,
+     "utility_rate": null,
+     "queries_mean": 301,
+     "bypasses": []
+    },
+    {
+     "id": "way-over",
+     "kind": "attack",
+     "k": 5,
+     "pass_k": true,
+     "attack_success_rate": 0.0,
+     "utility_rate": null,
+     "queries_mean": 301,
+     "bypasses": []
+    }
+   ]
+  },
+  "recipient": {
+   "format": "shio-adaptive-eval/1",
+   "k": 5,
+   "budget": 300,
+   "seed": 11,
+   "attack_cases": 1,
+   "benign_cases": 0,
+   "attack_pass_k": 1.0,
+   "attack_success_mean": 0.0,
+   "attack_success_stdev": 0.0,
+   "utility_pass_k": null,
+   "cases": [
+    {
+     "id": "attacker",
+     "kind": "attack",
+     "k": 5,
+     "pass_k": true,
+     "attack_success_rate": 0.0,
+     "utility_rate": null,
+     "queries_mean": 301,
+     "bypasses": []
+    }
+   ]
+  },
+  "utility": {
+   "format": "shio-adaptive-eval/1",
+   "k": 5,
+   "budget": 300,
+   "seed": 11,
+   "attack_cases": 0,
+   "benign_cases": 1,
+   "attack_pass_k": null,
+   "attack_success_mean": null,
+   "attack_success_stdev": 0.0,
+   "utility_pass_k": 1.0,
+   "cases": [
+    {
+     "id": "valid-payment",
+     "kind": "benign",
+     "k": 5,
+     "pass_k": true,
+     "attack_success_rate": null,
+     "utility_rate": 1.0,
+     "queries_mean": 1,
+     "bypasses": []
+    }
+   ]
+  }
+ }
+}

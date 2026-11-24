@@ -1,0 +1,348 @@
+{
+ "format": "shio-pack/1",
+ "id": "soc2",
+ "name": "SOC 2 Trust Services Criteria: evidence from Shio records (Shio does not certify)",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null
+ },
+ "description": "SOC 2 Trust Services Criteria: evidence from Shio records (Shio does not certify). From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "tsc",
+   "title": "AICPA Trust Services Criteria (2017, revised points of focus 2022); an audit by a qualified firm is required"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "CC-1",
+   "title": "Control environment",
+   "requirement": "Control environment: integrity and ethics, board oversight, structure, competence and accountability are attested.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "CC1.1-CC1.5",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "CC1.1-CC1.5"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "soc2.cc-1",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "CC-2",
+   "title": "Information and communication",
+   "requirement": "Information and communication: internal and external communication of objectives and responsibilities.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "CC2.1-CC2.3",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "CC2.1-CC2.3"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "soc2.cc-2",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "CC-3",
+   "title": "Risk assessment",
+   "requirement": "Risk assessment: objectives, risks (the risk register), fraud risk and significant change are assessed.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "CC3.1-CC3.4",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "CC3.1-CC3.4"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "soc2.cc-3",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "CC-4",
+   "title": "Monitoring activities",
+   "requirement": "Monitoring activities: controls are evaluated and deficiencies reported (monitors, control evidence report).",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "CC4.1-CC4.2",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "CC4.1-CC4.2"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "CC-5",
+   "title": "Control activities are selected",
+   "requirement": "Control activities are selected, developed and deployed through policies.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "CC5.1-CC5.3",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "CC5.1-CC5.3"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "soc2.cc-5",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "CC-6",
+   "title": "Logical access",
+   "requirement": "Logical access: unique identities and least privilege for agents and callers.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "CC6.1",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "CC6.1"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "CC-7",
+   "title": "Transmission and boundary protection",
+   "requirement": "Transmission and boundary protection: TLS endpoints; data leaves only through the gate.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "CC6.6-CC6.7",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "CC6.6-CC6.7"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "CC-8",
+   "title": "Unauthorised or malicious software is prevented: pinned dependencies",
+   "requirement": "Unauthorised or malicious software is prevented: pinned dependencies, signed manifests.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "CC6.8",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "CC6.8"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "lint",
+     "proof": "dependencies-pinned"
+    }
+   ]
+  },
+  {
+   "id": "CC-9",
+   "title": "System operations",
+   "requirement": "System operations: anomalies and drift are detected and evaluated.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "CC7.1-CC7.2",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "CC7.1-CC7.2"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "CC-10",
+   "title": "Incidents are evaluated",
+   "requirement": "Incidents are evaluated, responded to and recovered from, as signed records.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "CC7.3-CC7.5",
+   "spec_proof": "check, sign-off",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "CC7.3-CC7.5"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "CC-11",
+   "title": "Change management",
+   "requirement": "Change management: changes to models, prompts, tools and policies are authorised, tested and recorded.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "CC8.1",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "CC8.1"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "lint",
+     "proof": "models-pinned"
+    }
+   ]
+  },
+  {
+   "id": "CC-12",
+   "title": "Risk mitigation",
+   "requirement": "Risk mitigation, including vendors and business partners.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "CC9.1-CC9.2",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "CC9.1-CC9.2"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "soc2.cc-12",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "A-1",
+   "title": "Availability",
+   "requirement": "Availability: capacity, backup and recovery are planned and tested.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "A1.1-A1.3",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "A1.1-A1.3"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "soc2.a-1",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "C-1",
+   "title": "Confidentiality",
+   "requirement": "Confidentiality: confidential information is identified, protected and disposed of (vault, erasure).",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "C1.1-C1.2",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "C1.1-C1.2"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "lint",
+     "proof": "regulated-mode"
+    }
+   ]
+  },
+  {
+   "id": "PI-1",
+   "title": "Processing integrity",
+   "requirement": "Processing integrity: inputs, processing and outputs are complete, accurate and recorded.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "PI1.1-PI1.5",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "PI1.1-PI1.5"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "lint",
+     "proof": "readings-through-rules"
+    }
+   ]
+  },
+  {
+   "id": "P-1",
+   "title": "Privacy",
+   "requirement": "Privacy: notice, choice, collection, use, access, disclosure, quality and monitoring are attested.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "P1-P8",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "tsc",
+     "ref": "P1-P8"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "soc2.p-1",
+     "owner": "security_officer",
+     "valid_days": 365
+    }
+   ]
+  }
+ ]
+}

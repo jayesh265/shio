@@ -1,0 +1,14 @@
+{
+  "format": "shio-pack/1",
+  "id": "in.dpdp",
+  "name": "India: Digital Personal Data Protection Act, 2023 (research)",
+  "version": "0.0.1",
+  "effective": "2026-11-22",
+  "licence": "MIT OR Apache-2.0",
+  "status": "research",
+  "review": {"counsel": null},
+  "description": "Placeholder while the Act and its rules are researched. No controls are claimed until counsel has reviewed the research notes (docs/governance/research/dpdp.md).",
+  "limits": "No controls yet: this pack proves nothing.",
+  "frameworks": [{"id": "dpdp-2023", "title": "Digital Personal Data Protection Act, 2023 (India)", "source": "https://www.meity.gov.in/"}],
+  "controls": []
+}

@@ -1,0 +1,9 @@
+{"check": "no_allergy_conflict", "cases": [
+  {"id": "unrelated", "kind": "pass", "args": ["Metformin", ["penicillin"]]},
+  {"id": "no-allergies", "kind": "pass", "args": ["Amoxicillin", []]},
+  {"id": "class-allergy", "kind": "fail", "args": ["Amoxicillin", ["Penicillin"]]},
+  {"id": "same-drug", "kind": "fail", "args": ["Ibuprofen", ["ibuprofen"]]},
+  {"id": "drug-allergy-rules-out-class", "kind": "adversarial", "expect": false, "note": "an amoxicillin allergy also rules out other penicillins; here the fixture uses the class through its drug", "args": ["Amoxicillin", ["amoxycillin"]]},
+  {"id": "unknown-allergen", "kind": "adversarial", "expect": false, "note": "an allergy the data doesn't know can't be cleared", "args": ["Amoxicillin", ["sulpha drugs"]]},
+  {"id": "nsaid-class", "kind": "adversarial", "expect": false, "args": ["Ibuprofen", ["NSAID"]]}
+]}

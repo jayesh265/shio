@@ -1,0 +1,22 @@
+{
+  "id": "FX-TRIAL-007",
+  "title": "FIXTURE protocol: Zelvaprant (FX-INV-101) in chronic kidney disease with type 2 diabetes",
+  "note": "FIXTURE ONLY: a made-up protocol for testing the checks. Not a real study.",
+  "consent_version": "3.1",
+  "investigational_drug": "Zelvaprant",
+  "inclusion": [
+    {"id": "INC-1", "fact": "age", "op": ">=", "value": 18, "text": "aged 18 or over"},
+    {"id": "INC-2", "fact": "age", "op": "<=", "value": 80, "text": "aged 80 or under"},
+    {"id": "INC-3", "fact": "diagnosis", "op": "in", "value": ["type 2 diabetes with chronic kidney disease", "diabetic kidney disease"], "text": "type 2 diabetes with chronic kidney disease"},
+    {"id": "INC-4", "any": [
+      {"id": "INC-4a", "fact": "egfr", "op": ">=", "value": 30, "text": "eGFR at least 30"},
+      {"id": "INC-4b", "fact": "on_dialysis_waitlist", "op": "==", "value": false, "text": "not on the dialysis waitlist"}
+    ]}
+  ],
+  "exclusion": [
+    {"id": "EXC-1", "fact": "pregnant", "op": "==", "value": true, "text": "pregnant"},
+    {"id": "EXC-2", "fact": "egfr", "op": "<", "value": 25, "text": "eGFR below 25"},
+    {"id": "EXC-3", "fact": "hba1c", "op": ">", "value": 10.5, "text": "HbA1c above 10.5%"}
+  ],
+  "schedule": {"V1": {"day": 14, "window": 3}, "V2": {"day": 28, "window": 3}, "V3": {"day": 84, "window": 7}}
+}

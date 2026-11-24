@@ -1,0 +1,9 @@
+{"check": "figures_in_source", "cases": [
+  {"id": "same-figures", "kind": "pass", "args": ["HbA1c 8.4%, metformin 500 mg", "HbA1c was 8.4% last month. Metformin 500mg BD."]},
+  {"id": "thousands-separator", "kind": "pass", "args": ["Paracetamol 1,000 mg", "paracetamol 1000 mg qds"]},
+  {"id": "trailing-zero", "kind": "pass", "args": ["Warfarin 5.0 mg", "warfarin 5 mg nocte"]},
+  {"id": "wrong-dose", "kind": "fail", "args": ["Metformin 850 mg", "Metformin 500 mg BD"]},
+  {"id": "wrong-unit", "kind": "fail", "args": ["Levothyroxine 50 mg", "Levothyroxine 50 mcg daily"]},
+  {"id": "decimal-slip", "kind": "adversarial", "expect": false, "note": "a tenfold dosing error from a dropped decimal point", "args": ["Warfarin 50 mg", "Warfarin 5.0 mg nocte"]},
+  {"id": "figure-from-another-patient", "kind": "adversarial", "expect": false, "args": ["eGFR 28 ml/min", "eGFR 52 mL/min; the previous patient in clinic had eGFR 2.8"]}
+]}

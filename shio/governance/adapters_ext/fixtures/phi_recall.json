@@ -1,0 +1,19 @@
+{"note": "SYNTHETIC annotated texts written for measuring recall. Fictional people and places. Not clinical data.",
+ "cases": [
+  {"text": "Dear Dr Hale, I am referring Tomasz Wieczorek (MRN: 88213 4410), DOB 07/22/1958, for review.",
+   "spans": [{"kind": "NAME", "text": "Tomasz Wieczorek"}, {"kind": "MRN", "text": "88213 4410"}, {"kind": "DATE", "text": "07/22/1958"}]},
+  {"text": "Mrs Adaeze Nwosu lives at 14 Orchard Road with her husband Chidi Nwosu. Tel 0161 496 0012.",
+   "spans": [{"kind": "NAME", "text": "Adaeze Nwosu"}, {"kind": "ADDRESS", "text": "14 Orchard Road"}, {"kind": "NAME", "text": "Chidi Nwosu"}, {"kind": "PHONE", "text": "0161 496 0012"}]},
+  {"text": "Contact: priya.raman@example.net or (312) 555-0199. Seen March 9, 2026.",
+   "spans": [{"kind": "EMAIL", "text": "priya.raman@example.net"}, {"kind": "PHONE", "text": "(312) 555-0199"}, {"kind": "DATE", "text": "March 9, 2026"}]},
+  {"text": "Patient Elena Rossi, aged 94-year-old, insurance ID: QX-55120938, attended with daughter Maria.",
+   "spans": [{"kind": "NAME", "text": "Elena Rossi"}, {"kind": "AGE_OVER_89", "text": "94-year-old"}, {"kind": "HEALTH_PLAN", "text": "QX-55120938"}, {"kind": "NAME", "text": "Maria"}]},
+  {"text": "Works as a teacher at Brookfield Primary School. SSN 512-44-9087. Pacemaker serial no PM-7731902.",
+   "spans": [{"kind": "EMPLOYER", "text": "Brookfield Primary School"}, {"kind": "SSN", "text": "512-44-9087"}, {"kind": "DEVICE", "text": "PM-7731902"}]},
+  {"text": "Mr Kwame Mensah was admitted on 2026-02-14 from 9 Beacon Street, Albany NY 12207.",
+   "spans": [{"kind": "NAME", "text": "Kwame Mensah"}, {"kind": "DATE", "text": "2026-02-14"}, {"kind": "ADDRESS", "text": "9 Beacon Street"}, {"kind": "ZIP", "text": "12207"}]},
+  {"text": "His brother, Samuel Okoye, can be reached via www.okoye-family.example/contact.",
+   "spans": [{"kind": "NAME", "text": "Samuel Okoye"}, {"kind": "URL", "text": "www.okoye-family.example/contact"}]},
+  {"text": "Lives alone; neighbour Fatima checks in daily. Driving licence no D1234567X.",
+   "spans": [{"kind": "NAME", "text": "Fatima"}, {"kind": "LICENCE", "text": "D1234567X"}]}
+ ]}

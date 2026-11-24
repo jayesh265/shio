@@ -1,0 +1,35 @@
+{
+  "format": "shio-pack/1",
+  "id": "med.trial",
+  "name": "Clinical trials: eligibility, deviations, adverse-event clocks, blinding and consent",
+  "version": "0.1.0",
+  "effective": "2026-11-22",
+  "licence": "MIT OR Apache-2.0",
+  "status": "draft",
+  "review": {"clinical_lead": null, "counsel": null},
+  "description": "For trial screening and monitoring agents: eligibility decided in code from facts a model read, visit windows, expedited adverse-event reporting clocks, blinding kept from models, and consent version.",
+  "limits": "Criteria are comparisons over facts; criteria that need judgement (a clinician's assessment of prognosis) must be facts a person enters. Reporting clocks follow ICH E2A's expedited timelines from awareness; local regulations may be stricter. The bundled protocol is a fixture. Not reviewed by the clinical safety lead.",
+  "checks": "checks.py",
+  "frameworks": [
+    {"id": "ich-e6", "title": "ICH E6 Good Clinical Practice", "source": "https://www.ich.org/page/efficacy-guidelines"},
+    {"id": "ich-e2a", "title": "ICH E2A Clinical Safety Data Management", "source": "https://www.ich.org/page/efficacy-guidelines"}
+  ],
+  "hazards": [
+    {"id": "HAZ-TRL-1", "title": "An ineligible participant is enrolled, or an eligible one excluded", "severity": 4, "likelihood": 3},
+    {"id": "HAZ-TRL-2", "title": "Allocation reaches a model and unblinds the study", "severity": 4, "likelihood": 2},
+    {"id": "HAZ-TRL-3", "title": "A serious adverse event is reported late", "severity": 5, "likelihood": 2}
+  ],
+  "controls": [
+    {"id": "TRL-1", "title": "Eligibility decided in code", "requirement": "Inclusion and exclusion criteria are evaluated in code over the facts read from the chart; an unknown fact sends the chart to a person.",
+     "refs": [{"framework": "ich-e6", "ref": "investigator responsibilities: eligibility"}], "hazards": ["HAZ-TRL-1"],
+     "proof": [{"kind": "runtime", "check": "eligible"}, {"kind": "eval", "suite": "eligibility", "metric": "pass_rate", "op": ">=", "threshold": 0.95}]},
+    {"id": "TRL-2", "title": "Blinding kept from models", "requirement": "No text a model reads contains the participant's arm or any allocation label or code.",
+     "refs": [{"framework": "ich-e6", "ref": "blinding"}], "hazards": ["HAZ-TRL-2"], "proof": [{"kind": "runtime", "check": "blinded"}]},
+    {"id": "TRL-3", "title": "Protocol deviations caught", "requirement": "Visits outside their protocol windows, and missed visits, are flagged.",
+     "refs": [{"framework": "ich-e6", "ref": "protocol compliance"}], "proof": [{"kind": "runtime", "check": "no_deviations"}]},
+    {"id": "TRL-4", "title": "Adverse-event reporting clocks", "requirement": "Serious adverse events are reported before their expedited reporting clock runs out.",
+     "refs": [{"framework": "ich-e2a", "ref": "expedited reporting timeframes"}], "hazards": ["HAZ-TRL-3"], "proof": [{"kind": "runtime", "check": "ae_reported_in_time"}]},
+    {"id": "TRL-5", "title": "Consent version current", "requirement": "The participant signed the consent version the protocol currently requires.",
+     "refs": [{"framework": "ich-e6", "ref": "informed consent"}], "proof": [{"kind": "runtime", "check": "consent_current"}]}
+  ]
+}

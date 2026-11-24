@@ -1,0 +1,31 @@
+{
+  "format": "shio-pack/1",
+  "id": "med.change",
+  "name": "Change control: pinned releases, regression runs and sign-off before promotion",
+  "version": "0.1.0",
+  "effective": "2026-11-22",
+  "licence": "MIT OR Apache-2.0",
+  "status": "draft",
+  "review": {"clinical_lead": null, "counsel": null},
+  "description": "A model digest and program hash are pinned per release, and promotion is blocked without a regression run of exactly that release and a sign-off by the release role.",
+  "limits": "Covers the agent's own release (program, models, packs). Infrastructure changes and upstream services are out of scope. Pair with change-impact replay (shio impact) to see which past decisions a release would flip before approving it.",
+  "checks": "checks.py",
+  "frameworks": [
+    {"id": "dcb0129", "title": "DCB0129 clinical risk management (manufacturers)", "source": "https://digital.nhs.uk/data-and-information/information-standards"},
+    {"id": "nist-ai-rmf", "title": "NIST AI Risk Management Framework 1.0", "source": "https://doi.org/10.6028/NIST.AI.100-1"}
+  ],
+  "hazards": [
+    {"id": "HAZ-CHG-1", "title": "A model or program change degrades decisions without anyone checking", "severity": 4, "likelihood": 3}
+  ],
+  "controls": [
+    {"id": "CHG-1", "title": "Releases pin the program and models", "requirement": "A release pins the program by sha256 and every model by digest or exact version.",
+     "refs": [{"framework": "nist-ai-rmf", "ref": "MANAGE 2.2"}], "hazards": ["HAZ-CHG-1"],
+     "proof": [{"kind": "runtime", "check": "release_pinned"}, {"kind": "lint", "proof": "models-pinned"}]},
+    {"id": "CHG-2", "title": "Regression run of the exact release", "requirement": "Promotion needs a regression run that evaluated exactly this release and met its gates.",
+     "refs": [{"framework": "dcb0129", "ref": "change management"}], "hazards": ["HAZ-CHG-1"],
+     "proof": [{"kind": "runtime", "check": "regression_covers"}]},
+    {"id": "CHG-3", "title": "Role sign-off before promotion", "requirement": "Promotion needs a sign-off of this release's hash by the release role, by someone other than its owner.",
+     "refs": [{"framework": "dcb0129", "ref": "change management"}], "hazards": ["HAZ-CHG-1"],
+     "proof": [{"kind": "signoff", "role": "release_manager", "subject": "promotion"}]}
+  ]
+}

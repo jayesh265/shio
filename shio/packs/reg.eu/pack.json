@@ -1,0 +1,313 @@
+{
+ "format": "shio-pack/1",
+ "id": "reg.eu",
+ "name": "EU: GDPR, the AI Act, the medical device regulations and the European Health Data Space",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null
+ },
+ "description": "EU: GDPR, the AI Act, the medical device regulations and the European Health Data Space. From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "eu",
+   "title": "GDPR, EU AI Act, MDR/IVDR, Clinical Trials Regulation, EHDS"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "EU-01",
+   "title": "Health data has an Article 6 basis and an Article 9 condition",
+   "requirement": "Health data has an Article 6 basis and an Article 9 condition, named on the request.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "GDPR Art. 6, 9",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "GDPR Art. 6, 9"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "EU-01"
+    }
+   ]
+  },
+  {
+   "id": "EU-02",
+   "title": "Fields are limited to the purpose",
+   "requirement": "Fields are limited to the purpose; pseudonymised data is still personal data.",
+   "stage": "P",
+   "on_fail": "redact",
+   "source": "GDPR Art. 5",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "GDPR Art. 5"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "EU-03",
+   "title": "A processor agreement is in force with each model provider and subprocessor",
+   "requirement": "A processor agreement is in force with each model provider and subprocessor.",
+   "stage": "P",
+   "on_fail": "deny",
+   "source": "GDPR Art. 28",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "GDPR Art. 28"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "EU-03"
+    }
+   ]
+  },
+  {
+   "id": "EU-04",
+   "title": "Transfers outside the EEA have an adequacy decision",
+   "requirement": "Transfers outside the EEA have an adequacy decision, SCCs or another mechanism.",
+   "stage": "P",
+   "on_fail": "route or deny",
+   "source": "GDPR Chapter V",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "GDPR Chapter V"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "gate",
+     "control": "EU-04"
+    }
+   ]
+  },
+  {
+   "id": "EU-05",
+   "title": "A data protection impact assessment is on file",
+   "requirement": "A data protection impact assessment is on file.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "GDPR Art. 35",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "GDPR Art. 35"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "reg.eu.eu-05",
+     "owner": "data_protection_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "EU-06",
+   "title": "Significant automated decisions have human involvement and can be contested",
+   "requirement": "Significant automated decisions have human involvement and can be contested.",
+   "stage": "O",
+   "on_fail": "hold",
+   "source": "GDPR Art. 22",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "GDPR Art. 22"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "EU-07",
+   "title": "Data subject rights are routed within one month",
+   "requirement": "Data subject rights are routed within one month.",
+   "stage": "A",
+   "on_fail": "hold",
+   "source": "GDPR Art. 15-22",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "GDPR Art. 15-22"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "EU-08",
+   "title": "Breach notice to the authority within 72 hours where required",
+   "requirement": "Breach notice to the authority within 72 hours where required.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "GDPR Art. 33, 34",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "GDPR Art. 33, 34"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "EU-09",
+   "title": "Records of processing are generated from the agent card",
+   "requirement": "Records of processing are generated from the agent card.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "GDPR Art. 30",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "GDPR Art. 30"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "EU-10",
+   "title": "The AI Act risk class and the date its obligations apply are recorded (stand-alone high-ri",
+   "requirement": "The AI Act risk class and the date its obligations apply are recorded (stand-alone high-risk from 2 Dec 2027, embedded from 2 Aug 2028).",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "AI Act",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "AI Act"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "reg.eu.eu-10",
+     "owner": "data_protection_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "EU-11",
+   "title": "High-risk obligations are mapped to the Shio controls that produce their evidence",
+   "requirement": "High-risk obligations are mapped to the Shio controls that produce their evidence.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "AI Act Title III",
+   "spec_proof": "check, sign-off",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "AI Act Title III"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "EU-12",
+   "title": "Transparency duties for systems that interact with people apply where in force",
+   "requirement": "Transparency duties for systems that interact with people apply where in force.",
+   "stage": "O",
+   "on_fail": "hold",
+   "source": "AI Act Art. 50",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "AI Act Art. 50"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "EU-13",
+   "title": "Medical device agents attach their change plan and clinical evaluation",
+   "requirement": "Medical device agents attach their change plan and clinical evaluation.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "MDR 2017/745",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "MDR 2017/745"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "reg.eu.eu-13",
+     "owner": "data_protection_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "EU-14",
+   "title": "EU clinical trials follow the Clinical Trials Regulation",
+   "requirement": "EU clinical trials follow the Clinical Trials Regulation.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "CTR 536/2014",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "CTR 536/2014"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "reg.eu.eu-14",
+     "owner": "data_protection_officer",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "EU-15",
+   "title": "European Health Data Space duties are tracked as they apply",
+   "requirement": "European Health Data Space duties are tracked as they apply.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "EHDS",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "eu",
+     "ref": "EHDS"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "reg.eu.eu-15",
+     "owner": "data_protection_officer",
+     "valid_days": 365
+    }
+   ]
+  }
+ ]
+}

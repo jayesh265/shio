@@ -1,0 +1,33 @@
+{
+  "format": "shio-pack/1",
+  "id": "eu.ai-act",
+  "name": "EU AI Act: high-risk system obligations Shio can evidence (draft)",
+  "version": "0.1.0",
+  "effective": "2026-11-22",
+  "licence": "MIT OR Apache-2.0",
+  "status": "draft",
+  "review": {"counsel": null},
+  "description": "The obligations for high-risk AI systems in Regulation (EU) 2024/1689 that Shio's artefacts can evidence: risk management, data governance, technical documentation, record-keeping, transparency, human oversight, accuracy and robustness, post-market monitoring and serious-incident reporting.",
+  "limits": "Whether a system is high-risk, and who is provider or deployer, is for counsel. Covers the articles Shio's artefacts can evidence, not conformity assessment, the quality management system, registration or CE marking. Article references follow the published Regulation; obligations apply on the dates the Regulation sets, which counsel must track. Requirement texts are paraphrases.",
+  "frameworks": [
+    {"id": "eu-ai-act", "title": "Regulation (EU) 2024/1689 (Artificial Intelligence Act)", "source": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"}
+  ],
+  "controls": [
+    {"id": "EU-1", "title": "Risk management across the lifecycle", "requirement": "Hazards are identified, estimated and controlled, and the residual risk judged acceptable, in a maintained safety case.",
+     "refs": [{"framework": "eu-ai-act", "ref": "Article 9"}], "proof": [{"kind": "signoff", "role": "clinical_safety_lead", "subject": "safety-case"}]},
+    {"id": "EU-2", "title": "Data governance and bias examination", "requirement": "Performance is examined across the groups the system serves, and the largest gap stays under the agreed limit.",
+     "refs": [{"framework": "eu-ai-act", "ref": "Article 10"}], "proof": [{"kind": "eval", "suite": "regression", "metric": "max_slice_gap", "op": "<=", "threshold": 0.10}]},
+    {"id": "EU-3", "title": "Technical documentation", "requirement": "An up-to-date description of the system (purpose, models, tools, data sources, checks, oversight) exists and was reviewed.",
+     "refs": [{"framework": "eu-ai-act", "ref": "Article 11"}, {"framework": "eu-ai-act", "ref": "Annex IV"}], "proof": [{"kind": "signoff", "role": "governance_reviewer", "subject": "card"}]},
+    {"id": "EU-4", "title": "Automatic record-keeping", "requirement": "Every decision is logged automatically in tamper-evident, signed records.",
+     "refs": [{"framework": "eu-ai-act", "ref": "Article 12"}], "proof": [{"kind": "lint", "proof": "regulated-mode"}]},
+    {"id": "EU-5", "title": "Human oversight", "requirement": "Outcomes that need a person cannot be decided without one, and the people overseeing can see the basis.",
+     "refs": [{"framework": "eu-ai-act", "ref": "Article 14"}], "proof": [{"kind": "lint", "proof": "signoff-required"}, {"kind": "lint", "proof": "readings-through-rules"}]},
+    {"id": "EU-6", "title": "Accuracy, robustness and cybersecurity", "requirement": "Accuracy is measured in CI, and adversarial cases (prompt injection among them) hold.",
+     "refs": [{"framework": "eu-ai-act", "ref": "Article 15"}], "proof": [{"kind": "eval", "suite": "regression", "metric": "pass_rate", "op": ">=", "threshold": 0.95}, {"kind": "eval", "suite": "redteam", "metric": "pass_rate", "op": ">=", "threshold": 1.0}]},
+    {"id": "EU-7", "title": "Post-market monitoring", "requirement": "Failure, override and drift are monitored and the monitoring is reviewed.",
+     "refs": [{"framework": "eu-ai-act", "ref": "Article 72"}], "proof": [{"kind": "signoff", "role": "governance_reviewer", "subject": "monitoring"}]},
+    {"id": "EU-8", "title": "Serious incidents recorded", "requirement": "Each serious incident is recorded completely, as a signed record, so it can be reported in time.",
+     "refs": [{"framework": "eu-ai-act", "ref": "Article 73"}], "proof": [{"kind": "runtime", "check": "safety_event_complete", "pack": "med.monitor", "control": "MON-2"}]}
+  ]
+}

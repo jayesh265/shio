@@ -75,6 +75,9 @@ def collect(folder, start, end, store=None, public_key=None, secret=None, today=
         if not path.exists():
             continue
         rec = json.loads(path.read_text())
+        if rec.get("record_type", "decision") != "decision":   # incidents and safety events are records, not decisions
+            data["events"][rec["record_type"]] += 1
+            continue
         scope_of[e["file"]] = rec.get("jurisdiction")
         if jurisdiction and rec.get("jurisdiction") != jurisdiction:
             continue
@@ -253,7 +256,7 @@ def report(data):
 
 
 def build(folder, out, start, end, store=None, public_key=None, secret=None, signer=None, today=None,
-          jurisdiction=None):
+          jurisdiction=None, write_manifest=True):
     from .explain import explain
     out = Path(out)
     (out / "programs").mkdir(parents=True, exist_ok=True)
@@ -261,13 +264,15 @@ def build(folder, out, start, end, store=None, public_key=None, secret=None, sig
     maps = []
     for sha, prog in data["programs"].items():
         p = Path(prog.get("path", ""))
-        if p.exists() and hashlib.sha256(p.read_text().encode()).hexdigest() == sha:
+        if p.is_file() and hashlib.sha256(p.read_text().encode()).hexdigest() == sha:
             target = out / "programs" / f"{p.stem}-{sha[:12]}.md"
             target.write_text(explain(p))
             maps.append(target.name)
     (out / "evidence.md").write_text(report(data) + "\n" + "\n".join(f"- [{m}](programs/{m})" for m in maps) + "\n")
     plain = json.loads(json.dumps(data, default=lambda o: dict(o) if hasattr(o, "items") else str(o)))
     (out / "data.json").write_text(json.dumps(plain, indent=1, ensure_ascii=False))
+    if not write_manifest:         # a framework bundle (shio.governance.bundle) writes one manifest over everything
+        return data, out
     files = {str(f.relative_to(out)): hashlib.sha256(f.read_bytes()).hexdigest()
              for f in sorted(out.rglob("*")) if f.is_file() and f.name != "manifest.json"}
     manifest = {"period": data["period"], "head": data["integrity"]["head"], "files": files,

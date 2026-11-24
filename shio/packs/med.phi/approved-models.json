@@ -1,0 +1,8 @@
+{
+  "status": "EXAMPLE: replace with your organisation's list. Each entry needs a basis (a BAA, an on-premises deployment) recorded by the privacy officer.",
+  "models": [
+    {"kind": "ollama", "model": "qwen3:8b", "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41", "basis": "on-premises deployment, no data leaves the site (example)"},
+    {"kind": "replay", "model": "referral-mock", "basis": "SIMULATED mock model used by the reference agents; holds no data"},
+    {"kind": "replay", "model": "screener-mock", "basis": "SIMULATED mock model used by the reference agents; holds no data"}
+  ]
+}

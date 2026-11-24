@@ -1,0 +1,104 @@
+{
+ "format": "shio-pack/1",
+ "id": "med.hipaa.records",
+ "name": "HIPAA retention, access rights and deletion",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null,
+  "clinical_lead": null
+ },
+ "description": "HIPAA retention, access rights and deletion. From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "hipaa-records",
+   "title": "HIPAA retention and rights (164.316, 164.524, 164.526, 164.528, 164.530)"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "REC-01",
+   "title": "HIPAA documentation and accounting records are kept six years",
+   "requirement": "HIPAA documentation and accounting records are kept six years; the vault enforces the floor.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "164.316(b)(2), 164.530(j)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-records",
+     "ref": "164.316(b)(2), 164.530(j)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "REC-02",
+   "title": "Medical record retention follows the longest applicable period",
+   "requirement": "Medical record retention follows the longest applicable period; earlier deletion is refused.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "state law",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-records",
+     "ref": "state law"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "REC-03",
+   "title": "Prompts",
+   "requirement": "Prompts, completions and traces with PHI inherit their record class's retention, and no longer.",
+   "stage": "R",
+   "on_fail": "deny",
+   "source": "164.530(c)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-records",
+     "ref": "164.530(c)"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "REC-04",
+   "title": "Access requests are timed (30 days plus one extension) and fulfilled from the record of tr",
+   "requirement": "Access requests are timed (30 days plus one extension) and fulfilled from the record of truth.",
+   "stage": "A",
+   "on_fail": "hold",
+   "source": "164.524",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-records",
+     "ref": "164.524"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "REC-05",
+   "title": "Erasure is coordinated with legal hold and retention so required records survive",
+   "requirement": "Erasure is coordinated with legal hold and retention so required records survive.",
+   "stage": "R",
+   "on_fail": "hold",
+   "source": "164.524, 164.530(j)",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "hipaa-records",
+     "ref": "164.524, 164.530(j)"
+    }
+   ],
+   "planned": true
+  }
+ ]
+}

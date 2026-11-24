@@ -1,0 +1,164 @@
+{
+ "format": "shio-pack/1",
+ "id": "med.transparency",
+ "name": "Transparency: AI disclosure, model cards and explanations",
+ "version": "0.1.0",
+ "effective": "2026-11-24",
+ "licence": "MIT OR Apache-2.0",
+ "status": "draft",
+ "review": {
+  "counsel": null,
+  "clinical_lead": null
+ },
+ "description": "Transparency: AI disclosure, model cards and explanations. From the Shio policy pack specification; draft, not reviewed.",
+ "limits": "Draft and unreviewed. Planned controls are listed for coverage and not enforced.",
+ "frameworks": [
+  {
+   "id": "transparency",
+   "title": "State AI disclosure laws, ONC HTI-1 DSI transparency, GDPR Art. 22"
+  }
+ ],
+ "advisory": false,
+ "controls": [
+  {
+   "id": "TRN-01",
+   "title": "Patient-facing generative output says AI produced it and how to reach a human",
+   "requirement": "Patient-facing generative output says AI produced it and how to reach a human.",
+   "stage": "O",
+   "on_fail": "deny",
+   "source": "state law",
+   "spec_proof": "lint, check",
+   "refs": [
+    {
+     "framework": "transparency",
+     "ref": "state law"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "TRN-02",
+   "title": "Clinician-facing readings show the model",
+   "requirement": "Clinician-facing readings show the model, version, inputs used and known limits.",
+   "stage": "O",
+   "on_fail": "hold",
+   "source": "ONC HTI-1",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "transparency",
+     "ref": "ONC HTI-1"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "TRN-03",
+   "title": "A model card per profile records intended use",
+   "requirement": "A model card per profile records intended use, evaluation results and failure modes.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "NIST AI RMF",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "transparency",
+     "ref": "NIST AI RMF"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.transparency.trn-03",
+     "owner": "clinical_safety_lead",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "TRN-04",
+   "title": "Source attributes of predictive decision support interventions in listed health IT are sto",
+   "requirement": "Source attributes of predictive decision support interventions in listed health IT are stored with the card.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "45 CFR 170.315(b)(11)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "transparency",
+     "ref": "45 CFR 170.315(b)(11)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.transparency.trn-04",
+     "owner": "clinical_safety_lead",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "TRN-05",
+   "title": "Patients can learn AI was used in their care (links to PRV-19)",
+   "requirement": "Patients can learn AI was used in their care (links to PRV-19).",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "164.520",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "transparency",
+     "ref": "164.520"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.transparency.trn-05",
+     "owner": "clinical_safety_lead",
+     "valid_days": 365
+    }
+   ]
+  },
+  {
+   "id": "TRN-06",
+   "title": "Significant automated decisions state their logic plainly and offer human review",
+   "requirement": "Significant automated decisions state their logic plainly and offer human review.",
+   "stage": "O",
+   "on_fail": "hold",
+   "source": "GDPR Art. 22",
+   "spec_proof": "check",
+   "refs": [
+    {
+     "framework": "transparency",
+     "ref": "GDPR Art. 22"
+    }
+   ],
+   "planned": true
+  },
+  {
+   "id": "TRN-07",
+   "title": "Staff and patients can report an AI incident through a documented channel",
+   "requirement": "Staff and patients can report an AI incident through a documented channel.",
+   "stage": "X",
+   "on_fail": "hold",
+   "source": "Joint Commission and CHAI (guidance)",
+   "spec_proof": "sign-off",
+   "refs": [
+    {
+     "framework": "transparency",
+     "ref": "Joint Commission and CHAI (guidance)"
+    }
+   ],
+   "proof": [
+    {
+     "kind": "attestation",
+     "attestation": "med.transparency.trn-07",
+     "owner": "clinical_safety_lead",
+     "valid_days": 365
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,167 @@
+{
+ "format": "shio-eval-suite/1",
+ "suite": "eligibility",
+ "note": "SYNTHETIC: fixture protocol and charts; labels are an engineer's reading of the protocol, not an investigator's.",
+ "target": "screener_evals:target",
+ "slices": [
+  "sex",
+  "age_band"
+ ],
+ "metrics": [
+  {
+   "name": "pass_rate"
+  },
+  {
+   "name": "max_slice_gap",
+   "min_n": 2
+  }
+ ],
+ "gates": {
+  "pass_rate": [
+   ">=",
+   0.95
+  ]
+ },
+ "cases": [
+  {
+   "id": "C01",
+   "origin": "meets every criterion",
+   "input": {
+    "chart": "C01"
+   },
+   "expect": {
+    "status": "ELIGIBLE"
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64"
+   }
+  },
+  {
+   "id": "C02",
+   "origin": "renal band halves the weight-based dose",
+   "input": {
+    "chart": "C02"
+   },
+   "expect": {
+    "status": "ELIGIBLE"
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "65+"
+   }
+  },
+  {
+   "id": "C03",
+   "origin": "over 80",
+   "input": {
+    "chart": "C03"
+   },
+   "expect": {
+    "status": "NOT_ELIGIBLE"
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "65+"
+   }
+  },
+  {
+   "id": "C04",
+   "origin": "pregnant",
+   "input": {
+    "chart": "C04"
+   },
+   "expect": {
+    "status": "NOT_ELIGIBLE"
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "18-39"
+   }
+  },
+  {
+   "id": "C05",
+   "origin": "HbA1c above 10.5",
+   "input": {
+    "chart": "C05"
+   },
+   "expect": {
+    "status": "NOT_ELIGIBLE"
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64"
+   }
+  },
+  {
+   "id": "C06",
+   "origin": "pregnancy status not recorded",
+   "input": {
+    "chart": "C06"
+   },
+   "expect": {
+    "status": "REVIEW"
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "65+"
+   }
+  },
+  {
+   "id": "C07",
+   "origin": "interacts with clarithromycin",
+   "input": {
+    "chart": "C07"
+   },
+   "expect": {
+    "status": "REVIEW"
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64"
+   }
+  },
+  {
+   "id": "C08",
+   "origin": "consent version out of date",
+   "input": {
+    "chart": "C08"
+   },
+   "expect": {
+    "status": "REVIEW"
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "40-64"
+   }
+  },
+  {
+   "id": "C09",
+   "origin": "planned dose double the recomputed dose",
+   "input": {
+    "chart": "C09"
+   },
+   "expect": {
+    "status": "REVIEW"
+   },
+   "slices": {
+    "sex": "M",
+    "age_band": "40-64"
+   }
+  },
+  {
+   "id": "C10",
+   "origin": "the chart names the allocation: never sent to the model",
+   "input": {
+    "chart": "C10"
+   },
+   "expect": {
+    "status": "REVIEW"
+   },
+   "slices": {
+    "sex": "F",
+    "age_band": "40-64"
+   }
+  }
+ ]
+}

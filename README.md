@@ -427,6 +427,31 @@ escape hatches become compile errors. Outcomes can require a person's sign-off w
 
 <br>
 
+## 🧾 Shio Guard governance: cards, control proofs, evidence
+
+On top of regulated mode, Shio Guard produces what a governance programme asks for, each artefact signed and
+verifiable offline with the public key:
+
+- **Agent cards** (`shio registry scan`): purpose, pinned models, tools, sources, checks, sign-off roles, packs,
+  adapters with an SBOM, risk tier per deployment. Any change changes the hash, and CI fails until the named roles
+  review the new one (`shio registry check`).
+- **Control proofs** (`shio assess`): properties proven for every path through a program hash, such as "a model's
+  reading reaches an action only through a rule", "every model is pinned", "every outcome needs a clinician". Each
+  proof has a negative test showing it fails when the code breaks it.
+- **Control packs**: dated, versioned, hash-pinned controls with deterministic checks and pass, fail and adversarial
+  fixtures. Records cite the pack version that decided. Built in: NIST AI RMF subset, EU AI Act and ICMR (drafts),
+  and medical packs for PHI, grounding, prescribing, triage, trials, monitoring, change control and decision support.
+- **Evidence bundles** (`shio evidence --framework`), **evals** with slices, gates and red-team suites derived from
+  packs (`shio eval`), **change-impact replay** of past decisions under a new model (`shio impact`), **control
+  effectiveness** from reviewer labels, **monitors** with drift and incidents as signed records, a **clinical safety
+  case**, a **policy-to-checks compiler**, **Cedar** policies enforced on any agent, and a read-only **web console**.
+
+Every pack is a draft until counsel and a clinical safety lead review it, and says so. See
+[docs/governance](https://github.com/pratikkp24/shio/blob/main/docs/governance/README.md) and the simulated reference
+agents in [examples/medical](https://github.com/pratikkp24/shio/tree/main/examples/medical).
+
+<br>
+
 ## 📊 Benchmark: AgentDojo
 
 We ran [AgentDojo](https://github.com/ethz-spylab/agentdojo) with the same model twice: once undefended, and once with

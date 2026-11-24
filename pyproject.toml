@@ -42,12 +42,24 @@ otel = ["opentelemetry-api>=1.24"]
 docs = ["mkdocs>=1.6,<2", "mkdocs-material>=9.5,<10"]
 pdf = ["pypdf>=4"]
 train = ["trl>=0.20", "datasets", "peft"]
+# Shio Guard integrations: each ships as an extra, so the core stays small (licences checked by `shio licences check`)
+presidio = ["presidio-analyzer==2.2.358"]
+dspy = ["dspy==3.4.0"]
+temporal = ["temporalio==1.20.0"]
+openai = ["openai==2.8.1"]
+langchain = ["langchain-core==1.1.0"]
+mcp = ["mcp==1.22.0"]
+# Microsoft Agent Governance Toolkit as a policy backend (it needs Python 3.11 or later)
+agt = ["agent-governance-toolkit-core==5.0.0; python_version >= '3.11'"]
 
 [project.scripts]
 shio = "shio.cli:main"
 
 [tool.setuptools]
-packages = ["shio"]
+packages = ["shio", "shio.governance", "shio.governance.adapters_ext", "shio.governance.preflight", "shio.governance.enforce", "shio.governance.attack",
+            "shio.durable", "shio.harness", "shio.sandbox", "shio.gateways", "shio.tools", "shio.adapters"]
 
 [tool.setuptools.package-data]
-shio = ["*.shio"]
+shio = ["*.shio", "packs/*/*.json", "packs/*/*.py", "packs/*/*.md", "packs/*/fixtures/*.json"]
+"shio.governance" = ["licence-policy.json", "ui/*.html", "ui/*.css", "ui/*.js", "ui/*.svg"]
+"shio.governance.adapters_ext" = ["fixtures/*.json"]
